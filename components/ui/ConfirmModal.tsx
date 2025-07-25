@@ -66,7 +66,7 @@ export default function ConfirmModal({
           exit={{ scale: 0.8, opacity: 0, y: 50 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
           className="glass-effect rounded-2xl p-8 max-w-md w-full relative"
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e: React.MouseEvent) => e.stopPropagation()}
         >
           {/* Close button */}
           <button

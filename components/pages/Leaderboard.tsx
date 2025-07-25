@@ -476,7 +476,7 @@ export default function Leaderboard() {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             className="glass-effect rounded-2xl p-8 max-w-md w-full"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e: React.MouseEvent) => e.stopPropagation()}
           >
             <div className="text-center mb-6">
               <div className="text-6xl mb-4">{selectedUser.avatar}</div>

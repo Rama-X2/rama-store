@@ -75,7 +75,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
         exit={{ scale: 0.8, opacity: 0, y: 50 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
         className="w-full max-w-4xl max-h-[90vh] overflow-hidden rounded-2xl bg-dark border border-gray-700"
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e: React.MouseEvent) => e.stopPropagation()}
       >
         {/* Header dengan banner game yang lebih besar dan menarik */}
         <div className="relative h-64 bg-gradient-to-br from-primary/20 to-secondary/20 overflow-hidden">
