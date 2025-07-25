@@ -77,6 +77,13 @@ module.exports = {
         'accent': '#06b6d4',
         'dark': '#0f172a',
         'dark-light': '#1e293b',
+        'border': '#374151',
+        'input': '#374151',
+        'ring': '#6366f1',
+        'background': '#0f172a',
+        'foreground': '#f8fafc',
+        'muted': '#64748b',
+        'muted-foreground': '#94a3b8',
       },
       boxShadow: {
         'glow': '0 0 20px rgba(99, 102, 241, 0.5)',
