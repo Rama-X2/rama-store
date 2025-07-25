@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Search, GameController2, ShoppingBag } from 'lucide-react'
+import { Search, Gamepad2, ShoppingBag } from 'lucide-react'
 
 interface EmptyStateProps {
   type?: 'search' | 'games' | 'transactions' | 'general'
@@ -31,7 +31,7 @@ export default function EmptyState({
         }
       case 'games':
         return {
-          icon: <GameController2 className="w-16 h-16 text-gray-400" />,
+          icon: <Gamepad2 className="w-16 h-16 text-gray-400" />,
           title: 'Belum Ada Game',
           message: 'Game akan segera tersedia di kategori ini.',
           actionLabel: 'Lihat Kategori Lain'
