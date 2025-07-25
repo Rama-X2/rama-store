@@ -209,13 +209,16 @@
 
 .stats-card {
   @apply glass-effect rounded-xl p-6 text-center hover:shadow-glow 
-         transition-all duration-300 group cursor-default;
+         transition-all duration-300 cursor-default;
+}
+
+.stats-card.group .stats-icon {
+  @apply group-hover:scale-110 group-hover:rotate-3;
 }
 
 .stats-icon {
   @apply w-12 h-12 mx-auto mb-4 rounded-xl bg-gradient-to-br from-primary to-secondary
-         flex items-center justify-center group-hover:scale-110 group-hover:rotate-3
-         transition-all duration-300;
+         flex items-center justify-center transition-all duration-300;
 }
 
 .particle-bg {
