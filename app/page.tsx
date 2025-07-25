@@ -818,7 +818,7 @@ export default function Home() {
                 className="mb-6 p-4 bg-dark-light/50 rounded-lg border border-gray-700"
               >
                 <p className="text-gray-300">
-                  Hasil pencarian untuk: <span className="text-primary font-semibold">"{searchQuery}"</span>
+                  Hasil pencarian untuk: <span className="text-primary font-semibold">&ldquo;{searchQuery}&rdquo;</span>
                   {filteredGames.length > 0 ? (
                     <span className="ml-2 text-green-400">({filteredGames.length} game ditemukan)</span>
                   ) : (
