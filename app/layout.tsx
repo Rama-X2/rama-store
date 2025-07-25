@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import ToastProvider from '../components/ui/ToastProvider'
 import ErrorBoundary from '../components/ui/ErrorBoundary'
+import { ThemeProvider } from '../components/ui/ThemeProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -14,9 +15,10 @@ export const viewport: Viewport = {
   colorScheme: 'dark',
 }
 
-export const metadata: Metadata = {
-  title: 'TopUp Game Premium - Website Top Up Game Terpercaya Indonesia',
-  description: 'Platform top up game terlengkap di Indonesia! Mobile Legends, Free Fire, Genshin Impact, PUBG Mobile, dan 100+ game lainnya. Harga murah, proses instant, aman & terpercaya. Bonus pulsa & paket data untuk semua operator.',
+export const metadata = {
+  title: 'Rama Store - Website Top Up Game Terpercaya Indonesia',
+  description: 'Platform top up game terlengkap di Indonesia! Mobile Legends, Free Fire, Genshin Impact, PUBG Mobile, dan 100+ game lainnya. Harga murah, proses instant, aman & terpercaya.',
+  metadataBase: new URL('https://topupgame-premium.vercel.app'),
   keywords: 'top up game, mobile legends, free fire, genshin impact, pubg mobile, diamond ml, voucher game, pulsa murah, paket data, topup game indonesia, game online',
   authors: [{ name: 'TopUp Game Premium' }],
   creator: 'TopUp Game Premium',
@@ -25,9 +27,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'id_ID',
-    title: 'TopUp Game Premium - Website Top Up Game Terpercaya Indonesia',
+    title: 'Rama Store - Website Top Up Game Terpercaya Indonesia',
     description: 'Platform top up game terlengkap di Indonesia! Mobile Legends, Free Fire, Genshin Impact, PUBG Mobile, dan 100+ game lainnya. Harga murah, proses instant, aman & terpercaya.',
-    siteName: 'TopUp Game Premium',
+    siteName: 'Rama Store',
     images: [
       {
         url: '/images/banners/banner.jpg',
@@ -39,7 +41,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'TopUp Game Premium - Top Up Game Terpercaya',
+    title: 'Rama Store - Top Up Game Terpercaya',
     description: 'Platform top up game terlengkap! Mobile Legends, Free Fire, Genshin Impact & 100+ game lainnya. Harga murah, proses instant!',
     images: ['/images/banners/banner.jpg'],
     creator: '@topupgamepremium',
@@ -66,7 +68,7 @@ export default function RootLayout({
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "TopUp Game Premium",
+    "name": "Rama Store",
     "description": "Platform top up game terlengkap di Indonesia",
     "url": "https://topupgame-premium.vercel.app",
     "potentialAction": {
@@ -92,11 +94,13 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <ErrorBoundary>
-          <ToastProvider>
-            {children}
-          </ToastProvider>
-        </ErrorBoundary>
+        <ThemeProvider>
+          <ErrorBoundary>
+            <ToastProvider>
+              {children}
+            </ToastProvider>
+          </ErrorBoundary>
+        </ThemeProvider>
       </body>
     </html>
   )

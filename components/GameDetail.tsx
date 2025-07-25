@@ -281,15 +281,17 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                   <h3 className="text-lg font-semibold mb-4 text-white">Metode Pembayaran</h3>
                   <div className="space-y-3">
                     {['E-Wallet', 'Bank Transfer', 'Minimarket', 'Pulsa'].map((method) => (
-                      <motion.label
-                        key={method}
-                        className="flex items-center space-x-3 p-3 rounded-lg bg-dark-light/50 
-                                 hover:bg-dark-light cursor-pointer transition-colors"
-                        whileHover={{ scale: 1.02 }}
+                      <motion.div
+                      key={method}
+                      className="flex items-center space-x-3 p-3 rounded-lg bg-dark-light/50 
+                      hover:bg-dark-light cursor-pointer transition-colors"
+                      whileHover={{ scale: 1.02 }}
                       >
+                      <label className="flex items-center space-x-3 cursor-pointer w-full">
                         <input type="radio" name="payment" className="text-primary" />
                         <span className="text-white">{method}</span>
-                      </motion.label>
+                      </label>
+                    </motion.div>
                     ))}
                   </div>
                 </div>

@@ -1,9 +1,9 @@
 'use client'
 
-import { motion, MotionProps } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { forwardRef, ButtonHTMLAttributes } from 'react'
 
-interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof MotionProps> {
+interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'ref'> {
   children?: React.ReactNode
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'success'
   size?: 'sm' | 'md' | 'lg' | 'xl'
@@ -106,7 +106,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      {...props}
+      {...(props as any)}
     >
       {/* Loading spinner */}
       {loading && (
@@ -139,7 +139,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
 Button.displayName = 'Button'
 
 // Icon button variant
-interface IconButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof MotionProps> {
+interface IconButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'ref'> {
   variant?: 'primary' | 'secondary' | 'ghost' | 'danger'
   size?: 'sm' | 'md' | 'lg'
   loading?: boolean
@@ -211,7 +211,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
       title={tooltip}
       whileHover={!isDisabled ? { scale: 1.1 } : undefined}
       whileTap={!isDisabled ? { scale: 0.9 } : undefined}
-      {...props}
+      {...(props as any)}
     >
       {loading ? (
         <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
@@ -225,7 +225,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
 IconButton.displayName = 'IconButton'
 
 // Floating Action Button
-interface FABProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof MotionProps> {
+interface FABProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'ref'> {
   icon: React.ReactNode
   position?: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'
   size?: 'md' | 'lg'
@@ -298,7 +298,7 @@ export const FloatingActionButton = forwardRef<HTMLButtonElement, FABProps>(({
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      {...props}
+      {...(props as any)}
     >
       {icon}
       

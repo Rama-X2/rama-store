@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, X } from 'lucide-react'
+import ThemeToggle from '../components/ui/ThemeToggle'
 import GameGrid from '../components/GameGrid'
 import GameDetail from '../components/GameDetail'
 import SplashAnimation from '../components/SplashAnimation'
@@ -692,7 +693,7 @@ export default function Home() {
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              TopUp Game
+              Rama Store
             </motion.h1>
             
             {/* Search Bar */}
@@ -739,7 +740,10 @@ export default function Home() {
               </AnimatePresence>
             </div>
             
-            <nav className="flex space-x-1 bg-dark-light/50 rounded-full p-1 backdrop-blur-sm">
+            {/* Theme Toggle */}
+            <ThemeToggle />
+            
+            <nav className="flex space-x-1 bg-dark-light/50 rounded-full p-1 backdrop-blur-sm ml-4">
               {[
                 { id: 'topup', name: 'Top Up' },
                 { id: 'transaction', name: 'Check Transaction' },
@@ -915,7 +919,7 @@ export default function Home() {
         className="mt-20 py-12 border-t border-gray-800"
       >
         <div className="container mx-auto px-4 text-center">
-          <h3 className="text-xl font-bold mb-4 glow-text">TopUp Game</h3>
+          <h3 className="text-xl font-bold mb-4 glow-text">Rama Store</h3>
           <p className="text-gray-400 mb-6">Platform topup game terpercaya dengan harga terbaik!</p>
           <div className="flex justify-center space-x-6 text-sm text-gray-500">
             <a href="#" className="hover:text-primary transition-colors">Syarat & Ketentuan</a>

@@ -1,15 +1,16 @@
 'use client'
 
-import { motion, MotionProps } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Eye, EyeOff } from 'lucide-react'
 import { useState, forwardRef } from 'react'
 
-interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, keyof MotionProps> {
+interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'ref'> {
   label?: string
   error?: string
   helperText?: string
   icon?: React.ReactNode
   variant?: 'default' | 'filled' | 'outlined'
+  className?: string
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(({
@@ -42,13 +43,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
   return (
     <div className="space-y-2">
       {label && (
-        <motion.label
+        <motion.div
           initial={{ opacity: 0, y: -5 }}
           animate={{ opacity: 1, y: 0 }}
-          className="block text-sm font-medium text-gray-300"
         >
-          {label}
-        </motion.label>
+          <div className="block text-sm font-medium text-gray-300">
+            {label}
+          </div>
+        </motion.div>
       )}
       
       <div className="relative">
@@ -58,7 +60,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
           </div>
         )}
         
-        <motion.input
+        <input
           ref={ref}
           type={inputType}
           className={`
@@ -68,11 +70,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
             ${icon ? 'pl-11' : ''}
             ${isPassword ? 'pr-11' : ''}
             ${error ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : ''}
+            ${isFocused ? 'scale-[1.02] transform' : ''}
             ${className}
           `}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          whileFocus={{ scale: 1.02 }}
           {...props}
         />
         
@@ -114,11 +116,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
 Input.displayName = 'Input'
 
 // Textarea component
-interface TextareaProps extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, keyof MotionProps> {
+interface TextareaProps extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'ref'> {
   label?: string
   error?: string
   helperText?: string
   variant?: 'default' | 'filled' | 'outlined'
+  className?: string
 }
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
@@ -145,17 +148,18 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   return (
     <div className="space-y-2">
       {label && (
-        <motion.label
+        <motion.div
           initial={{ opacity: 0, y: -5 }}
           animate={{ opacity: 1, y: 0 }}
-          className="block text-sm font-medium text-gray-300"
         >
-          {label}
-        </motion.label>
+          <div className="block text-sm font-medium text-gray-300">
+            {label}
+          </div>
+        </motion.div>
       )}
       
       <div className="relative">
-        <motion.textarea
+        <textarea
           ref={ref}
           className={`
             w-full px-4 py-3 rounded-lg border transition-all duration-300
@@ -163,11 +167,11 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
             resize-none min-h-[100px]
             ${getVariantStyles()}
             ${error ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : ''}
+            ${isFocused ? 'scale-[1.01] transform' : ''}
             ${className}
           `}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          whileFocus={{ scale: 1.01 }}
           {...props}
         />
         
@@ -199,12 +203,13 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
 Textarea.displayName = 'Textarea'
 
 // Select component
-interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, keyof MotionProps> {
+interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'ref'> {
   label?: string
   error?: string
   helperText?: string
   options: { value: string; label: string }[]
   placeholder?: string
+  className?: string
 }
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(({
@@ -221,28 +226,29 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(({
   return (
     <div className="space-y-2">
       {label && (
-        <motion.label
+        <motion.div
           initial={{ opacity: 0, y: -5 }}
           animate={{ opacity: 1, y: 0 }}
-          className="block text-sm font-medium text-gray-300"
         >
-          {label}
-        </motion.label>
+          <div className="block text-sm font-medium text-gray-300">
+            {label}
+          </div>
+        </motion.div>
       )}
       
       <div className="relative">
-        <motion.select
+        <select
           ref={ref}
           className={`
             w-full px-4 py-3 rounded-lg border transition-all duration-300
             text-white bg-dark-light border-gray-600 focus:border-primary
             focus:ring-2 focus:ring-primary/20 appearance-none cursor-pointer
             ${error ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : ''}
+            ${isFocused ? 'scale-[1.02] transform' : ''}
             ${className}
           `}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          whileFocus={{ scale: 1.02 }}
           {...props}
         >
           {placeholder && (
@@ -255,7 +261,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(({
               {option.label}
             </option>
           ))}
-        </motion.select>
+        </select>
         
         {/* Dropdown arrow */}
         <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">

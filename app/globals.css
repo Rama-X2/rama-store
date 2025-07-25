@@ -6,9 +6,32 @@
   * {
     @apply border-gray-700/50;
   }
-  body {
-    @apply bg-dark text-white font-sans;
+  
+  :root {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-light: #334155;
+    --text-primary: #ffffff;
+    --text-secondary: #e2e8f0;
+    --border-color: rgba(55, 65, 81, 0.5);
   }
+  
+  .light {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-light: #f1f5f9;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --border-color: rgba(203, 213, 225, 0.5);
+  }
+  
+  body {
+    @apply font-sans;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
   html {
     scroll-behavior: smooth;
   }
@@ -16,9 +39,10 @@
 
 @layer components {
   .game-card {
-    @apply relative overflow-hidden rounded-xl bg-gradient-to-br from-dark-light to-dark 
-           border border-gray-700/50 hover:border-primary/50 transition-all duration-300
-           hover:shadow-glow hover:scale-105 cursor-pointer;
+    @apply relative overflow-hidden rounded-xl transition-all duration-300
+           hover:border-primary/50 hover:shadow-glow hover:scale-105 cursor-pointer;
+    background: linear-gradient(135deg, var(--bg-light) 0%, var(--bg-secondary) 100%);
+    border: 1px solid var(--border-color);
   }
   
   .game-card::before {
@@ -40,17 +64,51 @@
   }
   
   .glass-effect {
-    @apply bg-white/10 backdrop-blur-md border border-white/20;
+    @apply backdrop-blur-md transition-all duration-300;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .light .glass-effect {
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
   }
   
   .gradient-bg {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-light) 100%);
+    transition: background 0.3s ease;
+  }
+  
+  .theme-text {
+    color: var(--text-primary);
+    transition: color 0.3s ease;
+  }
+  
+  .theme-text-secondary {
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+  }
+  
+  .theme-bg {
+    background-color: var(--bg-secondary);
+    transition: background-color 0.3s ease;
+  }
+  
+  .theme-bg-light {
+    background-color: var(--bg-light);
+    transition: background-color 0.3s ease;
+  }
+  
+  .theme-border {
+    border-color: var(--border-color);
+    transition: border-color 0.3s ease;
   }
   
   .featured-game-card {
-    @apply relative overflow-hidden rounded-xl bg-gradient-to-br from-dark-light/50 to-dark 
-           border border-gray-700/30 hover:border-yellow-400/50 transition-all duration-300
-           hover:shadow-glow cursor-pointer;
+    @apply relative overflow-hidden rounded-xl transition-all duration-300
+           hover:border-yellow-400/50 hover:shadow-glow cursor-pointer;
+    background: linear-gradient(135deg, rgba(var(--bg-light), 0.5) 0%, var(--bg-secondary) 100%);
+    border: 1px solid rgba(var(--border-color), 0.3);
   }
   
   .featured-game-card::before {
@@ -69,7 +127,7 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #1e293b;
+  background: var(--bg-secondary);
   border-radius: 10px;
 }
 
@@ -120,9 +178,10 @@
 }
 
 .leaderboard-card {
-  @apply relative overflow-hidden rounded-xl bg-gradient-to-r from-dark-light/80 to-dark/80
-         border border-gray-700/50 hover:border-primary/50 transition-all duration-300
-         hover:shadow-glow cursor-pointer backdrop-blur-sm;
+  @apply relative overflow-hidden rounded-xl transition-all duration-300
+         hover:border-primary/50 hover:shadow-glow cursor-pointer backdrop-blur-sm;
+  background: linear-gradient(to right, rgba(var(--bg-light), 0.8) 0%, rgba(var(--bg-secondary), 0.8) 100%);
+  border: 1px solid var(--border-color);
 }
 
 .leaderboard-card::before {

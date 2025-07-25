@@ -1,12 +1,4 @@
-import type { Viewport } from 'next'
-
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 5,
-  themeColor: '#6366f1',
-  colorScheme: 'dark',
-}
+'use client'
 
 export default function NotFound() {
   return (
