@@ -1,10 +1,18 @@
 import './globals.css'
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import ToastProvider from '../components/ui/ToastProvider'
 import ErrorBoundary from '../components/ui/ErrorBoundary'
 
 const inter = Inter({ subsets: ['latin'] })
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: '#6366f1',
+  colorScheme: 'dark',
+}
 
 export const metadata: Metadata = {
   title: 'TopUp Game Premium - Website Top Up Game Terpercaya Indonesia',
@@ -14,9 +22,6 @@ export const metadata: Metadata = {
   creator: 'TopUp Game Premium',
   publisher: 'TopUp Game Premium',
   robots: 'index, follow',
-  viewport: 'width=device-width, initial-scale=1',
-  themeColor: '#6366f1',
-  colorScheme: 'dark',
   openGraph: {
     type: 'website',
     locale: 'id_ID',
@@ -79,9 +84,6 @@ export default function RootLayout({
   return (
     <html lang="id">
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-        <meta name="theme-color" content="#6366f1" />
-        <meta name="color-scheme" content="dark" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <script

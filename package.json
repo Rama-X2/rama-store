@@ -6,22 +6,22 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "export": "next build && next export",
-    "deploy": "next build",
+    "lint": "next lint --fix",
     "type-check": "tsc --noEmit --skipLibCheck",
     "clean": "rm -rf .next out",
+    "clean-win": "rmdir /s /q .next & rmdir /s /q out",
+    "prebuild": "npm run type-check",
+    "postbuild": "echo Build completed successfully",
     "preview": "next build && next start",
     "optimize-images": "node optimize-images.js",
     "deploy-vercel": "vercel --prod",
-    "build-static": "next build && next export",
-    "serve-static": "npx serve out",
-    "check-all": "npm run type-check && npm run lint && npm run build"
+    "check-all": "npm run type-check && npm run lint && npm run build",
+    "fix-build": "npm run clean-win && npm install && npm run build"
   },
   "dependencies": {
     "framer-motion": "10.16.16",
     "lucide-react": "0.263.1",
-    "next": "^14.2.30",
+    "next": "14.2.30",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
@@ -37,7 +37,7 @@
     "typescript": "5.3.3"
   },
   "engines": {
-    "node": ">=18.0.0",
+    "node": "18.x",
     "npm": ">=9.0.0"
   },
   "browserslist": {
