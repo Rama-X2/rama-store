@@ -1,10 +1,10 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, MotionProps } from 'framer-motion'
 import { Eye, EyeOff } from 'lucide-react'
 import { useState, forwardRef } from 'react'
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, keyof MotionProps> {
   label?: string
   error?: string
   helperText?: string
@@ -114,7 +114,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
 Input.displayName = 'Input'
 
 // Textarea component
-interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface TextareaProps extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, keyof MotionProps> {
   label?: string
   error?: string
   helperText?: string
@@ -199,7 +199,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
 Textarea.displayName = 'Textarea'
 
 // Select component
-interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, keyof MotionProps> {
   label?: string
   error?: string
   helperText?: string
