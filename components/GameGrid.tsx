@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { Game } from '../types/game'
 
 interface GameGridProps {
@@ -48,9 +49,11 @@ export default function GameGrid({ games, onGameClick }: GameGridProps) {
                 {game.name.charAt(0)}
               </div>
               {/* Actual game icon - will show when image is available */}
-              <img 
+              <Image 
                 src={game.icon} 
                 alt={game.name}
+                width={200}
+                height={200}
                 className="w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                 onLoad={(e) => {
                   const img = e.target as HTMLImageElement;

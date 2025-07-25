@@ -1,9 +1,10 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { forwardRef } from 'react'
+import { motion, MotionProps } from 'framer-motion'
+import { forwardRef, ButtonHTMLAttributes } from 'react'
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof MotionProps> {
+  children?: React.ReactNode
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'success'
   size?: 'sm' | 'md' | 'lg' | 'xl'
   loading?: boolean
@@ -11,6 +12,10 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   iconPosition?: 'left' | 'right'
   fullWidth?: boolean
   glow?: boolean
+  className?: string
+  disabled?: boolean
+  onClick?: () => void
+  type?: 'button' | 'submit' | 'reset'
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
@@ -24,6 +29,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   glow = false,
   className = '',
   disabled,
+  onClick,
+  type = 'button',
   ...props
 }, ref) => {
   const getVariantStyles = () => {
@@ -92,8 +99,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
         ${className}
       `}
       disabled={isDisabled}
-      whileHover={!isDisabled ? { scale: 1.02, y: -1 } : {}}
-      whileTap={!isDisabled ? { scale: 0.98 } : {}}
+      onClick={onClick}
+      type={type}
+      whileHover={!isDisabled ? { scale: 1.02, y: -1 } : undefined}
+      whileTap={!isDisabled ? { scale: 0.98 } : undefined}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
@@ -130,12 +139,16 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
 Button.displayName = 'Button'
 
 // Icon button variant
-interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface IconButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof MotionProps> {
   variant?: 'primary' | 'secondary' | 'ghost' | 'danger'
   size?: 'sm' | 'md' | 'lg'
   loading?: boolean
   icon: React.ReactNode
   tooltip?: string
+  className?: string
+  disabled?: boolean
+  onClick?: () => void
+  type?: 'button' | 'submit' | 'reset'
 }
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
@@ -146,6 +159,8 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
   tooltip,
   className = '',
   disabled,
+  onClick,
+  type = 'button',
   ...props
 }, ref) => {
   const getVariantStyles = () => {
@@ -191,9 +206,11 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
         ${className}
       `}
       disabled={isDisabled}
-      whileHover={!isDisabled ? { scale: 1.1 } : {}}
-      whileTap={!isDisabled ? { scale: 0.9 } : {}}
+      onClick={onClick}
+      type={type}
       title={tooltip}
+      whileHover={!isDisabled ? { scale: 1.1 } : undefined}
+      whileTap={!isDisabled ? { scale: 0.9 } : undefined}
       {...props}
     >
       {loading ? (
@@ -208,11 +225,13 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
 IconButton.displayName = 'IconButton'
 
 // Floating Action Button
-interface FABProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface FABProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof MotionProps> {
   icon: React.ReactNode
   position?: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'
   size?: 'md' | 'lg'
   variant?: 'primary' | 'secondary'
+  className?: string
+  onClick?: () => void
 }
 
 export const FloatingActionButton = forwardRef<HTMLButtonElement, FABProps>(({
@@ -221,6 +240,7 @@ export const FloatingActionButton = forwardRef<HTMLButtonElement, FABProps>(({
   size = 'md',
   variant = 'primary',
   className = '',
+  onClick,
   ...props
 }, ref) => {
   const getPositionStyles = () => {
@@ -272,6 +292,7 @@ export const FloatingActionButton = forwardRef<HTMLButtonElement, FABProps>(({
         ${getVariantStyles()}
         ${className}
       `}
+      onClick={onClick}
       whileHover={{ scale: 1.1, y: -2 }}
       whileTap={{ scale: 0.9 }}
       initial={{ scale: 0, opacity: 0 }}

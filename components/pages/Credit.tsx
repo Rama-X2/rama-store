@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { useState } from 'react'
+import Image from 'next/image'
 import { Smartphone, Wifi, CreditCard, Zap } from 'lucide-react'
 
 interface Provider {
@@ -160,9 +161,11 @@ export default function Credit() {
                   {provider.name.charAt(0)}
                 </span>
                 {/* Provider icon image */}
-                <img 
+                <Image 
                   src={provider.icon} 
                   alt={provider.name}
+                  width={64}
+                  height={64}
                   className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
                   onLoad={(e) => {
                     const img = e.target as HTMLImageElement;

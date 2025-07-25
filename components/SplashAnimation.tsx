@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { Game } from '../types/game'
 
 interface SplashAnimationProps {
@@ -70,9 +71,11 @@ export default function SplashAnimation({ game, onComplete }: SplashAnimationPro
           >
             {/* Banner image or gradient */}
             <div className="absolute inset-0 rounded-3xl overflow-hidden">
-              <img 
+              <Image 
                 src={game.banner} 
                 alt={`${game.name} banner`}
+                width={800}
+                height={600}
                 className="w-full h-full object-cover transition-all duration-1000"
                 onError={(e) => {
                   const img = e.target as HTMLImageElement;
@@ -149,9 +152,11 @@ export default function SplashAnimation({ game, onComplete }: SplashAnimationPro
                   {game.name.charAt(0)}
                 </div>
                 {/* Actual game icon */}
-                <img 
+                <Image 
                   src={game.icon} 
                   alt={game.name}
+                  width={160}
+                  height={160}
                   className="w-full h-full object-cover rounded-3xl opacity-0 transition-opacity duration-300"
                   onLoad={(e) => {
                     const img = e.target as HTMLImageElement;

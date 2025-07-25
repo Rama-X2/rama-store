@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
+import Image from 'next/image'
 import { X, ShoppingCart, Star, Clock, Shield } from 'lucide-react'
 import { Game } from '../types/game'
 import Button from './ui/Button'
@@ -91,9 +92,11 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
               ease: "easeInOut"
             }}
           >
-            <img 
+            <Image 
               src={game.banner} 
               alt={`${game.name} banner`}
+              width={800}
+              height={400}
               className="w-full h-full object-cover"
               onError={(e) => {
                 const img = e.target as HTMLImageElement;
@@ -167,9 +170,11 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                   {game.name.charAt(0)}
                 </div>
                 {/* Game icon */}
-                <img 
+                <Image 
                   src={game.icon} 
                   alt={game.name}
+                  width={96}
+                  height={96}
                   className="w-full h-full object-cover rounded-2xl opacity-0 transition-opacity duration-300"
                   onLoad={(e) => {
                     const img = e.target as HTMLImageElement;
