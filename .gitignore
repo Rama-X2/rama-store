@@ -4,7 +4,6 @@
 /node_modules
 /.pnp
 .pnp.js
-package-lock.json
 
 # testing
 /coverage
@@ -38,6 +37,4 @@ next-env.d.ts
 # Build artifacts
 .npm
 *.log
-.cache
-package-lock.json 
-package-lock.json 
+.cache 
