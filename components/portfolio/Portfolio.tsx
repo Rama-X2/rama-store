@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 const m = {
   ...motion,
-  a: m.a,
-  nav: m.nav,
-  main: m.main,
+  a: motion.a,
+  nav: motion.nav,
+  main: motion.main,
 };
 import { 
   User, 
