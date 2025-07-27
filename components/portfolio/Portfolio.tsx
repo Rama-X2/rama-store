@@ -2,12 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-const m = {
-  ...motion,
-  a: motion.a,
-  nav: motion.nav,
-  main: motion.main,
-};
 import { 
   User, 
   Code, 
@@ -309,7 +303,7 @@ export default function Portfolio({ onClose }: PortfolioProps) {
 
       <div className="flex h-full">
         {/* Sidebar Navigation */}
-        <m.nav
+        <motion.nav
           initial={{ x: -300 }}
           animate={{ x: 0 }}
           className="w-64 p-6 m-4 mr-0 rounded-l-2xl"
@@ -358,10 +352,10 @@ export default function Portfolio({ onClose }: PortfolioProps) {
               </div>
             </div>
           </motion.div>
-        </m.nav>
+        </motion.nav>
 
         {/* Main Content */}
-        <m.main
+        <motion.main
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           className="flex-1 p-6 overflow-y-auto custom-scrollbar"
@@ -443,7 +437,7 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                       { icon: Github, href: portfolioData.personal.github, label: "GitHub" },
                       { icon: Globe, href: portfolioData.personal.website, label: "Website" }
                     ].map((link: { icon: any; href: string; label: string }, index: number) => (
-                      <m.a
+                      <motion.a
                         key={link.label}
                         href={link.href}  
                         className="p-3 bg-dark-light/50 rounded-full text-gray-400 hover:text-white hover:bg-primary/20 transition-all duration-300"
@@ -452,7 +446,7 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                         title={link.label}
                       >
                         <link.icon className="w-5 h-5" />
-                      </m.a>
+                      </motion.a>
                     ))}
                   </motion.div>
                 </div>
@@ -568,7 +562,7 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                       </div>
                       <p className="text-gray-300 mb-4">{project.description}</p>
                       <div className="flex flex-wrap gap-2">
-                        {project.technologies.map((tech, i) => (
+                        {project.technologies.map((tech: string, i: number) => (
                           <span key={i} className="px-3 py-1 bg-primary/20 text-primary rounded-full text-xs font-medium">
                             {tech}
                           </span>
@@ -772,7 +766,7 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                           { icon: Twitter, href: '#', label: 'Twitter' },
                           { icon: Instagram, href: '#', label: 'Instagram' }
                         ].map((social, index) => (
-                          <m.a
+                          <motion.a
                             key={social.label}
                             href={social.href}
                             target="_blank"
@@ -783,7 +777,7 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                             title={social.label}
                           >
                             <social.icon className="w-5 h-5" />
-                          </m.a>
+                          </motion.a>
                         ))}
                       </div>
                     </div>
@@ -834,7 +828,7 @@ export default function Portfolio({ onClose }: PortfolioProps) {
               </motion.div>
             )}
           </AnimatePresence>
-        </m.main>
+        </motion.main>
       </div>
 
       {/* Project Detail Modal */}
@@ -900,14 +894,14 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                   <div className="grid grid-cols-3 gap-4">
                     {Object.entries(selectedProject.stats).map(([key, value]) => (
                       <div key={key} className="glass-effect p-4 rounded-lg text-center">
-                        <div className="text-2xl font-bold text-primary mb-1">{value}</div>
+                        <div className="text-2xl font-bold text-primary mb-1">{String(value)}</div>
                         <div className="text-sm text-gray-400 capitalize">{key}</div>
                       </div>
                     ))}
                   </div>
                 </div>
                 <div className="flex space-x-4 pt-6">
-                  <m.a
+                  <motion.a
                     href={selectedProject.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -917,8 +911,8 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                   >
                     <ExternalLink className="w-5 h-5" />
                     <span>View Live</span>
-                  </m.a>
-                  <m.a
+                  </motion.a>
+                  <motion.a
                     href={selectedProject.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -928,7 +922,7 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                   >
                     <Github className="w-5 h-5" />
                     <span>View Code</span>
-                  </m.a>
+                  </motion.a>
                 </div>
               </div>
             </motion.div>
