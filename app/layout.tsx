@@ -12,7 +12,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   themeColor: '#6366f1',
-  colorScheme: 'dark',
+  colorScheme: 'dark light',
 }
 
 export const metadata = {
@@ -89,15 +89,31 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              try {
-                const theme = localStorage.getItem('theme') || 'dark';
-                document.documentElement.classList.add(theme === 'system' 
-                  ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-                  : theme
-                );
-              } catch (e) {
-                document.documentElement.classList.add('dark');
-              }
+              (function() {
+                try {
+                  const theme = localStorage.getItem('theme');
+                  const root = document.documentElement;
+                  
+                  // Remove any existing theme classes
+                  root.classList.remove('light', 'dark');
+                  
+                  if (theme === 'light') {
+                    root.classList.add('light');
+                  } else if (theme === 'system') {
+                    const isDarkSystem = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    root.classList.add(isDarkSystem ? 'dark' : 'light');
+                  } else {
+                    // Default to dark mode (including when theme is null/undefined)
+                    root.classList.add('dark');
+                    if (!theme) {
+                      localStorage.setItem('theme', 'dark');
+                    }
+                  }
+                } catch (e) {
+                  // Fallback to dark mode
+                  document.documentElement.classList.add('dark');
+                }
+              })();
             `,
           }}
         />

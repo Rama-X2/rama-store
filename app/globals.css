@@ -3,10 +3,21 @@
 @tailwind utilities;
 
 @layer base {
+  /* Prevent FOUC (Flash of Unstyled Content) by hiding content until theme is loaded */
+  html:not(.dark):not(.light) {
+    visibility: hidden;
+  }
+  
+  html.dark,
+  html.light {
+    visibility: visible;
+  }
+  
   * {
     @apply border-gray-700/50;
   }
   
+  /* Default to dark mode variables */
   :root {
     --bg-primary: #0f172a;
     --bg-secondary: #1e293b;
@@ -16,6 +27,7 @@
     --border-color: rgba(55, 65, 81, 0.5);
   }
   
+  /* Light mode override */
   .light {
     --bg-primary: #ffffff;
     --bg-secondary: #f8fafc;
@@ -23,6 +35,17 @@
     --text-primary: #0f172a;
     --text-secondary: #475569;
     --border-color: rgba(203, 213, 225, 0.5);
+  }
+  
+  /* Ensure dark mode by default */
+  html {
+    background-color: #0f172a;
+    color: #ffffff;
+  }
+  
+  html.light {
+    background-color: #ffffff;
+    color: #0f172a;
   }
   
   body {

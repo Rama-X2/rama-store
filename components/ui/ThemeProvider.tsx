@@ -15,11 +15,15 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>('dark')
   const [effectiveTheme, setEffectiveTheme] = useState<'light' | 'dark'>('dark')
+  const [mounted, setMounted] = useState(false)
 
+  // Mount effect to prevent hydration mismatch
   useEffect(() => {
+    setMounted(true)
+    
     // Load saved theme from localStorage or set default to dark
     const savedTheme = localStorage.getItem('theme') as Theme
-    if (savedTheme) {
+    if (savedTheme && ['light', 'dark', 'system'].includes(savedTheme)) {
       setTheme(savedTheme)
     } else {
       // Set default theme to dark if no saved preference
@@ -62,6 +66,15 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       return () => mediaQuery.removeEventListener('change', handleChange)
     }
   }, [theme])
+
+  // Prevent hydration mismatch by not rendering until mounted
+  if (!mounted) {
+    return (
+      <ThemeContext.Provider value={{ theme: 'dark', setTheme, effectiveTheme: 'dark' }}>
+        {children}
+      </ThemeContext.Provider>
+    )
+  }
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme, effectiveTheme }}>
