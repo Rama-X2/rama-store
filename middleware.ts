@@ -10,6 +10,7 @@ const ALLOWED_PRODUCTION_DOMAINS = [
   'rama-store-47at6s6j5-rama-x2s-projects.vercel.app',          // Preview deployment 1
   'rama-store-git-main-rama-x2s-projects.vercel.app',           // Git branch deployment
   'rama-store-rama-x2s-projects.vercel.app',                    // Project deployment
+  'rama-store-89nsgcicw-rama-x2s-projects.vercel.app',          // New deployment
 ];
 
 // Domain development yang diizinkan
@@ -78,7 +79,7 @@ function isDomainAllowed(host: string): boolean {
   
   if (isDevelopmentDomainAllowed) return true;
   
-  // Izinkan Vercel preview deployments yang valid
+  // Izinkan semua Vercel deployments untuk rama-store dan rama-x2s-projects
   if (normalizedHost.includes('vercel.app') && 
       (normalizedHost.includes('rama-store') || normalizedHost.includes('rama-x2s-projects'))) {
     return true;
