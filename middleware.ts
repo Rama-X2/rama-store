@@ -60,15 +60,7 @@ function isDomainAllowed(host: string): boolean {
   
   const normalizedHost = normalizeDomain(host);
   
-  // Periksa domain produksi
-  const isProductionDomainAllowed = ALLOWED_PRODUCTION_DOMAINS.some(domain => 
-    normalizedHost === normalizeDomain(domain) ||
-    normalizedHost.startsWith(normalizeDomain(domain))
-  );
-  
-  if (isProductionDomainAllowed) return true;
-  
-  // Periksa domain development (selalu diizinkan terlepas dari NODE_ENV)
+  // Periksa domain development (localhost)
   const isDevelopmentDomainAllowed = ALLOWED_DEVELOPMENT_DOMAINS.some(domain =>
     normalizedHost === normalizeDomain(domain) ||
     normalizedHost.startsWith(normalizeDomain(domain)) ||
@@ -79,13 +71,22 @@ function isDomainAllowed(host: string): boolean {
   
   if (isDevelopmentDomainAllowed) return true;
   
-  // Izinkan semua Vercel deployments untuk rama-store dan rama-x2s-projects
-  if (normalizedHost.includes('vercel.app') && 
-      (normalizedHost.includes('rama-store') || normalizedHost.includes('rama-x2s-projects'))) {
-    return true;
+  // Izinkan SEMUA domain Vercel yang mengandung "rama-store" atau "rama-x2s-projects"
+  if (normalizedHost.includes('vercel.app')) {
+    if (normalizedHost.includes('rama-store') || 
+        normalizedHost.includes('rama-x2s-projects') ||
+        normalizedHost.includes('rama-x2')) {
+      return true;
+    }
   }
   
-  return false;
+  // Fallback: periksa domain produksi spesifik (untuk backward compatibility)
+  const isProductionDomainAllowed = ALLOWED_PRODUCTION_DOMAINS.some(domain => 
+    normalizedHost === normalizeDomain(domain) ||
+    normalizedHost.startsWith(normalizeDomain(domain))
+  );
+  
+  return isProductionDomainAllowed;
 }
 
 /**
