@@ -312,7 +312,7 @@ function createBlockedResponse(request: NextRequest): NextResponse {
  * Menambahkan security headers ke response yang valid
  */
 function addSecurityHeaders(response: NextResponse, host: string): NextResponse {
-  const securityHeaders = {
+  const securityHeaders: Record<string, string> = {
     'X-Frame-Options': 'DENY',
     'X-Content-Type-Options': 'nosniff',
     'Referrer-Policy': 'strict-origin-when-cross-origin',
