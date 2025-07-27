@@ -2,6 +2,12 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+const m = {
+  ...motion,
+  a: m.a,
+  nav: m.nav,
+  main: m.main,
+};
 import { 
   User, 
   Code, 
@@ -77,7 +83,7 @@ const portfolioData = {
     },
     {
       id: 2,
-      title: "E-Commerce Dashboard",
+      title: "Rama Server Dashboard",
       description: "Comprehensive admin dashboard for e-commerce management with real-time analytics, inventory management, and customer insights.",
       image: "/images/portfolio/pak_jokowi.jpg",
       technologies: ["React", "Chart.js", "Material-UI", "Express.js", "MongoDB"],
@@ -303,7 +309,7 @@ export default function Portfolio({ onClose }: PortfolioProps) {
 
       <div className="flex h-full">
         {/* Sidebar Navigation */}
-        <motion.nav
+        <m.nav
           initial={{ x: -300 }}
           animate={{ x: 0 }}
           className="w-64 p-6 m-4 mr-0 rounded-l-2xl"
@@ -352,10 +358,10 @@ export default function Portfolio({ onClose }: PortfolioProps) {
               </div>
             </div>
           </motion.div>
-        </motion.nav>
+        </m.nav>
 
         {/* Main Content */}
-        <motion.main
+        <m.main
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           className="flex-1 p-6 overflow-y-auto custom-scrollbar"
@@ -436,17 +442,17 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                       { icon: Mail, href: `mailto:${portfolioData.personal.email}`, label: "Email" },
                       { icon: Github, href: portfolioData.personal.github, label: "GitHub" },
                       { icon: Globe, href: portfolioData.personal.website, label: "Website" }
-                    ].map((link, index) => (
-                      <motion.a
+                    ].map((link: { icon: any; href: string; label: string }, index: number) => (
+                      <m.a
                         key={link.label}
-                        href={link.href}
+                        href={link.href}  
                         className="p-3 bg-dark-light/50 rounded-full text-gray-400 hover:text-white hover:bg-primary/20 transition-all duration-300"
                         whileHover={{ scale: 1.1, y: -2 }}
                         whileTap={{ scale: 0.9 }}
                         title={link.label}
                       >
                         <link.icon className="w-5 h-5" />
-                      </motion.a>
+                      </m.a>
                     ))}
                   </motion.div>
                 </div>
@@ -766,7 +772,7 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                           { icon: Twitter, href: '#', label: 'Twitter' },
                           { icon: Instagram, href: '#', label: 'Instagram' }
                         ].map((social, index) => (
-                          <motion.a
+                          <m.a
                             key={social.label}
                             href={social.href}
                             target="_blank"
@@ -777,7 +783,7 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                             title={social.label}
                           >
                             <social.icon className="w-5 h-5" />
-                          </motion.a>
+                          </m.a>
                         ))}
                       </div>
                     </div>
@@ -828,7 +834,7 @@ export default function Portfolio({ onClose }: PortfolioProps) {
               </motion.div>
             )}
           </AnimatePresence>
-        </motion.main>
+        </m.main>
       </div>
 
       {/* Project Detail Modal */}
@@ -901,7 +907,7 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                   </div>
                 </div>
                 <div className="flex space-x-4 pt-6">
-                  <motion.a
+                  <m.a
                     href={selectedProject.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -911,8 +917,8 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                   >
                     <ExternalLink className="w-5 h-5" />
                     <span>View Live</span>
-                  </motion.a>
-                  <motion.a
+                  </m.a>
+                  <m.a
                     href={selectedProject.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -922,7 +928,7 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                   >
                     <Github className="w-5 h-5" />
                     <span>View Code</span>
-                  </motion.a>
+                  </m.a>
                 </div>
               </div>
             </motion.div>
