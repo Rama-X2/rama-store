@@ -56,22 +56,22 @@ const nextConfig = {
       },
     ];
   },
-  // Image optimization configuration
-images: {
-  remotePatterns: [
-    {
-      protocol: 'http',
-      hostname: 'localhost',
-      port: '3000', // sesuaikan jika kamu pakai port berbeda
-      pathname: '/**',
-    },
-  ],
-  formats: ['image/webp', 'image/avif'],
-  deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
-  imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-  minimumCacheTTL: 86400,
-},
 
+  // Image optimization configuration
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000',
+        pathname: '/**',
+      },
+    ],
+    formats: ['image/webp', 'image/avif'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 86400,
+  },
 
   // Performance optimizations
   compiler: {
@@ -81,35 +81,55 @@ images: {
   // Disable x-powered-by header
   poweredByHeader: false,
 
-  // REMOVE the experimental optimizeCss that causes critters error
-  // experimental: {
-  //   optimizeCss: true, // This causes the critters module error
-  // },
-
-  // Simplified webpack configuration
+  // Fix webpack configuration untuk mengatasi 'self is not defined'
   webpack: (config, { isServer, dev }) => {
-    // Only add essential configurations
-    if (!isServer) {
+    // Fix untuk browser globals di server-side
+    if (isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
         fs: false,
         net: false,
         tls: false,
+        crypto: false,
+      };
+      
+      // Define globals untuk server
+      config.plugins = config.plugins || [];
+      config.plugins.push(
+        new config.webpack.DefinePlugin({
+          'typeof window': JSON.stringify('undefined'),
+          'typeof self': JSON.stringify('undefined'),
+          'typeof document': JSON.stringify('undefined'),
+        })
+      );
+    } else {
+      // Client-side fallbacks
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        crypto: require.resolve('crypto-browserify'),
       };
     }
 
-    // Optimize chunks in production
-    if (!dev) {
-      config.optimization = {
-        ...config.optimization,
-        splitChunks: {
-          chunks: 'all',
-          cacheGroups: {
-            vendor: {
-              test: /[\\/]node_modules[\\/]/,
-              name: 'vendors',
-              chunks: 'all',
-            },
+    // Disable problematic optimizations
+    if (!dev && !isServer) {
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        minSize: 20000,
+        maxSize: 244000,
+        cacheGroups: {
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true,
+          },
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            priority: -10,
+            chunks: 'all',
           },
         },
       };
@@ -135,6 +155,12 @@ images: {
 
   // Enable React strict mode
   reactStrictMode: true,
+
+  // Experimental features
+  experimental: {
+    // Disable problematic features
+    esmExternals: false,
+  },
 }
 
 module.exports = nextConfig
