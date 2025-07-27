@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, X } from 'lucide-react'
+import { Search, X, User } from 'lucide-react'
 import ThemeToggle from '../components/ui/ThemeToggle'
 import GameGrid from '../components/GameGrid'
 import GameDetail from '../components/GameDetail'
@@ -12,6 +12,7 @@ import Statistics from '../components/Statistics'
 import CheckTransaction from '../components/pages/CheckTransaction'
 import Leaderboard from '../components/pages/Leaderboard'
 import Credit from '../components/pages/Credit'
+import Portfolio from '../components/portfolio/Portfolio'
 import { Game } from '../types/game'
 
 // Data game dengan kategori lengkap sesuai requirement
@@ -628,6 +629,7 @@ export default function Home() {
   const [visibleItems, setVisibleItems] = useState(8)
   const [searchQuery, setSearchQuery] = useState('')
   const [showSearch, setShowSearch] = useState(false)
+  const [showPortfolio, setShowPortfolio] = useState(false)
 
   const handleGameClick = (game: Game) => {
     setSelectedGame(game)
@@ -739,6 +741,17 @@ export default function Home() {
                 )}
               </AnimatePresence>
             </div>
+            
+            {/* Portfolio Button */}
+            <motion.button
+              onClick={() => setShowPortfolio(true)}
+              className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-white font-medium shadow-glow hover:shadow-glow-lg transition-all duration-300"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <User className="w-4 h-4" />
+              <span>Portfolio</span>
+            </motion.button>
             
             {/* Theme Toggle */}
             <ThemeToggle />
@@ -910,6 +923,13 @@ export default function Home() {
 
       {/* Statistics Section */}
       <Statistics />
+
+      {/* Portfolio Modal */}
+      <AnimatePresence>
+        {showPortfolio && (
+          <Portfolio onClose={() => setShowPortfolio(false)} />
+        )}
+      </AnimatePresence>
 
       {/* Footer */}
       <motion.footer 
