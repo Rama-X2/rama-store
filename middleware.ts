@@ -114,7 +114,7 @@ function logBlockedAccess(request: NextRequest): void {
   const host = request.headers.get('host') || 'unknown';
   const referer = request.headers.get('referer') || 'direct';
   
-  console.log('🚫 ANTI-CLONE: Access blocked', {
+  console.log('ANTI-CLONE: Access blocked', {
     host,
     ip: clientIP,
     userAgent: userAgent.substring(0, 100),
@@ -365,7 +365,7 @@ export function middleware(request: NextRequest) {
   
   // Periksa bypass secret terlebih dahulu (untuk emergency debugging)
   if (BYPASS_SECRET && checkBypassSecret(request)) {
-    console.log('⚠️  ANTI-CLONE: Bypass secret used from:', host);
+    // Bypass secret used
     return NextResponse.next();
   }
   

@@ -82,7 +82,7 @@ const nextConfig = {
   poweredByHeader: false,
 
   // Fix webpack configuration untuk mengatasi 'self is not defined'
-  webpack: (config, { isServer, dev }) => {
+  webpack: (config, { isServer, dev, webpack }) => {
     // Fix untuk browser globals di server-side
     if (isServer) {
       config.resolve.fallback = {
@@ -96,7 +96,7 @@ const nextConfig = {
       // Define globals untuk server
       config.plugins = config.plugins || [];
       config.plugins.push(
-        new config.webpack.DefinePlugin({
+        new webpack.DefinePlugin({
           'typeof window': JSON.stringify('undefined'),
           'typeof self': JSON.stringify('undefined'),
           'typeof document': JSON.stringify('undefined'),
