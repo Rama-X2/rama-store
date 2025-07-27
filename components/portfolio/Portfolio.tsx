@@ -415,7 +415,1270 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                     <motion.div
                       className="absolute -top-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center"
                       animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ repeat: Infinity, duration: 2 }}
+                      transition={{ delay: index * 0.2 }}
+                      className="glass-effect p-6 rounded-xl hover:shadow-glow transition-all duration-300"
+                      whileHover={{ scale: 1.02, y: -5 }}
+                    >
+                      <div className="flex items-start space-x-4">
+                        <div className="p-3 bg-primary/20 rounded-lg">
+                          <Building2 className="w-6 h-6 text-primary" />
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
+                            <h3 className="text-xl font-bold text-white">{exp.position}</h3>
+                            <span className="text-sm text-primary font-medium">{exp.period}</span>
+                          </div>
+                          <p className="text-gray-400 font-medium mb-3">{exp.company}</p>
+                          <p className="text-gray-300 mb-4 leading-relaxed">{exp.description}</p>
+                          
+                          {/* Achievements */}
+                          <div>
+                            <h4 className="text-sm font-semibold text-white mb-2">Key Achievements:</h4>
+                            <ul className="space-y-1">
+                              {exp.achievements.map((achievement, i) => (
+                                <li key={i} className="text-sm text-gray-300 flex items-start space-x-2">
+                                  <span className="text-green-400 mt-1">✓</span>
+                                  <span>{achievement}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Testimonials Section */}
+            {activeSection === 'testimonials' && (
+              <motion.div
+                key="testimonials"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="space-y-8"
+              >
+                <div className="text-center">
+                  <h2 className="text-3xl font-bold glow-text mb-4">Work Experience</h2>
+                  <p className="text-gray-400 max-w-2xl mx-auto">
+                    My professional journey and the experiences that shaped my skills
+                  </p>
+                </div>
+
+                <div className="space-y-6">
+                  {portfolioData.experience.map((exp, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -50 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.2 }}
+                      className="glass-effect p-6 rounded-xl hover:shadow-glow transition-all duration-300"
+                      whileHover={{ scale: 1.02, y: -5 }}
+                    >
+                      <div className="flex items-start space-x-4">
+                        <div className="p-3 bg-primary/20 rounded-lg">
+                          <Building2 className="w-6 h-6 text-primary" />
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
+                            <h3 className="text-xl font-bold text-white">{exp.position}</h3>
+                            <span className="text-sm text-primary font-medium">{exp.period}</span>
+                          </div>
+                          <p className="text-gray-400 font-medium mb-3">{exp.company}</p>
+                          <p className="text-gray-300 mb-4 leading-relaxed">{exp.description}</p>
+                          
+                          {/* Achievements */}
+                          <div>
+                            <h4 className="text-sm font-semibold text-white mb-2">Key Achievements:</h4>
+                            <ul className="space-y-1">
+                              {exp.achievements.map((achievement, i) => (
+                                <li key={i} className="text-sm text-gray-300 flex items-start space-x-2">
+                                  <span className="text-green-400 mt-1">✓</span>
+                                  <span>{achievement}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Testimonials Section */}
+            {activeSection === 'testimonials' && (
+              <motion.div
+                key="testimonials"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="space-y-8"
+              >
+                <div className="text-center">
+                  <h2 className="text-3xl font-bold glow-text mb-4">Client Testimonials</h2>
+                  <p className="text-gray-400 max-w-2xl mx-auto">
+                    What clients and colleagues say about working with me
+                  </p>
+                </div>
+
+                <div className="relative">
+                  {/* Testimonial Carousel */}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={currentTestimonial}
+                      initial={{ opacity: 0, x: 100 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -100 }}
+                      className="glass-effect p-8 rounded-xl text-center max-w-4xl mx-auto"
+                    >
+                      <div className="mb-6">
+                        {/* Stars */}
+                        <div className="flex justify-center space-x-1 mb-4">
+                          {[...Array(portfolioData.testimonials[currentTestimonial].rating)].map((_, i) => (
+                            <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                          ))}
+                        </div>
+                        
+                        <blockquote className="text-lg text-gray-300 leading-relaxed mb-6 italic">
+                          "{portfolioData.testimonials[currentTestimonial].content}"
+                        </blockquote>
+                        
+                        <div className="flex items-center justify-center space-x-4">
+                          <div className="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center">
+                            <User className="w-6 h-6 text-white" />
+                          </div>
+                          <div className="text-left">
+                            <p className="font-semibold text-white">{portfolioData.testimonials[currentTestimonial].name}</p>
+                            <p className="text-sm text-gray-400">{portfolioData.testimonials[currentTestimonial].position}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+
+                  {/* Navigation Buttons */}
+                  <div className="flex justify-center space-x-4 mt-6">
+                    <motion.button
+                      onClick={() => setCurrentTestimonial(prev => prev === 0 ? portfolioData.testimonials.length - 1 : prev - 1)}
+                      className="p-2 glass-effect rounded-full text-gray-400 hover:text-white transition-colors"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </motion.button>
+                    
+                    <div className="flex space-x-2">
+                      {portfolioData.testimonials.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setCurrentTestimonial(index)}
+                          className={`w-3 h-3 rounded-full transition-colors ${
+                            index === currentTestimonial ? 'bg-primary' : 'bg-gray-600'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    
+                    <motion.button
+                      onClick={() => setCurrentTestimonial(prev => prev === portfolioData.testimonials.length - 1 ? 0 : prev + 1)}
+                      className="p-2 glass-effect rounded-full text-gray-400 hover:text-white transition-colors"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </motion.button>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* Contact Section */}
+            {activeSection === 'contact' && (
+              <motion.div
+                key="contact"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="space-y-8"
+              >
+                <div className="text-center">
+                  <h2 className="text-3xl font-bold glow-text mb-4">Get In Touch</h2>
+                  <p className="text-gray-400 max-w-2xl mx-auto">
+                    Ready to work together? Let's discuss your project and bring your ideas to life
+                  </p>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-8">
+                  {/* Contact Info */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="space-y-6"
+                  >
+                    <div>
+                      <h3 className="text-xl font-bold text-white mb-4">Contact Information</h3>
+                      <div className="space-y-4">
+                        {[
+                          { icon: Mail, label: 'Email', value: portfolioData.personal.email, href: `mailto:${portfolioData.personal.email}` },
+                          { icon: Phone, label: 'Phone', value: portfolioData.personal.phone, href: `tel:${portfolioData.personal.phone}` },
+                          { icon: MapPin, label: 'Location', value: portfolioData.personal.location, href: '#' }
+                        ].map((contact, index) => (
+                          <motion.div
+                            key={contact.label}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3 + index * 0.1 }}
+                            className="flex items-center space-x-4 p-4 glass-effect rounded-lg hover:shadow-glow transition-all duration-300"
+                          >
+                            <div>
+                              <p className="text-sm text-gray-400">{contact.label}</p>
+                              <p className="text-white font-medium">{contact.value}</p>
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Social Links */}
+                    <div>
+                      <h3 className="text-xl font-bold text-white mb-4">Follow Me</h3>
+                      <div className="flex space-x-4">
+                        {[
+                          { icon: Github, href: portfolioData.personal.github, label: 'GitHub' },
+                          { icon: Linkedin, href: portfolioData.personal.linkedin, label: 'LinkedIn' },
+                          { icon: Twitter, href: '#', label: 'Twitter' },
+                          { icon: Instagram, href: '#', label: 'Instagram' }
+                        ].map((social, index) => (
+                          <motion.a
+                            key={social.label}
+                            href={social.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-3 glass-effect rounded-full text-gray-400 hover:text-white transition-all duration-300"
+                            whileHover={{ scale: 1.1, y: -2 }}
+                            whileTap={{ scale: 0.9 }}
+                            title={social.label}
+                          >
+                            <social.icon className="w-5 h-5" />
+                          </motion.a>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Contact Form */}
+                  <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="glass-effect p-6 rounded-xl"
+                  >
+                    <h3 className="text-xl font-bold text-white mb-6">Send Message</h3>
+                    <form className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input
+                          type="text"
+                          placeholder="Your Name"
+                          className="px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                        />
+                        <input
+                          type="email"
+                          placeholder="Your Email"
+                          className="px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                        />
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Subject"
+                        className="w-full px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                      />
+                      <textarea
+                        rows={5}
+                        placeholder="Your Message"
+                        className="w-full px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-none"
+                      />
+                      <motion.button
+                        type="submit"
+                        className="w-full px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-medium text-white shadow-glow hover:shadow-glow-lg transition-all duration-300 flex items-center justify-center space-x-2"
+                        whileHover={{ scale: 1.02, y: -2 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Send className="w-4 h-4" />
+                        <span>Send Message</span>
+                      </motion.button>
+                    </form>
+                  </motion.div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.main>
+      </div>
+
+      {/* Project Detail Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4"
+            onClick={() => setSelectedProject(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, y: 50 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.8, y: 50 }}
+              className="glass-effect rounded-2xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-start mb-6">
+                <div>
+                  <h2 className="text-3xl font-bold glow-text mb-2">{selectedProject.title}</h2>
+                  <p className="text-gray-400">{selectedProject.category}</p>
+                </div>
+                <motion.button
+                  onClick={() => setSelectedProject(null)}
+                  className="p-2 text-gray-400 hover:text-white transition-colors"
+                  whileHover={{ scale: 1.1, rotate: 90 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <X className="w-6 h-6" />
+                </motion.button>
+              </div>
+
+              {/* Project Image */}
+              <div className="relative h-64 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl mb-6 overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Globe className="w-24 h-24 text-primary/50" />
+                </div>
+                {selectedProject.featured && (
+                  <div className="absolute top-4 right-4 px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-sm font-medium">
+                    Featured Project
+                  </div>
+                )}
+              </div>
+
+              {/* Project Details */}
+              <div className="space-y-6">
+                <p className="text-gray-300 leading-relaxed text-lg">{selectedProject.description}</p>
+
+                {/* Technologies */}
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-3">Technologies Used</h3>
+                  <div className="flex flex-wrap gap-3">
+                    {selectedProject.technologies.map((tech: string, index: number) => (
+                      <span
+                        key={index}
+                        className="px-4 py-2 bg-primary/20 text-primary rounded-full text-sm font-medium"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Project Stats */}
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-3">Project Statistics</h3>
+                  <div className="grid grid-cols-3 gap-4">
+                    {Object.entries(selectedProject.stats).map(([key, value]) => (
+                      <div key={key} className="glass-effect p-4 rounded-lg text-center">
+                        <div className="text-2xl font-bold text-primary mb-1">{value}</div>
+                        <div className="text-sm text-gray-400 capitalize">{key}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex space-x-4 pt-6">
+                  <motion.a
+                    href={selectedProject.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-medium text-white shadow-glow hover:shadow-glow-lg transition-all duration-300"
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <ExternalLink className="w-5 h-5" />
+                    <span>View Live</span>
+                  </motion.a>
+                  <motion.a
+                    href={selectedProject.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 glass-effect rounded-lg font-medium text-white hover:bg-white/10 transition-all duration-300"
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Github className="w-5 h-5" />
+                    <span>View Code</span>
+                  </motion.a>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  )
+}
+                            <div>
+                              <p className="text-sm text-gray-400">{contact.label}</p>
+                              <p className="text-white font-medium">{contact.value}</p>
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Social Links */}
+                    <div>
+                      <h3 className="text-xl font-bold text-white mb-4">Follow Me</h3>
+                      <div className="flex space-x-4">
+                        {[
+                          { icon: Github, href: portfolioData.personal.github, label: 'GitHub' },
+                          { icon: Linkedin, href: portfolioData.personal.linkedin, label: 'LinkedIn' },
+                          { icon: Twitter, href: '#', label: 'Twitter' },
+                          { icon: Instagram, href: '#', label: 'Instagram' }
+                        ].map((social, index) => (
+                          <motion.a
+                            key={social.label}
+                            href={social.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-3 glass-effect rounded-full text-gray-400 hover:text-white transition-all duration-300"
+                            whileHover={{ scale: 1.1, y: -2 }}
+                            whileTap={{ scale: 0.9 }}
+                            title={social.label}
+                          >
+                            <social.icon className="w-5 h-5" />
+                          </motion.a>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Contact Form */}
+                  <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="glass-effect p-6 rounded-xl"
+                  >
+                    <h3 className="text-xl font-bold text-white mb-6">Send Message</h3>
+                    <form className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input
+                          type="text"
+                          placeholder="Your Name"
+                          className="px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                        />
+                        <input
+                          type="email"
+                          placeholder="Your Email"
+                          className="px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                        />
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Subject"
+                        className="w-full px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                      />
+                      <textarea
+                        rows={5}
+                        placeholder="Your Message"
+                        className="w-full px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-none"
+                      />
+                      <motion.button
+                        type="submit"
+                        className="w-full px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-medium text-white shadow-glow hover:shadow-glow-lg transition-all duration-300 flex items-center justify-center space-x-2"
+                        whileHover={{ scale: 1.02, y: -2 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Send className="w-4 h-4" />
+                        <span>Send Message</span>
+                      </motion.button>
+                    </form>
+                  </motion.div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.main>
+      </div>
+
+      {/* Project Detail Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4"
+            onClick={() => setSelectedProject(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, y: 50 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.8, y: 50 }}
+              className="glass-effect rounded-2xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-start mb-6">
+                <div>
+                  <h2 className="text-3xl font-bold glow-text mb-2">{selectedProject.title}</h2>
+                  <p className="text-gray-400">{selectedProject.category}</p>
+                </div>
+                <motion.button
+                  onClick={() => setSelectedProject(null)}
+                  className="p-2 text-gray-400 hover:text-white transition-colors"
+                  whileHover={{ scale: 1.1, rotate: 90 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <X className="w-6 h-6" />
+                </motion.button>
+              </div>
+
+              {/* Project Image */}
+              <div className="relative h-64 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl mb-6 overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Globe className="w-24 h-24 text-primary/50" />
+                </div>
+                {selectedProject.featured && (
+                  <div className="absolute top-4 right-4 px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-sm font-medium">
+                    Featured Project
+                  </div>
+                )}
+              </div>
+
+              {/* Project Details */}
+              <div className="space-y-6">
+                <p className="text-gray-300 leading-relaxed text-lg">{selectedProject.description}</p>
+
+                {/* Technologies */}
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-3">Technologies Used</h3>
+                  <div className="flex flex-wrap gap-3">
+                    {selectedProject.technologies.map((tech: string, index: number) => (
+                      <span
+                        key={index}
+                        className="px-4 py-2 bg-primary/20 text-primary rounded-full text-sm font-medium"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Project Stats */}
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-3">Project Statistics</h3>
+                  <div className="grid grid-cols-3 gap-4">
+                    {Object.entries(selectedProject.stats).map(([key, value]) => (
+                      <div key={key} className="glass-effect p-4 rounded-lg text-center">
+                        <div className="text-2xl font-bold text-primary mb-1">{value}</div>
+                        <div className="text-sm text-gray-400 capitalize">{key}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex space-x-4 pt-6">
+                  <motion.a
+                    href={selectedProject.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-medium text-white shadow-glow hover:shadow-glow-lg transition-all duration-300"
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <ExternalLink className="w-5 h-5" />
+                    <span>View Live</span>
+                  </motion.a>
+                  <motion.a
+                    href={selectedProject.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 glass-effect rounded-lg font-medium text-white hover:bg-white/10 transition-all duration-300"
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Github className="w-5 h-5" />
+                    <span>View Code</span>
+                  </motion.a>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  )
+}
+                  <h2 className="text-3xl font-bold glow-text mb-4">Client Testimonials</h2>
+                  <p className="text-gray-400 max-w-2xl mx-auto">
+                    What clients and colleagues say about working with me
+                  </p>
+                </div>
+
+                <div className="relative">
+                  {/* Testimonial Carousel */}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={currentTestimonial}
+                      initial={{ opacity: 0, x: 100 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -100 }}
+                      className="glass-effect p-8 rounded-xl text-center max-w-4xl mx-auto"
+                    >
+                      <div className="mb-6">
+                        {/* Stars */}
+                        <div className="flex justify-center space-x-1 mb-4">
+                          {[...Array(portfolioData.testimonials[currentTestimonial].rating)].map((_, i) => (
+                            <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                          ))}
+                        </div>
+                        
+                        <blockquote className="text-lg text-gray-300 leading-relaxed mb-6 italic">
+                          "{portfolioData.testimonials[currentTestimonial].content}"
+                        </blockquote>
+                        
+                        <div className="flex items-center justify-center space-x-4">
+                          <div className="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center">
+                            <User className="w-6 h-6 text-white" />
+                          </div>
+                          <div className="text-left">
+                            <p className="font-semibold text-white">{portfolioData.testimonials[currentTestimonial].name}</p>
+                            <p className="text-sm text-gray-400">{portfolioData.testimonials[currentTestimonial].position}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+
+                  {/* Navigation Buttons */}
+                  <div className="flex justify-center space-x-4 mt-6">
+                    <motion.button
+                      onClick={() => setCurrentTestimonial(prev => prev === 0 ? portfolioData.testimonials.length - 1 : prev - 1)}
+                      className="p-2 glass-effect rounded-full text-gray-400 hover:text-white transition-colors"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </motion.button>
+                    
+                    <div className="flex space-x-2">
+                      {portfolioData.testimonials.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setCurrentTestimonial(index)}
+                          className={`w-3 h-3 rounded-full transition-colors ${
+                            index === currentTestimonial ? 'bg-primary' : 'bg-gray-600'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    
+                    <motion.button
+                      onClick={() => setCurrentTestimonial(prev => prev === portfolioData.testimonials.length - 1 ? 0 : prev + 1)}
+                      className="p-2 glass-effect rounded-full text-gray-400 hover:text-white transition-colors"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </motion.button>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* Contact Section */}
+            {activeSection === 'contact' && (
+              <motion.div
+                key="contact"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="space-y-8"
+              >
+                <div className="text-center">
+                  <h2 className="text-3xl font-bold glow-text mb-4">Get In Touch</h2>
+                  <p className="text-gray-400 max-w-2xl mx-auto">
+                    Ready to work together? Let's discuss your project and bring your ideas to life
+                  </p>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-8">
+                  {/* Contact Info */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="space-y-6"
+                  >
+                    <div>
+                      <h3 className="text-xl font-bold text-white mb-4">Contact Information</h3>
+                      <div className="space-y-4">
+                        {[
+                          { icon: Mail, label: 'Email', value: portfolioData.personal.email, href: `mailto:${portfolioData.personal.email}` },
+                          { icon: Phone, label: 'Phone', value: portfolioData.personal.phone, href: `tel:${portfolioData.personal.phone}` },
+                          { icon: MapPin, label: 'Location', value: portfolioData.personal.location, href: '#' }
+                        ].map((contact, index) => (
+                          <motion.div
+                            key={contact.label}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3 + index * 0.1 }}
+                            className="flex items-center space-x-4 p-4 glass-effect rounded-lg hover:shadow-glow transition-all duration-300"
+                          >
+                              <contact.icon className="w-5 h-5 text-primary" />
+                            </div>
+                            <div>
+                              <p className="text-sm text-gray-400">{contact.label}</p>
+                              <p className="text-white font-medium">{contact.value}</p>
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Social Links */}
+                    <div>
+                      <h3 className="text-xl font-bold text-white mb-4">Follow Me</h3>
+                      <div className="flex space-x-4">
+                        {[
+                          { icon: Github, href: portfolioData.personal.github, label: 'GitHub' },
+                          { icon: Linkedin, href: portfolioData.personal.linkedin, label: 'LinkedIn' },
+                          { icon: Twitter, href: '#', label: 'Twitter' },
+                          { icon: Instagram, href: '#', label: 'Instagram' }
+                        ].map((social, index) => (
+                          <motion.a
+                            key={social.label}
+                            href={social.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-3 glass-effect rounded-full text-gray-400 hover:text-white transition-all duration-300"
+                            whileHover={{ scale: 1.1, y: -2 }}
+                            whileTap={{ scale: 0.9 }}
+                            title={social.label}
+                          >
+                            <social.icon className="w-5 h-5" />
+                          </motion.a>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Contact Form */}
+                  <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="glass-effect p-6 rounded-xl"
+                  >
+                    <h3 className="text-xl font-bold text-white mb-6">Send Message</h3>
+                    <form className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input
+                          type="text"
+                          placeholder="Your Name"
+                          className="px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                        />
+                        <input
+                          type="email"
+                          placeholder="Your Email"
+                          className="px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                        />
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Subject"
+                        className="w-full px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                      />
+                      <textarea
+                        rows={5}
+                        placeholder="Your Message"
+                        className="w-full px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-none"
+                      />
+                      <motion.button
+                        type="submit"
+                        className="w-full px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-medium text-white shadow-glow hover:shadow-glow-lg transition-all duration-300 flex items-center justify-center space-x-2"
+                        whileHover={{ scale: 1.02, y: -2 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Send className="w-4 h-4" />
+                        <span>Send Message</span>
+                      </motion.button>
+                    </form>
+                  </motion.div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.main>
+      </div>
+
+      {/* Project Detail Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4"
+            onClick={() => setSelectedProject(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, y: 50 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.8, y: 50 }}
+              className="glass-effect rounded-2xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-start mb-6">
+                <div>
+                  <h2 className="text-3xl font-bold glow-text mb-2">{selectedProject.title}</h2>
+                  <p className="text-gray-400">{selectedProject.category}</p>
+                </div>
+                <motion.button
+                  onClick={() => setSelectedProject(null)}
+                  className="p-2 text-gray-400 hover:text-white transition-colors"
+                  whileHover={{ scale: 1.1, rotate: 90 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <X className="w-6 h-6" />
+                </motion.button>
+              </div>
+
+              {/* Project Image */}
+              <div className="relative h-64 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl mb-6 overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Globe className="w-24 h-24 text-primary/50" />
+                </div>
+                {selectedProject.featured && (
+                  <div className="absolute top-4 right-4 px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-sm font-medium">
+                    Featured Project
+                  </div>
+                )}
+              </div>
+
+              {/* Project Details */}
+              <div className="space-y-6">
+                <p className="text-gray-300 leading-relaxed text-lg">{selectedProject.description}</p>
+
+                {/* Technologies */}
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-3">Technologies Used</h3>
+                  <div className="flex flex-wrap gap-3">
+                    {selectedProject.technologies.map((tech: string, index: number) => (
+                      <span
+                        key={index}
+                        className="px-4 py-2 bg-primary/20 text-primary rounded-full text-sm font-medium"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Project Stats */}
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-3">Project Statistics</h3>
+                  <div className="grid grid-cols-3 gap-4">
+                    {Object.entries(selectedProject.stats).map(([key, value]) => (
+                      <div key={key} className="glass-effect p-4 rounded-lg text-center">
+                        <div className="text-2xl font-bold text-primary mb-1">{value}</div>
+                        <div className="text-sm text-gray-400 capitalize">{key}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex space-x-4 pt-6">
+                  <motion.a
+                    href={selectedProject.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-medium text-white shadow-glow hover:shadow-glow-lg transition-all duration-300"
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <ExternalLink className="w-5 h-5" />
+                    <span>View Live</span>
+                  </motion.a>
+                  <motion.a
+                    href={selectedProject.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 glass-effect rounded-lg font-medium text-white hover:bg-white/10 transition-all duration-300"
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Github className="w-5 h-5" />
+                    <span>View Code</span>
+                  </motion.a>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  )
+}
+                              <contact.icon className="w-5 h-5 text-primary" />
+                            </div>
+                            <div>
+                              <p className="text-sm text-gray-400">{contact.label}</p>
+                              <p className="text-white font-medium">{contact.value}</p>
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Social Links */}
+                    <div>
+                      <h3 className="text-xl font-bold text-white mb-4">Follow Me</h3>
+                      <div className="flex space-x-4">
+                        {[
+                          { icon: Github, href: portfolioData.personal.github, label: 'GitHub' },
+                          { icon: Linkedin, href: portfolioData.personal.linkedin, label: 'LinkedIn' },
+                          { icon: Twitter, href: '#', label: 'Twitter' },
+                          { icon: Instagram, href: '#', label: 'Instagram' }
+                        ].map((social, index) => (
+                          <motion.a
+                            key={social.label}
+                            href={social.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-3 glass-effect rounded-full text-gray-400 hover:text-white transition-all duration-300"
+                            whileHover={{ scale: 1.1, y: -2 }}
+                            whileTap={{ scale: 0.9 }}
+                            title={social.label}
+                          >
+                            <social.icon className="w-5 h-5" />
+                          </motion.a>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Contact Form */}
+                  <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="glass-effect p-6 rounded-xl"
+                  >
+                    <h3 className="text-xl font-bold text-white mb-6">Send Message</h3>
+                    <form className="space-y-4">
+                        ">
+                        <input
+                          type="text"
+                          placeholder="Your Name"
+                          className="px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                        />
+                        <input
+                          type="email"
+                          placeholder="Your Email"
+                          className="px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                        />
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Subject"
+                        className="w-full px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                      />
+                      <textarea
+                        rows={5}
+                        placeholder="Your Message"
+                        className="w-full px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-none"
+                      />
+                      <motion.button
+                        type="submit"
+                        className="w-full px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-medium text-white shadow-glow hover:shadow-glow-lg transition-all duration-300 flex items-center justify-center space-x-2"
+                        whileHover={{ scale: 1.02, y: -2 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Send className="w-4 h-4" />
+                        <span>Send Message</span>
+                      </motion.button>
+                    </form>
+                  </motion.div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.main>
+      </div>
+
+      {/* Project Detail Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4"
+            onClick={() => setSelectedProject(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, y: 50 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.8, y: 50 }}
+              className="glass-effect rounded-2xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-start mb-6">
+                <div>
+                  <h2 className="text-3xl font-bold glow-text mb-2">{selectedProject.title}</h2>
+                  <p className="text-gray-400">{selectedProject.category}</p>
+                </div>
+                <motion.button
+                  onClick={() => setSelectedProject(null)}
+                  className="p-2 text-gray-400 hover:text-white transition-colors"
+                  whileHover={{ scale: 1.1, rotate: 90 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <X className="w-6 h-6" />
+                </motion.button>
+              </div>
+
+              {/* Project Image */}
+              <div className="relative h-64 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl mb-6 overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Globe className="w-24 h-24 text-primary/50" />
+                </div>
+                {selectedProject.featured && (
+                  <div className="absolute top-4 right-4 px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-sm font-medium">
+                    Featured Project
+                  </div>
+                )}
+              </div>
+
+              {/* Project Details */}
+              <div className="space-y-6">
+                <p className="text-gray-300 leading-relaxed text-lg">{selectedProject.description}</p>
+
+                {/* Technologies */}
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-3">Technologies Used</h3>
+                  <div className="flex flex-wrap gap-3">
+                    {selectedProject.technologies.map((tech: string, index: number) => (
+                      <span
+                        key={index}
+                        className="px-4 py-2 bg-primary/20 text-primary rounded-full text-sm font-medium"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Project Stats */}
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-3">Project Statistics</h3>
+                  <div className="grid grid-cols-3 gap-4">
+                    {Object.entries(selectedProject.stats).map(([key, value]) => (
+                      <div key={key} className="glass-effect p-4 rounded-lg text-center">
+                        <div className="text-2xl font-bold text-primary mb-1">{value}</div>
+                        <div className="text-sm text-gray-400 capitalize">{key}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex space-x-4 pt-6">
+                  <motion.a
+                    href={selectedProject.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-medium text-white shadow-glow hover:shadow-glow-lg transition-all duration-300"
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <ExternalLink className="w-5 h-5" />
+                    <span>View Live</span>
+                  </motion.a>
+                  <motion.a
+                    href={selectedProject.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 glass-effect rounded-lg font-medium text-white hover:bg-white/10 transition-all duration-300"
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Github className="w-5 h-5" />
+                    <span>View Code</span>
+                  </motion.a>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  )
+}">
+                        <input
+                          type="text"
+                          placeholder="Your Name"
+                          className="px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                        />
+                        <input
+                          type="email"
+                          placeholder="Your Email"
+                          className="px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                        />
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Subject"
+                        className="w-full px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                      />
+                      <textarea
+                        rows={5}
+                        placeholder="Your Message"
+                        className="w-full px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-none"
+                      />
+                      <motion.button
+                        type="submit"
+                        className="w-full px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-medium text-white shadow-glow hover:shadow-glow-lg transition-all duration-300 flex items-center justify-center space-x-2"
+                        whileHover={{ scale: 1.02, y: -2 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Send className="w-4 h-4" />
+                        <span>Send Message</span>
+                      </motion.button>
+                    </form>
+                  </motion.div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.main>
+      </div>
+
+      {/* Project Detail Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4"
+            onClick={() => setSelectedProject(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, y: 50 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.8, y: 50 }}
+              className="glass-effect rounded-2xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-start mb-6">
+                <div>
+                  <h2 className="text-3xl font-bold glow-text mb-2">{selectedProject.title}</h2>
+                  <p className="text-gray-400">{selectedProject.category}</p>
+                </div>
+                <motion.button
+                  onClick={() => setSelectedProject(null)}
+                  className="p-2 text-gray-400 hover:text-white transition-colors"
+                  whileHover={{ scale: 1.1, rotate: 90 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <X className="w-6 h-6" />
+                </motion.button>
+              </div>
+
+              {/* Project Image */}
+              <div className="relative h-64 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl mb-6 overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Globe className="w-24 h-24 text-primary/50" />
+                </div>
+                {selectedProject.featured && (
+                  <div className="absolute top-4 right-4 px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-sm font-medium">
+                    Featured Project
+                  </div>
+                )}
+              </div>
+
+              {/* Project Details */}
+              <div className="space-y-6">
+                <p className="text-gray-300 leading-relaxed text-lg">{selectedProject.description}</p>
+
+                {/* Technologies */}
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-3">Technologies Used</h3>
+                  <div className="flex flex-wrap gap-3">
+                    {selectedProject.technologies.map((tech: string, index: number) => (
+                      <span
+                        key={index}
+                        className="px-4 py-2 bg-primary/20 text-primary rounded-full text-sm font-medium"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Project Stats */}
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-3">Project Statistics</h3>
+                  <div className="grid grid-cols-3 gap-4">
+                    {Object.entries(selectedProject.stats).map(([key, value]) => (
+                      <div key={key} className="glass-effect p-4 rounded-lg text-center">
+                        <div className="text-2xl font-bold text-primary mb-1">{value}</div>
+                        <div className="text-sm text-gray-400 capitalize">{key}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex space-x-4 pt-6">
+                  <motion.a
+                    href={selectedProject.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-medium text-white shadow-glow hover:shadow-glow-lg transition-all duration-300"
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <ExternalLink className="w-5 h-5" />
+                    <span>View Live</span>
+                  </motion.a>
+                  <motion.a
+                    href={selectedProject.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 glass-effect rounded-lg font-medium text-white hover:bg-white/10 transition-all duration-300"
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Github className="w-5 h-5" />
+                    <span>View Code</span>
+                  </motion.a>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  )
+}={{ repeat: Infinity, duration: 2 }}
                     >
                       <span className="text-xs font-bold">👋</span>
                     </motion.div>
@@ -1379,6 +2642,1089 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                     My professional journey and the experiences that shaped my skills
                   </p>
                 </div>
+
+                <div className="space-y-6">
+                  {portfolioData.experience.map((exp, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -50 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.2 }}
+                      className="glass-effect p-6 rounded-xl hover:shadow-glow transition-all duration-300"
+                      whileHover={{ scale: 1.02, y: -5 }}
+                    >
+                      <div className="flex items-start space-x-4">
+                        <div className="p-3 bg-primary/20 rounded-lg">
+                          <Building2 className="w-6 h-6 text-primary" />
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
+                            <h3 className="text-xl font-bold text-white">{exp.position}</h3>
+                            <span className="text-sm text-primary font-medium">{exp.period}</span>
+                          </div>
+                          <p className="text-gray-400 font-medium mb-3">{exp.company}</p>
+                          <p className="text-gray-300 mb-4 leading-relaxed">{exp.description}</p>
+                          
+                          {/* Achievements */}
+                          <div>
+                            <h4 className="text-sm font-semibold text-white mb-2">Key Achievements:</h4>
+                            <ul className="space-y-1">
+                              {exp.achievements.map((achievement, i) => (
+                                <li key={i} className="text-sm text-gray-300 flex items-start space-x-2">
+                                  <span className="text-green-400 mt-1">✓</span>
+                                  <span>{achievement}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Testimonials Section */}
+            {activeSection === 'testimonials' && (
+              <motion.div
+                key="testimonials"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="space-y-8"
+              >
+                <div className="text-center">
+                  <h2 className="text-3xl font-bold glow-text mb-4">Client Testimonials</h2>
+                  <p className="text-gray-400 max-w-2xl mx-auto">
+                    What clients and colleagues say about working with me
+                  </p>
+                </div>
+
+                <div className="relative">
+                  {/* Testimonial Carousel */}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={currentTestimonial}
+                      initial={{ opacity: 0, x: 100 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -100 }}
+                      className="glass-effect p-8 rounded-xl text-center max-w-4xl mx-auto"
+                    >
+                      <div className="mb-6">
+                        {/* Stars */}
+                        <div className="flex justify-center space-x-1 mb-4">
+                          {[...Array(portfolioData.testimonials[currentTestimonial].rating)].map((_, i) => (
+                            <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                          ))}
+                        </div>
+                        
+                        <blockquote className="text-lg text-gray-300 leading-relaxed mb-6 italic">
+                          "{portfolioData.testimonials[currentTestimonial].content}"
+                        </blockquote>
+                        
+                        <div className="flex items-center justify-center space-x-4">
+                          <div className="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center">
+                            <User className="w-6 h-6 text-white" />
+                          </div>
+                          <div className="text-left">
+                            <p className="font-semibold text-white">{portfolioData.testimonials[currentTestimonial].name}</p>
+                            <p className="text-sm text-gray-400">{portfolioData.testimonials[currentTestimonial].position}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+
+                  {/* Navigation Buttons */}
+                  <div className="flex justify-center space-x-4 mt-6">
+                    <motion.button
+                      onClick={() => setCurrentTestimonial(prev => prev === 0 ? portfolioData.testimonials.length - 1 : prev - 1)}
+                      className="p-2 glass-effect rounded-full text-gray-400 hover:text-white transition-colors"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </motion.button>
+                    
+                    <div className="flex space-x-2">
+                      {portfolioData.testimonials.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setCurrentTestimonial(index)}
+                          className={`w-3 h-3 rounded-full transition-colors ${
+                            index === currentTestimonial ? 'bg-primary' : 'bg-gray-600'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    
+                    <motion.button
+                      onClick={() => setCurrentTestimonial(prev => prev === portfolioData.testimonials.length - 1 ? 0 : prev + 1)}
+                      className="p-2 glass-effect rounded-full text-gray-400 hover:text-white transition-colors"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </motion.button>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* Contact Section */}
+            {activeSection === 'contact' && (
+              <motion.div
+                key="contact"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="space-y-8"
+              >
+                <div className="text-center">
+                  <h2 className="text-3xl font-bold glow-text mb-4">Get In Touch</h2>
+                  <p className="text-gray-400 max-w-2xl mx-auto">
+                    Ready to work together? Let's discuss your project and bring your ideas to life
+                  </p>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-8">
+                  {/* Contact Info */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="space-y-6"
+                  >
+                    <div>
+                      <h3 className="text-xl font-bold text-white mb-4">Contact Information</h3>
+                      <div className="space-y-4">
+                        {[
+                          { icon: Mail, label: 'Email', value: portfolioData.personal.email, href: `mailto:${portfolioData.personal.email}` },
+                          { icon: Phone, label: 'Phone', value: portfolioData.personal.phone, href: `tel:${portfolioData.personal.phone}` },
+                          { icon: MapPin, label: 'Location', value: portfolioData.personal.location, href: '#' }
+                        ].map((contact, index) => (
+                          <motion.div
+                            key={contact.label}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3 + index * 0.1 }}
+                            className="flex items-center space-x-4 p-4 glass-effect rounded-lg hover:shadow-glow transition-all duration-300"
+                          >
+                            <div className="p-2 bg-primary/20 rounded-lg">
+                              <contact.icon className="w-5 h-5 text-primary" />
+                            </div>
+                            <div>
+                              <p className="text-sm text-gray-400">{contact.label}</p>
+                              <p className="text-white font-medium">{contact.value}</p>
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Social Links */}
+                    <div>
+                      <h3 className="text-xl font-bold text-white mb-4">Follow Me</h3>
+                      <div className="flex space-x-4">
+                        {[
+                          { icon: Github, href: portfolioData.personal.github, label: 'GitHub' },
+                          { icon: Linkedin, href: portfolioData.personal.linkedin, label: 'LinkedIn' },
+                          { icon: Twitter, href: '#', label: 'Twitter' },
+                          { icon: Instagram, href: '#', label: 'Instagram' }
+                        ].map((social, index) => (
+                          <motion.a
+                            key={social.label}
+                            href={social.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-3 glass-effect rounded-full text-gray-400 hover:text-white transition-all duration-300"
+                            whileHover={{ scale: 1.1, y: -2 }}
+                            whileTap={{ scale: 0.9 }}
+                            title={social.label}
+                          >
+                            <social.icon className="w-5 h-5" />
+                          </motion.a>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Contact Form */}
+                  <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="glass-effect p-6 rounded-xl"
+                  >
+                    <h3 className="text-xl font-bold text-white mb-6">Send Message</h3>
+                    <form className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input
+                          type="text"
+                          placeholder="Your Name"
+                          className="px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                        />
+                        <input
+                          type="email"
+                          placeholder="Your Email"
+                          className="px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                        />
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Subject"
+                        className="w-full px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                      />
+                      <textarea
+                        rows={5}
+                        placeholder="Your Message"
+                        className="w-full px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-none"
+                      />
+                      <motion.button
+                        type="submit"
+                        className="w-full px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-medium text-white shadow-glow hover:shadow-glow-lg transition-all duration-300 flex items-center justify-center space-x-2"
+                        whileHover={{ scale: 1.02, y: -2 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Send className="w-4 h-4" />
+                        <span>Send Message</span>
+                      </motion.button>
+                    </form>
+                  </motion.div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.main>
+      </div>
+
+      {/* Project Detail Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4"
+            onClick={() => setSelectedProject(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, y: 50 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.8, y: 50 }}
+              className="glass-effect rounded-2xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-start mb-6">
+                <div>
+                  <h2 className="text-3xl font-bold glow-text mb-2">{selectedProject.title}</h2>
+                  <p className="text-gray-400">{selectedProject.category}</p>
+                </div>
+                <motion.button
+                  onClick={() => setSelectedProject(null)}
+                  className="p-2 text-gray-400 hover:text-white transition-colors"
+                  whileHover={{ scale: 1.1, rotate: 90 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <X className="w-6 h-6" />
+                </motion.button>
+              </div>
+
+              {/* Project Image */}
+              <div className="relative h-64 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl mb-6 overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Globe className="w-24 h-24 text-primary/50" />
+                </div>
+                {selectedProject.featured && (
+                  <div className="absolute top-4 right-4 px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-sm font-medium">
+                    Featured Project
+                  </div>
+                )}
+              </div>
+
+              {/* Project Details */}
+              <div className="space-y-6">
+                <p className="text-gray-300 leading-relaxed text-lg">{selectedProject.description}</p>
+
+                {/* Technologies */}
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-3">Technologies Used</h3>
+                  <div className="flex flex-wrap gap-3">
+                    {selectedProject.technologies.map((tech: string, index: number) => (
+                      <span
+                        key={index}
+                        className="px-4 py-2 bg-primary/20 text-primary rounded-full text-sm font-medium"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Project Stats */}
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-3">Project Statistics</h3>
+                  <div className="grid grid-cols-3 gap-4">
+                    {Object.entries(selectedProject.stats).map(([key, value]) => (
+                      <div key={key} className="glass-effect p-4 rounded-lg text-center">
+                        <div className="text-2xl font-bold text-primary mb-1">{value}</div>
+                        <div className="text-sm text-gray-400 capitalize">{key}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex space-x-4 pt-6">
+                  <motion.a
+                    href={selectedProject.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-medium text-white shadow-glow hover:shadow-glow-lg transition-all duration-300"
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <ExternalLink className="w-5 h-5" />
+                    <span>View Live</span>
+                  </motion.a>
+                  <motion.a
+                    href={selectedProject.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 glass-effect rounded-lg font-medium text-white hover:bg-white/10 transition-all duration-300"
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Github className="w-5 h-5" />
+                    <span>View Code</span>
+                  </motion.a>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  )
+}
+                    My professional journey and the experiences that shaped my skills
+                  </p>
+                </div>
+
+                <div className="space-y-6">
+                  {portfolioData.experience.map((exp, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -50 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.2 }}
+                      className="glass-effect p-6 rounded-xl hover:shadow-glow transition-all duration-300"
+                      whileHover={{ scale: 1.02, y: -5 }}
+                    >
+                      <div className="flex items-start space-x-4">
+                        <div className="p-3 bg-primary/20 rounded-lg">
+                          <Building2 className="w-6 h-6 text-primary" />
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
+                            <h3 className="text-xl font-bold text-white">{exp.position}</h3>
+                            <span className="text-sm text-primary font-medium">{exp.period}</span>
+                          </div>
+                          <p className="text-gray-400 font-medium mb-3">{exp.company}</p>
+                          <p className="text-gray-300 mb-4 leading-relaxed">{exp.description}</p>
+                          
+                          {/* Achievements */}
+                          <div>
+                            <h4 className="text-sm font-semibold text-white mb-2">Key Achievements:</h4>
+                            <ul className="space-y-1">
+                              {exp.achievements.map((achievement, i) => (
+                                <li key={i} className="text-sm text-gray-300 flex items-start space-x-2">
+                                  <span className="text-green-400 mt-1">✓</span>
+                                  <span>{achievement}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Testimonials Section */}
+            {activeSection === 'testimonials' && (
+              <motion.div
+                key="testimonials"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="space-y-8"
+              >
+                <div className="text-center">
+                  <h2 className="text-3xl font-bold glow-text mb-4">Client Testimonials</h2>
+                  <p className="text-gray-400 max-w-2xl mx-auto">
+                    What clients and colleagues say about working with me
+                  </p>
+                </div>
+
+                <div className="relative">
+                  {/* Testimonial Carousel */}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={currentTestimonial}
+                      initial={{ opacity: 0, x: 100 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -100 }}
+                      className="glass-effect p-8 rounded-xl text-center max-w-4xl mx-auto"
+                    >
+                      <div className="mb-6">
+                        {/* Stars */}
+                        <div className="flex justify-center space-x-1 mb-4">
+                          {[...Array(portfolioData.testimonials[currentTestimonial].rating)].map((_, i) => (
+                            <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                          ))}
+                        </div>
+                        
+                        <blockquote className="text-lg text-gray-300 leading-relaxed mb-6 italic">
+                          "{portfolioData.testimonials[currentTestimonial].content}"
+                        </blockquote>
+                        
+                        <div className="flex items-center justify-center space-x-4">
+                          <div className="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center">
+                            <User className="w-6 h-6 text-white" />
+                          </div>
+                          <div className="text-left">
+                            <p className="font-semibold text-white">{portfolioData.testimonials[currentTestimonial].name}</p>
+                            <p className="text-sm text-gray-400">{portfolioData.testimonials[currentTestimonial].position}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+
+                  {/* Navigation Buttons */}
+                  <div className="flex justify-center space-x-4 mt-6">
+                    <motion.button
+                      onClick={() => setCurrentTestimonial(prev => prev === 0 ? portfolioData.testimonials.length - 1 : prev - 1)}
+                      className="p-2 glass-effect rounded-full text-gray-400 hover:text-white transition-colors"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </motion.button>
+                    
+                    <div className="flex space-x-2">
+                      {portfolioData.testimonials.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setCurrentTestimonial(index)}
+                          className={`w-3 h-3 rounded-full transition-colors ${
+                            index === currentTestimonial ? 'bg-primary' : 'bg-gray-600'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    
+                    <motion.button
+                      onClick={() => setCurrentTestimonial(prev => prev === portfolioData.testimonials.length - 1 ? 0 : prev + 1)}
+                      className="p-2 glass-effect rounded-full text-gray-400 hover:text-white transition-colors"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </motion.button>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* Contact Section */}
+            {activeSection === 'contact' && (
+              <motion.div
+                key="contact"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="space-y-8"
+              >
+                <div className="text-center">
+                  <h2 className="text-3xl font-bold glow-text mb-4">Get In Touch</h2>
+                  <p className="text-gray-400 max-w-2xl mx-auto">
+                    Ready to work together? Let's discuss your project and bring your ideas to life
+                  </p>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-8">
+                  {/* Contact Info */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="space-y-6"
+                  >
+                    <div>
+                      <h3 className="text-xl font-bold text-white mb-4">Contact Information</h3>
+                      <div className="space-y-4">
+                        {[
+                          { icon: Mail, label: 'Email', value: portfolioData.personal.email, href: `mailto:${portfolioData.personal.email}` },
+                          { icon: Phone, label: 'Phone', value: portfolioData.personal.phone, href: `tel:${portfolioData.personal.phone}` },
+                          { icon: MapPin, label: 'Location', value: portfolioData.personal.location, href: '#' }
+                        ].map((contact, index) => (
+                          <motion.div
+                            key={contact.label}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3 + index * 0.1 }}
+                            className="flex items-center space-x-4 p-4 glass-effect rounded-lg hover:shadow-glow transition-all duration-300"
+                          >
+                            <div className="p-2 bg-primary/20 rounded-lg">
+                              <contact.icon className="w-5 h-5 text-primary" />
+                            </div>
+                            <div>
+                              <p className="text-sm text-gray-400">{contact.label}</p>
+                              <p className="text-white font-medium">{contact.value}</p>
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Social Links */}
+                    <div>
+                      <h3 className="text-xl font-bold text-white mb-4">Follow Me</h3>
+                      <div className="flex space-x-4">
+                        {[
+                          { icon: Github, href: portfolioData.personal.github, label: 'GitHub' },
+                          { icon: Linkedin, href: portfolioData.personal.linkedin, label: 'LinkedIn' },
+                          { icon: Twitter, href: '#', label: 'Twitter' },
+                          { icon: Instagram, href: '#', label: 'Instagram' }
+                        ].map((social, index) => (
+                          <motion.a
+                            key={social.label}
+                            href={social.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-3 glass-effect rounded-full text-gray-400 hover:text-white transition-all duration-300"
+                            whileHover={{ scale: 1.1, y: -2 }}
+                            whileTap={{ scale: 0.9 }}
+                            title={social.label}
+                          >
+                            <social.icon className="w-5 h-5" />
+                          </motion.a>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Contact Form */}
+                  <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="glass-effect p-6 rounded-xl"
+                  >
+                    <h3 className="text-xl font-bold text-white mb-6">Send Message</h3>
+                    <form className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input
+                          type="text"
+                          placeholder="Your Name"
+                          className="px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                        />
+                        <input
+                          type="email"
+                          placeholder="Your Email"
+                          className="px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                        />
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Subject"
+                        className="w-full px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                      />
+                      <textarea
+                        rows={5}
+                        placeholder="Your Message"
+                        className="w-full px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-none"
+                      />
+                      <motion.button
+                        type="submit"
+                        className="w-full px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-medium text-white shadow-glow hover:shadow-glow-lg transition-all duration-300 flex items-center justify-center space-x-2"
+                        whileHover={{ scale: 1.02, y: -2 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Send className="w-4 h-4" />
+                        <span>Send Message</span>
+                      </motion.button>
+                    </form>
+                  </motion.div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.main>
+      </div>
+
+      {/* Project Detail Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4"
+            onClick={() => setSelectedProject(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, y: 50 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.8, y: 50 }}
+              className="glass-effect rounded-2xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-start mb-6">
+                <div>
+                  <h2 className="text-3xl font-bold glow-text mb-2">{selectedProject.title}</h2>
+                  <p className="text-gray-400">{selectedProject.category}</p>
+                </div>
+                <motion.button
+                  onClick={() => setSelectedProject(null)}
+                  className="p-2 text-gray-400 hover:text-white transition-colors"
+                  whileHover={{ scale: 1.1, rotate: 90 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <X className="w-6 h-6" />
+                </motion.button>
+              </div>
+
+              {/* Project Image */}
+              <div className="relative h-64 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl mb-6 overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Globe className="w-24 h-24 text-primary/50" />
+                </div>
+                {selectedProject.featured && (
+                  <div className="absolute top-4 right-4 px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-sm font-medium">
+                    Featured Project
+                  </div>
+                )}
+              </div>
+
+              {/* Project Details */}
+              <div className="space-y-6">
+                <p className="text-gray-300 leading-relaxed text-lg">{selectedProject.description}</p>
+
+                {/* Technologies */}
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-3">Technologies Used</h3>
+                  <div className="flex flex-wrap gap-3">
+                    {selectedProject.technologies.map((tech: string, index: number) => (
+                      <span
+                        key={index}
+                        className="px-4 py-2 bg-primary/20 text-primary rounded-full text-sm font-medium"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Project Stats */}
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-3">Project Statistics</h3>
+                  <div className="grid grid-cols-3 gap-4">
+                    {Object.entries(selectedProject.stats).map(([key, value]) => (
+                      <div key={key} className="glass-effect p-4 rounded-lg text-center">
+                        <div className="text-2xl font-bold text-primary mb-1">{value}</div>
+                        <div className="text-sm text-gray-400 capitalize">{key}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex space-x-4 pt-6">
+                  <motion.a
+                    href={selectedProject.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-medium text-white shadow-glow hover:shadow-glow-lg transition-all duration-300"
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <ExternalLink className="w-5 h-5" />
+                    <span>View Live</span>
+                  </motion.a>
+                  <motion.a
+                    href={selectedProject.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 glass-effect rounded-lg font-medium text-white hover:bg-white/10 transition-all duration-300"
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Github className="w-5 h-5" />
+                    <span>View Code</span>
+                  </motion.a>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  )
+}
+                            <span className="text-sm text-primary font-medium">{exp.period}</span>
+                          </div>
+                          <p className="text-gray-400 font-medium mb-3">{exp.company}</p>
+                          <p className="text-gray-300 mb-4 leading-relaxed">{exp.description}</p>
+                          
+                          {/* Achievements */}
+                          <div>
+                            <h4 className="text-sm font-semibold text-white mb-2">Key Achievements:</h4>
+                            <ul className="space-y-1">
+                              {exp.achievements.map((achievement, i) => (
+                                <li key={i} className="text-sm text-gray-300 flex items-start space-x-2">
+                                  <span className="text-green-400 mt-1">✓</span>
+                                  <span>{achievement}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Testimonials Section */}
+            {activeSection === 'testimonials' && (
+              <motion.div
+                key="testimonials"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="space-y-8"
+              >
+                <div className="text-center">
+                  <h2 className="text-3xl font-bold glow-text mb-4">Client Testimonials</h2>
+                  <p className="text-gray-400 max-w-2xl mx-auto">
+                    What clients and colleagues say about working with me
+                  </p>
+                </div>
+
+                <div className="relative">
+                  {/* Testimonial Carousel */}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={currentTestimonial}
+                      initial={{ opacity: 0, x: 100 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -100 }}
+                      className="glass-effect p-8 rounded-xl text-center max-w-4xl mx-auto"
+                    >
+                      <div className="mb-6">
+                        {/* Stars */}
+                        <div className="flex justify-center space-x-1 mb-4">
+                          {[...Array(portfolioData.testimonials[currentTestimonial].rating)].map((_, i) => (
+                            <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                          ))}
+                        </div>
+                        
+                        <blockquote className="text-lg text-gray-300 leading-relaxed mb-6 italic">
+                          "{portfolioData.testimonials[currentTestimonial].content}"
+                        </blockquote>
+                        
+                        <div className="flex items-center justify-center space-x-4">
+                          <div className="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center">
+                            <User className="w-6 h-6 text-white" />
+                          </div>
+                          <div className="text-left">
+                            <p className="font-semibold text-white">{portfolioData.testimonials[currentTestimonial].name}</p>
+                            <p className="text-sm text-gray-400">{portfolioData.testimonials[currentTestimonial].position}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+
+                  {/* Navigation Buttons */}
+                  <div className="flex justify-center space-x-4 mt-6">
+                    <motion.button
+                      onClick={() => setCurrentTestimonial(prev => prev === 0 ? portfolioData.testimonials.length - 1 : prev - 1)}
+                      className="p-2 glass-effect rounded-full text-gray-400 hover:text-white transition-colors"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </motion.button>
+                    
+                    <div className="flex space-x-2">
+                      {portfolioData.testimonials.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setCurrentTestimonial(index)}
+                          className={`w-3 h-3 rounded-full transition-colors ${
+                            index === currentTestimonial ? 'bg-primary' : 'bg-gray-600'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    
+                    <motion.button
+                      onClick={() => setCurrentTestimonial(prev => prev === portfolioData.testimonials.length - 1 ? 0 : prev + 1)}
+                      className="p-2 glass-effect rounded-full text-gray-400 hover:text-white transition-colors"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </motion.button>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* Contact Section */}
+            {activeSection === 'contact' && (
+              <motion.div
+                key="contact"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="space-y-8"
+              >
+                <div className="text-center">
+                  <h2 className="text-3xl font-bold glow-text mb-4">Get In Touch</h2>
+                  <p className="text-gray-400 max-w-2xl mx-auto">
+                    Ready to work together? Let's discuss your project and bring your ideas to life
+                  </p>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-8">
+                  {/* Contact Info */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="space-y-6"
+                  >
+                    <div>
+                      <h3 className="text-xl font-bold text-white mb-4">Contact Information</h3>
+                      <div className="space-y-4">
+                        {[
+                          { icon: Mail, label: 'Email', value: portfolioData.personal.email, href: `mailto:${portfolioData.personal.email}` },
+                          { icon: Phone, label: 'Phone', value: portfolioData.personal.phone, href: `tel:${portfolioData.personal.phone}` },
+                          { icon: MapPin, label: 'Location', value: portfolioData.personal.location, href: '#' }
+                        ].map((contact, index) => (
+                          <motion.div
+                            key={contact.label}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3 + index * 0.1 }}
+                            className="flex items-center space-x-4 p-4 glass-effect rounded-lg hover:shadow-glow transition-all duration-300"
+                          >
+                            <div className="p-2 bg-primary/20 rounded-lg">
+                              <contact.icon className="w-5 h-5 text-primary" />
+                            </div>
+                            <div>
+                              <p className="text-sm text-gray-400">{contact.label}</p>
+                              <p className="text-white font-medium">{contact.value}</p>
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Social Links */}
+                    <div>
+                      <h3 className="text-xl font-bold text-white mb-4">Follow Me</h3>
+                      <div className="flex space-x-4">
+                        {[
+                          { icon: Github, href: portfolioData.personal.github, label: 'GitHub' },
+                          { icon: Linkedin, href: portfolioData.personal.linkedin, label: 'LinkedIn' },
+                          { icon: Twitter, href: '#', label: 'Twitter' },
+                          { icon: Instagram, href: '#', label: 'Instagram' }
+                        ].map((social, index) => (
+                          <motion.a
+                            key={social.label}
+                            href={social.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-3 glass-effect rounded-full text-gray-400 hover:text-white transition-all duration-300"
+                            whileHover={{ scale: 1.1, y: -2 }}
+                            whileTap={{ scale: 0.9 }}
+                            title={social.label}
+                          >
+                            <social.icon className="w-5 h-5" />
+                          </motion.a>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Contact Form */}
+                  <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="glass-effect p-6 rounded-xl"
+                  >
+                    <h3 className="text-xl font-bold text-white mb-6">Send Message</h3>
+                    <form className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input
+                          type="text"
+                          placeholder="Your Name"
+                          className="px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                        />
+                        <input
+                          type="email"
+                          placeholder="Your Email"
+                          className="px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                        />
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Subject"
+                        className="w-full px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                      />
+                      <textarea
+                        rows={5}
+                        placeholder="Your Message"
+                        className="w-full px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-none"
+                      />
+                      <motion.button
+                        type="submit"
+                        className="w-full px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-medium text-white shadow-glow hover:shadow-glow-lg transition-all duration-300 flex items-center justify-center space-x-2"
+                        whileHover={{ scale: 1.02, y: -2 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Send className="w-4 h-4" />
+                        <span>Send Message</span>
+                      </motion.button>
+                    </form>
+                  </motion.div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.main>
+      </div>
+
+      {/* Project Detail Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4"
+            onClick={() => setSelectedProject(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, y: 50 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.8, y: 50 }}
+              className="glass-effect rounded-2xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-start mb-6">
+                <div>
+                  <h2 className="text-3xl font-bold glow-text mb-2">{selectedProject.title}</h2>
+                  <p className="text-gray-400">{selectedProject.category}</p>
+                </div>
+                <motion.button
+                  onClick={() => setSelectedProject(null)}
+                  className="p-2 text-gray-400 hover:text-white transition-colors"
+                  whileHover={{ scale: 1.1, rotate: 90 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <X className="w-6 h-6" />
+                </motion.button>
+              </div>
+
+              {/* Project Image */}
+              <div className="relative h-64 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl mb-6 overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Globe className="w-24 h-24 text-primary/50" />
+                </div>
+                {selectedProject.featured && (
+                  <div className="absolute top-4 right-4 px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-sm font-medium">
+                    Featured Project
+                  </div>
+                )}
+              </div>
+
+              {/* Project Details */}
+              <div className="space-y-6">
+                <p className="text-gray-300 leading-relaxed text-lg">{selectedProject.description}</p>
+
+                {/* Technologies */}
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-3">Technologies Used</h3>
+                  <div className="flex flex-wrap gap-3">
+                    {selectedProject.technologies.map((tech: string, index: number) => (
+                      <span
+                        key={index}
+                        className="px-4 py-2 bg-primary/20 text-primary rounded-full text-sm font-medium"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Project Stats */}
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-3">Project Statistics</h3>
+                  <div className="grid grid-cols-3 gap-4">
+                    {Object.entries(selectedProject.stats).map(([key, value]) => (
+                      <div key={key} className="glass-effect p-4 rounded-lg text-center">
+                        <div className="text-2xl font-bold text-primary mb-1">{value}</div>
+                        <div className="text-sm text-gray-400 capitalize">{key}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex space-x-4 pt-6">
+                  <motion.a
+                    href={selectedProject.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-medium text-white shadow-glow hover:shadow-glow-lg transition-all duration-300"
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <ExternalLink className="w-5 h-5" />
+                    <span>View Live</span>
+                  </motion.a>
+                  <motion.a
+                    href={selectedProject.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 glass-effect rounded-lg font-medium text-white hover:bg-white/10 transition-all duration-300"
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Github className="w-5 h-5" />
+                    <span>View Code</span>
+                  </motion.a>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  )
+}
 
                 <div className="space-y-6">
                   {portfolioData.experience.map((exp, index) => (
