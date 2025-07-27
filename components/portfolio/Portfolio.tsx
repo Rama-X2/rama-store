@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import Image from 'next/image'
+import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   User, 
@@ -236,19 +237,19 @@ export default function Portfolio({ onClose }: PortfolioProps) {
   const [selectedProject, setSelectedProject] = useState<any>(null)
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
 
-  const handleKeyDown = (e: KeyboardEvent) => {
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === 'Escape') {
       if (selectedProject) setSelectedProject(null)
       else onClose()
     }
-  }
+  }, [onClose, selectedProject])
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown)
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [onClose, selectedProject])
+  }, [handleKeyDown])
 
   useEffect(() => {
     // Disable scroll saat modal portfolio terbuka
@@ -381,9 +382,11 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                   >
                     <div className="w-full h-full rounded-full bg-gradient-to-r from-primary to-secondary p-1">
                       <div className="w-full h-full rounded-full bg-dark-light flex items-center justify-center overflow-hidden">
-                        <img
+                        <Image
                           src={portfolioData.personal.avatar}
                           alt={portfolioData.personal.name}
+                          width={128}
+                          height={128}
                           className="w-full h-full object-cover rounded-full"
                         />
                       </div>
@@ -550,10 +553,11 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                       whileHover={{ scale: 1.02, y: -5 }}
                       onClick={() => setSelectedProject(project)}
                     >
-                      {/* Tambahkan gambar project di sini */}
-                      <img
+                      <Image
                         src={project.image}
                         alt={project.title}
+                        width={400}
+                        height={160}
                         className="w-full h-40 object-cover rounded-lg mb-4"
                       />
                       <div>
@@ -656,13 +660,15 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                           ))}
                         </div>
                         <blockquote className="text-lg text-gray-300 leading-relaxed mb-6 italic">
-                          "{portfolioData.testimonials[currentTestimonial].content}"
+                          &ldquo;{portfolioData.testimonials[currentTestimonial].content}&rdquo;
                         </blockquote>
                         <div className="flex items-center justify-center space-x-4">
                           <div className="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center overflow-hidden">
-                            <img
+                            <Image
                               src={portfolioData.testimonials[currentTestimonial].avatar}
                               alt={portfolioData.testimonials[currentTestimonial].name}
+                              width={48}
+                              height={48}
                               className="w-12 h-12 object-cover rounded-full"
                             />
                           </div>
@@ -719,7 +725,7 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                 <div className="text-center">
                   <h2 className="text-3xl font-bold glow-text mb-4">Get In Touch</h2>
                   <p className="text-gray-400 max-w-2xl mx-auto">
-                    Ready to work together? Let's discuss your project and bring your ideas to life
+                    Ready to work together? Let&apos;s discuss your project and bring your ideas to life
                   </p>
                 </div>
                 <div className="grid md:grid-cols-2 gap-8">
@@ -860,9 +866,11 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                 </motion.button>
               </div>
               <div className="relative h-64 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl mb-6 overflow-hidden">
-                <img
+                <Image
                   src={selectedProject.image}
                   alt={selectedProject.title}
+                  width={800}
+                  height={256}
                   className="absolute inset-0 w-full h-full object-cover rounded-xl"
                   style={{ objectFit: "cover" }}
                 />
