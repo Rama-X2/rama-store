@@ -109,7 +109,7 @@ const nextConfig = {
         fs: false,
         net: false,
         tls: false,
-        crypto: require.resolve('crypto-browserify'),
+        crypto: false,
       };
     }
 
