@@ -417,6 +417,19 @@ if %errorlevel% equ 0 (
 )
 goto :eof
 
+:show_repo_info
+REM Try to get the remote URL for display
+for /f "tokens=*" %%i in ('git remote get-url origin 2^>nul') do set remote_url=%%i
+for /f "tokens=*" %%i in ('git branch --show-current 2^>nul') do set current_branch=%%i
+
+if not "!remote_url!"=="" (
+    echo.
+    call :print_info "🔗 Repository: !remote_url:.git=!"
+    call :print_info "📂 Project: %PROJECT_NAME%"
+    call :print_info "🌿 Branch: !current_branch!"
+)
+goto :eof
+
 :setup_github_remote
 call :print_step "Setting up GitHub remote..."
 
@@ -469,16 +482,11 @@ if "!current_branch!"=="" set "current_branch=%DEFAULT_BRANCH%"
 
 call :print_info "Pushing branch: !current_branch!"
 
-REM Push with upstream
-git push -u origin !current_branch!
+REM Push with upstream (using --set-upstream for better compatibility)
+git push --set-upstream origin !current_branch!
 if %errorlevel% equ 0 (
     call :print_success "Successfully pushed to GitHub! 🎉"
-    
-    REM Try to get the remote URL for display
-    for /f "tokens=*" %%i in ('git remote get-url origin 2^>nul') do set remote_url=%%i
-    if not "!remote_url!"=="" (
-        call :print_info "Repository URL: !remote_url:.git=!"
-    )
+    call :show_repo_info
 ) else (
     call :print_error "Failed to push to GitHub"
     call :print_info "Common solutions:"
@@ -730,11 +738,24 @@ REM Quick deploy process
 call :print_step "Quick deploying changes..."
 
 call :add_and_commit "!commit_msg!"
-git push
+
+REM Check if upstream is set, if not set it
+for /f "tokens=*" %%i in ('git branch --show-current 2^>nul') do set current_branch=%%i
+if "!current_branch!"=="" set "current_branch=%DEFAULT_BRANCH%"
+
+REM Check if upstream branch exists
+git rev-parse --abbrev-ref "!current_branch!@{upstream}" >nul 2>&1
+if %errorlevel% neq 0 (
+    call :print_warning "Setting upstream for branch !current_branch!"
+    git push --set-upstream origin "!current_branch!"
+) else (
+    git push
+)
 
 if %errorlevel% equ 0 (
     call :print_success "⚡ Quick deploy completed!"
     call :print_info "Changes pushed to GitHub successfully"
+    call :show_repo_info
     
     REM Ask about Vercel
     choice /C YN /M "Deploy to Vercel too"
@@ -760,9 +781,22 @@ if "!commit_msg!"=="" (
 
 call :add_and_commit "!commit_msg!"
 
-git push
+REM Check if upstream is set, if not set it
+for /f "tokens=*" %%i in ('git branch --show-current 2^>nul') do set current_branch=%%i
+if "!current_branch!"=="" set "current_branch=%DEFAULT_BRANCH%"
+
+REM Check if upstream branch exists
+git rev-parse --abbrev-ref "!current_branch!@{upstream}" >nul 2>&1
+if %errorlevel% neq 0 (
+    call :print_warning "Setting upstream for branch !current_branch!"
+    git push --set-upstream origin "!current_branch!"
+) else (
+    git push
+)
+
 if %errorlevel% equ 0 (
     call :print_success "📝 Updates pushed to GitHub!"
+    call :show_repo_info
 ) else (
     call :print_error "Failed to push updates"
 )

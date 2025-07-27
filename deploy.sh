@@ -56,6 +56,16 @@ print_info() {
     echo -e "${CYAN}ℹ️  $1${NC}"
 }
 
+show_repo_info() {
+    local repo_url=$(git remote get-url origin 2>/dev/null | sed 's/.git$//')
+    if [ ! -z "$repo_url" ]; then
+        echo ""
+        print_info "🔗 Repository: $repo_url"
+        print_info "📂 Project: $PROJECT_NAME"
+        print_info "🌿 Branch: $(git branch --show-current 2>/dev/null || echo 'main')"
+    fi
+}
+
 # =============================================================================
 # QUICK DEPLOY FUNCTIONS
 # =============================================================================
@@ -86,11 +96,21 @@ quick_deploy() {
     
     git add .
     git commit -m "$commit_message"
-    git push
+    
+    # Check if upstream is set, if not set it
+    current_branch=$(git branch --show-current 2>/dev/null || echo "main")
+    
+    if ! git rev-parse --abbrev-ref "$current_branch@{upstream}" >/dev/null 2>&1; then
+        print_warning "Setting upstream for branch $current_branch"
+        git push --set-upstream origin "$current_branch"
+    else
+        git push
+    fi
     
     if [ $? -eq 0 ]; then
         print_success "⚡ Quick deploy completed!"
         print_info "Changes pushed to GitHub successfully"
+        show_repo_info
     else
         print_error "Quick deploy failed"
         return 1
@@ -113,8 +133,19 @@ update_only() {
     git add .
     git commit -m "$commit_message"
     
-    if git push; then
+    # Check if upstream is set, if not set it
+    current_branch=$(git branch --show-current 2>/dev/null || echo "main")
+    
+    if ! git rev-parse --abbrev-ref "$current_branch@{upstream}" >/dev/null 2>&1; then
+        print_warning "Setting upstream for branch $current_branch"
+        git push --set-upstream origin "$current_branch"
+    else
+        git push
+    fi
+    
+    if [ $? -eq 0 ]; then
         print_success "📝 Updates pushed to GitHub!"
+        show_repo_info
     else
         print_error "Failed to push updates"
         return 1
@@ -233,7 +264,8 @@ EOF
     print_step "Pushing to GitHub..."
     current_branch=$(git branch --show-current 2>/dev/null || echo "main")
     
-    if git push -u origin "$current_branch"; then
+    # Use --set-upstream for initial push
+    if git push --set-upstream origin "$current_branch"; then
         print_success "Successfully pushed to GitHub! 🎉"
         
         # Ask about Vercel
@@ -256,8 +288,7 @@ EOF
         # Show summary
         echo ""
         print_success "🎉 Deployment completed!"
-        print_info "GitHub: $(git remote get-url origin 2>/dev/null | sed 's/.git$//')"
-        print_info "Project: $PROJECT_NAME"
+        show_repo_info
         
     else
         print_error "Failed to push to GitHub"
