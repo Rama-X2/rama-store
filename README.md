@@ -425,6 +425,4 @@ npm run build && npm run export
 
 ---
 
-**🎯 Siap digunakan! Silakan custom gambar di folder `public/images/` dan deploy ke Vercel untuk hasil terbaik!**
-
 **📝 Catatan:** Project ini dibuat untuk tugas kuliah dan tidak terhubung dengan server pembayaran nyata. Semua fitur topup hanya simulasi untuk demo purposes.
