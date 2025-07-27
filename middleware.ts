@@ -30,7 +30,7 @@ const ALLOWED_DEVELOPMENT_DOMAINS = [
 
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
-const ANTI_CLONE_ENABLED = process.env.ANTI_CLONE_ENABLED !== 'false'; // Default: enabled
+const ANTI_CLONE_ENABLED = false; // Default: disabled
 
 // Secret key untuk bypass (hanya untuk emergency debugging)
 const BYPASS_SECRET = process.env.ANTI_CLONE_BYPASS_SECRET;
