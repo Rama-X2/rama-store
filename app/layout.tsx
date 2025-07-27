@@ -60,6 +60,8 @@ export const metadata = {
   },
 }
 
+import { Analytics } from '@vercel/analytics/next';
+
 export default function RootLayout({
   children,
 }: {
@@ -129,6 +131,7 @@ export default function RootLayout({
           <ErrorBoundary>
             <ToastProvider>
               {children}
+              <Analytics />
             </ToastProvider>
           </ErrorBoundary>
         </ThemeProvider>
