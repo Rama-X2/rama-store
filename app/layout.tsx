@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import ToastProvider from '../components/ui/ToastProvider'
 import ErrorBoundary from '../components/ui/ErrorBoundary'
 import { ThemeProvider } from '../components/ui/ThemeProvider'
+import AntiCloneProvider from '../components/security/AntiCloneProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -127,14 +128,16 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <ThemeProvider>
-          <ErrorBoundary>
-            <ToastProvider>
-              {children}
-              <Analytics />
-            </ToastProvider>
-          </ErrorBoundary>
-        </ThemeProvider>
+        <AntiCloneProvider>
+          <ThemeProvider>
+            <ErrorBoundary>
+              <ToastProvider>
+                {children}
+                <Analytics />
+              </ToastProvider>
+            </ErrorBoundary>
+          </ThemeProvider>
+        </AntiCloneProvider>
       </body>
     </html>
   )

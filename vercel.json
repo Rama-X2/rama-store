@@ -3,9 +3,20 @@
   "buildCommand": "npm run build",
   "installCommand": "npm install",
   "regions": ["iad1"],
+  
+  // Environment variables untuk anti-clone protection
+  "env": {
+    "ALLOWED_DOMAINS": "rama-store.vercel.app,localhost:3000,localhost:3001",
+    "ANTI_CLONE_ENABLED": "true",
+    "STRICT_DOMAIN_CHECK": "true"
+  },
+  
   "functions": {
     "app/**/*.tsx": {
       "maxDuration": 30
+    },
+    "middleware.ts": {
+      "maxDuration": 10
     }
   },
   "headers": [
@@ -23,6 +34,18 @@
         {
           "key": "X-XSS-Protection",
           "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=()"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000; includeSubDomains"
         }
       ]
     },

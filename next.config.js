@@ -1,5 +1,61 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Security headers untuk anti-clone protection
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=(), payment=()',
+          },
+        ],
+      },
+    ];
+  },
+
+  // Environment variables untuk anti-clone system
+  env: {
+    ALLOWED_DOMAINS: process.env.ALLOWED_DOMAINS || 'rama-store.vercel.app,localhost:3000',
+    ANTI_CLONE_ENABLED: process.env.ANTI_CLONE_ENABLED || 'true',
+    ANTI_CLONE_BYPASS_SECRET: process.env.ANTI_CLONE_BYPASS_SECRET,
+    DOMAIN_CHECK_STRICT: process.env.DOMAIN_CHECK_STRICT || 'true',
+  },
+
+  // Redirects untuk domain yang tidak diizinkan (fallback)
+  async redirects() {
+    return [
+      // Redirect www ke non-www untuk konsistensi
+      {
+        source: '/(.*)',
+        has: [
+          {
+            type: 'host',
+            value: 'www.rama-store.vercel.app',
+          },
+        ],
+        destination: 'https://rama-store.vercel.app/:path*',
+        permanent: true,
+      },
+    ];
+  },
   // Image optimization configuration
 images: {
   remotePatterns: [
