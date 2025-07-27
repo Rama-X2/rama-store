@@ -124,18 +124,6 @@ export default function FeaturedGames({ games, onGameClick }: FeaturedGamesProps
                   <p className="text-xs text-white/90 line-clamp-2">{game.description}</p>
                 </div>
               </div>
-              
-              {/* Play button overlay */}
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 
-                            group-hover:opacity-100 transition-all duration-300">
-                <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full 
-                              flex items-center justify-center transform scale-75 
-                              group-hover:scale-100 transition-transform duration-300">
-                  <div className="w-0 h-0 border-l-[8px] border-l-white 
-                                border-t-[6px] border-t-transparent 
-                                border-b-[6px] border-b-transparent ml-1"></div>
-                </div>
-              </div>
 
               {/* Shine effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent 
