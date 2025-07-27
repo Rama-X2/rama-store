@@ -1,3 +1,7 @@
+##**📝 Catatan:** Project ini dibuat untuk tugas kuliah dan tidak terhubung dengan server pembayaran nyata. Semua fitur topup hanya simulasi untuk demo purposes.
+
+-------
+
 # 🎮 Website TopUp Game Premium - Lengkap & Modern
 
 Selamat datang di **Website TopUp Game Premium**! Ini adalah platform topup game modern dengan tampilan yang memukau dan animasi spektakuler. Website ini dibuat menggunakan **Next.js 14**, **TypeScript**, **Tailwind CSS**, dan **Framer Motion** untuk memberikan pengalaman pengguna terbaik.
