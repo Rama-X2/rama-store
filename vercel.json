@@ -4,7 +4,6 @@
   "installCommand": "npm install",
   "regions": ["iad1"],
   
-  // Environment variables untuk anti-clone protection
   "env": {
     "ALLOWED_DOMAINS": "rama-store.vercel.app,localhost:3000,localhost:3001",
     "ANTI_CLONE_ENABLED": "true",
