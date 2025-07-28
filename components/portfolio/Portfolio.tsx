@@ -391,14 +391,7 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                         />
                       </div>
                     </div>
-                    <motion.div
-                      className="absolute -top-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.6, ease: "easeOut" }}
-                    >
-                      <span className="text-xs font-bold">👋</span>
-                    </motion.div>
+
                   </motion.div>
 
                   <div>
