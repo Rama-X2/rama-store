@@ -71,7 +71,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 pb-16 overflow-y-auto"
+      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-6 pb-20 overflow-y-auto"
       onClick={onClose}
     >
       <motion.div
@@ -79,11 +79,11 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.8, opacity: 0, y: 50 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
-        className="w-full max-w-4xl my-8 mx-auto rounded-2xl bg-dark border border-gray-700"
+        className="w-full max-w-4xl my-12 mx-auto rounded-3xl bg-dark border border-gray-700 shadow-2xl"
         onClick={(e: React.MouseEvent) => e.stopPropagation()}
       >
         {/* Header dengan banner game yang lebih besar dan menarik */}
-        <div className="relative h-64 bg-gradient-to-br from-primary/20 to-secondary/20 overflow-hidden">
+        <div className="relative h-64 bg-gradient-to-br from-primary/20 to-secondary/20 overflow-hidden rounded-t-3xl">
           {/* Parallax background */}
           <motion.div 
             className="absolute inset-0 scale-110"
@@ -144,12 +144,12 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
           {/* Close button */}
           <motion.button
             onClick={onClose}
-            className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 rounded-full 
-                     flex items-center justify-center text-white hover:bg-black/70 transition-colors backdrop-blur-sm"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            className="absolute top-6 right-6 z-10 w-12 h-12 bg-black/60 rounded-2xl 
+                     flex items-center justify-center text-white hover:bg-black/80 transition-all duration-200 backdrop-blur-md border border-white/10"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <X size={20} />
+            <X size={24} />
           </motion.button>
           
           {/* Game info dengan desain yang lebih menarik */}
@@ -605,7 +605,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
           </div>
 
           {/* Purchase Section - No 14 */}
-          <div className="p-6 pb-24 border-t border-gray-700 bg-dark-light/30">
+          <div className="p-6 pb-8 border-t border-gray-700 bg-dark-light/30 rounded-b-3xl">
             {/* Order Summary */}
             {selectedPackage && (
               <motion.div
@@ -671,7 +671,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
-              className="mt-8 mb-12 grid grid-cols-3 gap-4 text-center"
+              className="mt-6 grid grid-cols-3 gap-4 text-center"
             >
               <div className="flex flex-col items-center">
                 <Shield className="w-6 h-6 md:w-8 md:h-8 text-green-400 mb-1 md:mb-2" />
