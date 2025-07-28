@@ -32,6 +32,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
   const [selectedPackage, setSelectedPackage] = useState<number | null>(null)
   const [userId, setUserId] = useState('')
   const [serverId, setServerId] = useState('')
+  const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
   const { showSuccess, showError } = useToastContext()
@@ -39,6 +40,10 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
   const handlePurchase = () => {
     if (!selectedPackage || !userId || !serverId) {
       showError('Data Tidak Lengkap', 'Mohon lengkapi User ID dan Server ID terlebih dahulu.')
+      return
+    }
+    if (!selectedPayment) {
+      showError('Metode Pembayaran Belum Dipilih', 'Mohon pilih metode pembayaran terlebih dahulu.')
       return
     }
     setShowConfirmModal(true)
@@ -252,9 +257,9 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
         {/* Game Info Section - No 12 */}
         <div className="p-4 md:p-6 border-b border-gray-700">
         <div className="grid lg:grid-cols-5 gap-4 md:gap-8">
-        {/* Left side - User Input (2 columns) */}
+        {/* Left side - User Input (2 columns) - Yellow Border */}
         <div className="lg:col-span-2 space-y-4 md:space-y-6">
-        <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6">
+        <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6 border-2 border-yellow-400">
         <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-white">Data Akun</h3>
         <div className="space-y-3 md:space-y-4">
         <Input
@@ -277,9 +282,9 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
         </div>
               </div>
 
-        {/* Middle - Payment Method (2 columns) */}
+        {/* Middle - Payment Method (2 columns) - Red Border */}
         <div className="lg:col-span-2">
-        <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6">
+        <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6 border-2 border-red-500">
         <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-white">Metode Pembayaran</h3>
         
         {/* E-Wallet Section */}
@@ -294,15 +299,21 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
         ].map((payment) => (
           <motion.div
             key={payment.name}
-            className="relative p-2 rounded-lg bg-white border border-gray-200 
-            hover:border-primary/50 cursor-pointer transition-all duration-200 group
-            hover:shadow-lg hover:-translate-y-1"
+            onClick={() => setSelectedPayment(payment.name)}
+            className={`relative p-2 rounded-lg border cursor-pointer transition-all duration-200 group
+            hover:shadow-lg hover:-translate-y-1 ${
+              selectedPayment === payment.name
+                ? 'bg-primary/10 border-primary'
+                : 'bg-white border-gray-200 hover:border-primary/50'
+            }`}
               whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
         >
           <input 
             type="radio" 
             name="payment" 
+            checked={selectedPayment === payment.name}
+            onChange={() => setSelectedPayment(payment.name)}
             className="absolute top-1 right-1 text-primary scale-75" 
           />
             <div className="flex items-center space-x-2">
@@ -344,15 +355,21 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                 ].map((payment) => (
                   <motion.div
                   key={payment.name}
-                className="relative p-2 rounded-lg bg-white border border-gray-200 
-                hover:border-primary/50 cursor-pointer transition-all duration-200 group
-              hover:shadow-lg hover:-translate-y-1"
+                  onClick={() => setSelectedPayment(payment.name)}
+                className={`relative p-2 rounded-lg border cursor-pointer transition-all duration-200 group
+              hover:shadow-lg hover:-translate-y-1 ${
+                selectedPayment === payment.name
+                  ? 'bg-primary/10 border-primary'
+                  : 'bg-white border-gray-200 hover:border-primary/50'
+              }`}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             >
               <input 
               type="radio" 
               name="payment" 
+              checked={selectedPayment === payment.name}
+              onChange={() => setSelectedPayment(payment.name)}
             className="absolute top-1 right-1 text-primary scale-75" 
           />
             <div className="flex items-center space-x-2">
@@ -394,15 +411,21 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                       ].map((payment) => (
                         <motion.div
                           key={payment.name}
-                          className="relative p-2 rounded-lg bg-white border border-gray-200 
-                          hover:border-primary/50 cursor-pointer transition-all duration-200 group
-                          hover:shadow-lg hover:-translate-y-1"
+                          onClick={() => setSelectedPayment(payment.name)}
+                          className={`relative p-2 rounded-lg border cursor-pointer transition-all duration-200 group
+                          hover:shadow-lg hover:-translate-y-1 ${
+                            selectedPayment === payment.name
+                              ? 'bg-primary/10 border-primary'
+                              : 'bg-white border-gray-200 hover:border-primary/50'
+                          }`}
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                         >
                           <input 
                             type="radio" 
                             name="payment" 
+                            checked={selectedPayment === payment.name}
+                            onChange={() => setSelectedPayment(payment.name)}
                             className="absolute top-1 right-1 text-primary scale-75" 
                           />
                           <div className="flex items-center space-x-2">
@@ -446,15 +469,21 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                       ].map((payment) => (
                         <motion.div
                           key={payment.name}
-                          className="relative p-2 rounded-lg bg-white border border-gray-200 
-                          hover:border-primary/50 cursor-pointer transition-all duration-200 group
-                          hover:shadow-lg hover:-translate-y-1"
+                          onClick={() => setSelectedPayment(payment.name)}
+                          className={`relative p-2 rounded-lg border cursor-pointer transition-all duration-200 group
+                          hover:shadow-lg hover:-translate-y-1 ${
+                            selectedPayment === payment.name
+                              ? 'bg-primary/10 border-primary'
+                              : 'bg-white border-gray-200 hover:border-primary/50'
+                          }`}
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                         >
                           <input 
                             type="radio" 
                             name="payment" 
+                            checked={selectedPayment === payment.name}
+                            onChange={() => setSelectedPayment(payment.name)}
                             className="absolute top-1 right-1 text-primary scale-75" 
                           />
                           <div className="flex items-center space-x-2">
@@ -604,6 +633,10 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                     <span className="text-gray-400">Server:</span>
                     <span className="text-white font-medium">{serverId || '-'}</span>
                   </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Pembayaran:</span>
+                    <span className="text-white font-medium">{selectedPayment || '-'}</span>
+                  </div>
                   <div className="border-t border-gray-600 pt-3 flex justify-between text-lg">
                     <span className="text-white font-semibold">Total:</span>
                     <span className="text-primary font-bold">
@@ -623,7 +656,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
             >
               <Button
                 onClick={handlePurchase}
-                disabled={!selectedPackage || !userId || !serverId}
+                disabled={!selectedPackage || !userId || !serverId || !selectedPayment}
                 size="lg"
                 glow
                 icon={<ShoppingCart size={20} />}
