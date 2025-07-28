@@ -513,7 +513,6 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                   </div>
                 </div>
               </div>
-            </div>
 
               {/* Right side - Game Detail Info (1 column) */}
               <div className="lg:col-span-1">
