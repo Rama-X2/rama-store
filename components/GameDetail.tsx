@@ -279,20 +279,99 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                 {/* Payment Method */}
                 <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6">
                   <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-white">Metode Pembayaran</h3>
-                  <div className="space-y-2 md:space-y-3">
-                    {['E-Wallet', 'Bank Transfer', 'Minimarket', 'Pulsa'].map((method) => (
-                      <motion.div
-                      key={method}
-                      className="flex items-center space-x-3 p-2 md:p-3 rounded-lg bg-dark-light/50 
-                      hover:bg-dark-light cursor-pointer transition-colors"
-                      whileHover={{ scale: 1.02 }}
-                      >
-                      <label className="flex items-center space-x-3 cursor-pointer w-full">
-                        <input type="radio" name="payment" className="text-primary" />
-                        <span className="text-white text-sm md:text-base">{method}</span>
-                      </label>
-                    </motion.div>
-                    ))}
+                  
+                  {/* E-Wallet Section */}
+                  <div className="mb-4">
+                    <h4 className="text-sm font-medium text-gray-300 mb-2">E-Wallet</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { name: 'GoPay', icon: '🟢' },
+                        { name: 'ShopeePay', icon: '🧡' },
+                        { name: 'OVO', icon: '💜' },
+                        { name: 'DANA', icon: '🔵' }
+                      ].map((wallet) => (
+                        <motion.div
+                          key={wallet.name}
+                          className="flex items-center space-x-2 p-2 rounded-lg bg-dark-light/50 
+                          hover:bg-dark-light cursor-pointer transition-colors border border-gray-700 hover:border-primary/50"
+                          whileHover={{ scale: 1.02 }}
+                        >
+                          <input type="radio" name="payment" className="text-primary" />
+                          <span className="text-lg">{wallet.icon}</span>
+                          <span className="text-white text-xs md:text-sm">{wallet.name}</span>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Bank Transfer Section */}
+                  <div className="mb-4">
+                    <h4 className="text-sm font-medium text-gray-300 mb-2">Bank Transfer</h4>
+                    <div className="grid grid-cols-1 gap-2">
+                      {[
+                        { name: 'BCA Virtual Account', icon: '🏦' },
+                        { name: 'Mandiri Virtual Account', icon: '🏛️' },
+                        { name: 'BNI Virtual Account', icon: '🏢' },
+                        { name: 'BRI Virtual Account', icon: '🏪' }
+                      ].map((bank) => (
+                        <motion.div
+                          key={bank.name}
+                          className="flex items-center space-x-2 p-2 rounded-lg bg-dark-light/50 
+                          hover:bg-dark-light cursor-pointer transition-colors border border-gray-700 hover:border-primary/50"
+                          whileHover={{ scale: 1.02 }}
+                        >
+                          <input type="radio" name="payment" className="text-primary" />
+                          <span className="text-lg">{bank.icon}</span>
+                          <span className="text-white text-xs md:text-sm">{bank.name}</span>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Minimarket Section */}
+                  <div className="mb-4">
+                    <h4 className="text-sm font-medium text-gray-300 mb-2">Minimarket</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { name: 'Indomaret', icon: '🏪' },
+                        { name: 'Alfamart', icon: '🏬' }
+                      ].map((store) => (
+                        <motion.div
+                          key={store.name}
+                          className="flex items-center space-x-2 p-2 rounded-lg bg-dark-light/50 
+                          hover:bg-dark-light cursor-pointer transition-colors border border-gray-700 hover:border-primary/50"
+                          whileHover={{ scale: 1.02 }}
+                        >
+                          <input type="radio" name="payment" className="text-primary" />
+                          <span className="text-lg">{store.icon}</span>
+                          <span className="text-white text-xs md:text-sm">{store.name}</span>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Pulsa Section */}
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-300 mb-2">Pulsa</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { name: 'Telkomsel', icon: '📱' },
+                        { name: 'Indosat', icon: '📲' },
+                        { name: 'XL', icon: '📞' },
+                        { name: 'Tri', icon: '☎️' }
+                      ].map((provider) => (
+                        <motion.div
+                          key={provider.name}
+                          className="flex items-center space-x-2 p-2 rounded-lg bg-dark-light/50 
+                          hover:bg-dark-light cursor-pointer transition-colors border border-gray-700 hover:border-primary/50"
+                          whileHover={{ scale: 1.02 }}
+                        >
+                          <input type="radio" name="payment" className="text-primary" />
+                          <span className="text-lg">{provider.icon}</span>
+                          <span className="text-white text-xs md:text-sm">{provider.name}</span>
+                        </motion.div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
