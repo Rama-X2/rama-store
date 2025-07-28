@@ -10,24 +10,12 @@ import Input from './ui/Input'
 import { PurchaseConfirmModal } from './ui/ConfirmModal'
 import { useToastContext } from './ui/ToastProvider'
 import { paymentMethods, getPaymentMethodsByCategory } from '../lib/payment-images'
+import { getPackagesByGameId, TopupPackage } from '../lib/game-packages'
 
 interface GameDetailProps {
   game: Game
   onClose: () => void
 }
-
-const topupPackages = [
-  { id: 1, amount: '86 Diamonds', price: 'Rp 20.000', originalPrice: 'Rp 25.000', popular: false },
-  { id: 2, amount: '172 Diamonds', price: 'Rp 40.000', originalPrice: 'Rp 50.000', popular: false },
-  { id: 3, amount: '257 Diamonds', price: 'Rp 60.000', originalPrice: 'Rp 75.000', popular: true },
-  { id: 4, amount: '344 Diamonds', price: 'Rp 80.000', originalPrice: 'Rp 100.000', popular: false },
-  { id: 5, amount: '429 Diamonds', price: 'Rp 100.000', originalPrice: 'Rp 125.000', popular: false },
-  { id: 6, amount: '514 Diamonds', price: 'Rp 120.000', originalPrice: 'Rp 150.000', popular: false },
-  { id: 7, amount: '878 Diamonds', price: 'Rp 200.000', originalPrice: 'Rp 250.000', popular: false },
-  { id: 8, amount: '1159 Diamonds', price: 'Rp 250.000', originalPrice: 'Rp 300.000', popular: false },
-  { id: 9, amount: '2195 Diamonds', price: 'Rp 500.000', originalPrice: 'Rp 625.000', popular: false },
-  { id: 10, amount: '4830 Diamonds', price: 'Rp 1.000.000', originalPrice: 'Rp 1.250.000', popular: false },
-]
 
 export default function GameDetail({ game, onClose }: GameDetailProps) {
   const [selectedPackage, setSelectedPackage] = useState<number | null>(null)
@@ -37,6 +25,9 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
   const { showSuccess, showError } = useToastContext()
+
+  // Get packages specific to this game
+  const topupPackages = getPackagesByGameId(game.id)
 
   // Payment method categories
   const paymentCategories = [
