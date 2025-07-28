@@ -2,38 +2,60 @@
 @media (max-width: 768px) {
   .game-card {
     @apply hover:scale-100;
+    will-change: transform;
+    transform: translateZ(0);
   }
   
   .game-card:active {
     @apply scale-95;
+    transition: transform 0.1s ease;
   }
   
   .glass-effect {
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
   }
   
   .featured-game-card {
     @apply hover:scale-100;
+    will-change: transform;
+    transform: translateZ(0);
   }
   
   .featured-game-card:active {
     @apply scale-95;
+    transition: transform 0.1s ease;
   }
   
   /* Reduce motion for better mobile performance */
   * {
-    animation-duration: 0.2s !important;
-    transition-duration: 0.2s !important;
+    animation-duration: 0.15s !important;
+    transition-duration: 0.15s !important;
+  }
+  
+  /* Disable hover effects on mobile */
+  .hover\:shadow-glow:hover {
+    box-shadow: none !important;
   }
   
   /* Better touch targets */
   button, .cursor-pointer {
     min-height: 44px;
+    touch-action: manipulation;
   }
   
   /* Prevent zoom on input focus */
   input, textarea, select {
     font-size: 16px;
+    transform: translateZ(0);
+  }
+  
+  /* Mobile scrolling optimization */
+  .custom-scrollbar {
+    -webkit-overflow-scrolling: touch;
+    overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    contain: layout style paint;
   }
   
   /* Portfolio modal mobile adjustments */
@@ -212,6 +234,10 @@
   overflow-scrolling: touch;
   transform: translateZ(0);
   will-change: scroll-position;
+  scroll-behavior: smooth;
+  contain: layout style paint;
+  /* Throttle scroll events for better performance */
+  overscroll-behavior: contain;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -598,7 +624,7 @@ hover:bg-primary/20 transition-all duration-300;
     background: linear-gradient(135deg, #4f46e5, #7c3aed);
   }
 
-  /* Performance optimizations */
+/* Performance optimizations */
   .will-change-transform {
     will-change: transform;
   }
@@ -610,3 +636,83 @@ hover:bg-primary/20 transition-all duration-300;
   .transform-gpu {
     transform: translateZ(0);
   }
+
+  /* Mobile-specific performance tweaks */
+  @media (max-width: 768px) {
+    /* Reduce expensive transforms and animations */
+    .motion-div {
+      will-change: transform;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    
+    /* Better layer management */
+    .glass-effect, .game-detail-popup {
+      contain: layout style paint;
+      transform: translateZ(0);
+    }
+    
+    /* Optimize scrolling containers */
+    .scroll-container {
+      -webkit-overflow-scrolling: touch;
+      overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      scroll-behavior: smooth;
+    }
+    
+    /* Disable expensive effects on mobile */
+    .shadow-glow {
+      box-shadow: none !important;
+    }
+    
+    /* Reduce backdrop blur intensity */
+    .backdrop-blur-sm {
+      backdrop-filter: blur(4px) !important;
+      -webkit-backdrop-filter: blur(4px) !important;
+    }
+    
+    .backdrop-blur-md {
+      backdrop-filter: blur(6px) !important;
+      -webkit-backdrop-filter: blur(6px) !important;
+    }
+  }
+
+/* Performance mode optimizations */
+.performance-mode * {
+  animation-duration: 0.1s !important;
+  transition-duration: 0.1s !important;
+}
+
+.performance-mode .backdrop-blur-sm {
+  backdrop-filter: blur(2px) !important;
+  -webkit-backdrop-filter: blur(2px) !important;
+}
+
+.performance-mode .backdrop-blur-md {
+  backdrop-filter: blur(3px) !important;
+  -webkit-backdrop-filter: blur(3px) !important;
+}
+
+.performance-mode .shadow-glow {
+  box-shadow: none !important;
+}
+
+.performance-mode .glass-effect {
+  backdrop-filter: blur(2px) !important;
+  -webkit-backdrop-filter: blur(2px) !important;
+}
+
+/* CSS custom properties for viewport */
+:root {
+  --vh: 1vh;
+  --vw: 1vw;
+}
+
+/* Use custom viewport units for better mobile support */
+.min-h-screen {
+  min-height: calc(var(--vh, 1vh) * 100);
+}
+
+.h-screen {
+  height: calc(var(--vh, 1vh) * 100);
+}

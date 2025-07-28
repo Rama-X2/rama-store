@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import Image from 'next/image'
 import { X, ShoppingCart, Star, Clock, Shield } from 'lucide-react'
 import { Game } from '../types/game'
@@ -9,8 +9,25 @@ import Button from './ui/Button'
 import Input from './ui/Input'
 import { PurchaseConfirmModal } from './ui/ConfirmModal'
 import { useToastContext } from './ui/ToastProvider'
-import { useEffect } from 'react'
 import { paymentMethods, getPaymentMethodsByCategory } from '../lib/payment-images'
+import { throttle, getMobileAnimationConfig, isMobile } from '../lib/mobile-performance'
+import { usePerformanceMonitor, useTouchOptimization, useViewportOptimization, useMemoryCleanup } from '../lib/performance-hooks'
+import { OptimizedPaymentSelector, OptimizedPackageSelector } from './VirtualizedComponents'
+
+// Debounce utility function for performance optimization
+function debounce<T extends (...args: any[]) => any>(
+  func: T,
+  wait: number
+): (...args: Parameters<T>) => void {
+  let timeout: NodeJS.Timeout
+  return (...args: Parameters<T>) => {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => func(...args), wait)
+  }
+}
+
+// Get optimized animation config based on device
+const animationConfig = getMobileAnimationConfig()
 
 interface GameDetailProps {
   game: Game
@@ -39,11 +56,56 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
   const [isProcessing, setIsProcessing] = useState(false)
   const { showSuccess, showError } = useToastContext()
 
-  // Disable body scroll when popup is open
+  // Performance optimization hooks
+  const fps = usePerformanceMonitor()
+  useTouchOptimization()
+  useViewportOptimization()
+  useMemoryCleanup()
+
+  // Memoize payment methods to prevent unnecessary re-renders
+  const paymentMethodsData = useMemo(() => ({
+    ewallet: getPaymentMethodsByCategory('e-wallet'),
+    bank: [...getPaymentMethodsByCategory('bank'), ...getPaymentMethodsByCategory('qr-code')],
+    convenience: getPaymentMethodsByCategory('convenience-store'),
+    mobile: getPaymentMethodsByCategory('mobile-provider')
+  }), [])
+
+  // Throttled scroll handler for better performance
+  const throttledScrollHandler = useCallback(
+    throttle(() => {
+      // Handle scroll events efficiently
+    }, 16), // 60fps
+    []
+  )
+
+  // Debounced input handlers for better performance
+  const debouncedSetUserId = useCallback(
+    debounce((value: string) => setUserId(value), 300),
+    []
+  )
+  
+  const debouncedSetServerId = useCallback(
+    debounce((value: string) => setServerId(value), 300),
+    []
+  )
+
+  // Disable body scroll when popup is open with performance optimization
   useEffect(() => {
+    const originalOverflow = document.body.style.overflow
+    const originalPosition = document.body.style.position
+    const originalWidth = document.body.style.width
+    const originalHeight = document.body.style.height
+    
     document.body.style.overflow = 'hidden'
+    document.body.style.position = 'fixed'
+    document.body.style.width = '100%'
+    document.body.style.height = '100%'
+    
     return () => {
-      document.body.style.overflow = 'unset'
+      document.body.style.overflow = originalOverflow
+      document.body.style.position = originalPosition
+      document.body.style.width = originalWidth
+      document.body.style.height = originalHeight
     }
   }, [])
 
@@ -80,17 +142,29 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 md:p-6 overflow-hidden"
+      transition={{ duration: animationConfig.duration }}
+      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 md:p-6 overflow-hidden game-detail-popup"
       onClick={onClose}
+      style={{
+        contain: 'layout style paint',
+        backfaceVisibility: 'hidden',
+        WebkitBackfaceVisibility: 'hidden'
+      }}
     >
       <motion.div
-        initial={{ scale: 0.8, opacity: 0, y: 50 }}
+        initial={{ scale: 0.95, opacity: 0, y: 20 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.8, opacity: 0, y: 50 }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
-        className="w-full max-w-4xl max-h-[95vh] mx-auto rounded-3xl bg-dark border border-gray-700 shadow-2xl overflow-hidden flex flex-col"
+        exit={{ scale: 0.95, opacity: 0, y: 20 }}
+        transition={{ duration: animationConfig.duration, ease: animationConfig.ease }}
+        className="w-full max-w-4xl max-h-[95vh] mx-auto rounded-3xl bg-dark border border-gray-700 shadow-2xl overflow-hidden flex flex-col will-change-transform motion-div"
         onClick={(e: React.MouseEvent) => e.stopPropagation()}
+        style={{ 
+          contain: 'layout style paint size',
+          isolation: 'isolate',
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden',
+          perspective: '1000px'
+        }}
       >
         {/* Header dengan banner game yang lebih besar dan menarik */}
         <div className="relative h-48 md:h-64 bg-gradient-to-br from-primary/20 to-secondary/20 overflow-hidden rounded-t-3xl flex-shrink-0">
@@ -98,11 +172,11 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
           <motion.div 
             className="absolute inset-0 scale-110"
             animate={{
-              scale: [1.1, 1.15, 1.1],
-              rotate: [0, 1, 0]
+              scale: [1.1, 1.12, 1.1],
+              rotate: [0, 0.5, 0]
             }}
             transition={{
-              duration: 8,
+              duration: 12,
               repeat: Infinity,
               ease: "easeInOut"
             }}
@@ -124,9 +198,10 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
           
-          {/* Floating particles effect */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {[...Array(10)].map((_, i) => (
+          {/* Floating particles effect - reduced for mobile performance */}
+          {!isMobile() && (
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              {[...Array(4)].map((_, i) => (
               <motion.div
                 key={i}
                 initial={{ 
@@ -137,19 +212,20 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                 }}
                 animate={{ 
                   y: '-10%',
-                  opacity: [0, 1, 0],
-                  scale: [0, Math.random() * 0.8 + 0.5, 0]
+                  opacity: [0, 0.8, 0],
+                  scale: [0, Math.random() * 0.6 + 0.4, 0]
                 }}
                 transition={{
-                  duration: Math.random() * 3 + 2,
+                  duration: Math.random() * 4 + 3,
                   repeat: Infinity,
-                  delay: Math.random() * 2,
+                  delay: Math.random() * 3,
                   ease: "easeOut"
                 }}
-                className="absolute w-1 h-1 bg-white/30 rounded-full"
+                className="absolute w-1 h-1 bg-white/20 rounded-full"
               />
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
           
           {/* Close button */}
           <motion.button
@@ -167,12 +243,12 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
             {/* Game icon dengan efek glow */}
             <motion.div 
               className="relative"
-              animate={{
-                y: [0, -5, 0],
-                rotate: [0, 2, 0]
+              animate={isMobile() ? {} : {
+                y: [0, -3, 0],
+                rotate: [0, 1, 0]
               }}
               transition={{
-                duration: 3,
+                duration: 4,
                 repeat: Infinity,
                 ease: "easeInOut"
               }}
@@ -206,19 +282,21 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                 <div className="absolute inset-0 rounded-xl md:rounded-2xl bg-gradient-to-br from-primary/30 to-secondary/30 
                               opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
-              {/* Pulsing ring */}
-              <motion.div
-                animate={{ 
-                  scale: [1, 1.2, 1],
-                  opacity: [0.3, 0, 0.3]
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-                className="absolute inset-0 rounded-xl md:rounded-2xl border-2 border-white/40"
-              />
+              {/* Pulsing ring - reduced for mobile */}
+              {!isMobile() && (
+                <motion.div
+                  animate={{ 
+                    scale: [1, 1.1, 1],
+                    opacity: [0.2, 0, 0.2]
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                  className="absolute inset-0 rounded-xl md:rounded-2xl border-2 border-white/30"
+                />
+              )}
             </motion.div>
             
             {/* Game details */}
@@ -263,7 +341,19 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
         </div>
 
         {/* Content */}
-        <div className="custom-scrollbar flex-1 overflow-y-auto pb-8" style={{scrollbarWidth: 'none', msOverflowStyle: 'none'}}>
+        <div 
+          className="custom-scrollbar flex-1 overflow-y-auto pb-8 will-change-scroll scroll-container" 
+          onScroll={throttledScrollHandler}
+          style={{
+            scrollbarWidth: 'none', 
+            msOverflowStyle: 'none',
+            contain: 'layout style paint size',
+            transform: 'translateZ(0)',
+            WebkitOverflowScrolling: 'touch',
+            isolation: 'isolate',
+            overscrollBehavior: 'contain'
+          }}
+        >
         {/* Game Info Section - No 12 */}
         <div className="p-4 md:p-6 border-b border-gray-700">
         <div className="grid lg:grid-cols-5 gap-4 md:gap-8">
@@ -275,16 +365,16 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
         <Input
         label="User ID"
         type="text"
-        value={userId}
-        onChange={(e) => setUserId(e.target.value)}
+        defaultValue={userId}
+        onChange={(e) => debouncedSetUserId(e.target.value)}
         placeholder="Masukkan User ID"
         helperText="ID pengguna akun game Anda"
         />
         <Input
         label="Server ID"
         type="text"
-        value={serverId}
-        onChange={(e) => setServerId(e.target.value)}
+        defaultValue={serverId}
+        onChange={(e) => debouncedSetServerId(e.target.value)}
         placeholder="Masukkan Server ID"
         helperText="ID server tempat Anda bermain"
         />
@@ -300,216 +390,45 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
         {/* E-Wallet Section */}
         <div className="mb-4">
         <h4 className="text-sm font-medium text-gray-300 mb-2">E-Wallet</h4>
-        <div className="grid grid-cols-2 gap-2">
-        {getPaymentMethodsByCategory('e-wallet').map((payment) => (
-          <motion.div
-            key={payment.name}
-            onClick={() => setSelectedPayment(payment.name)}
-            className={`relative p-2 rounded-lg border cursor-pointer transition-all duration-200 group
-            hover:shadow-lg hover:-translate-y-1 ${
-              selectedPayment === payment.name
-                ? 'bg-primary/10 border-primary'
-                : 'bg-white border-gray-200 hover:border-primary/50'
-            }`}
-              whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-        >
-          <input 
-            type="radio" 
-            name="payment" 
-            checked={selectedPayment === payment.name}
-            onChange={() => setSelectedPayment(payment.name)}
-            className="absolute top-1 right-1 text-primary scale-75" 
-          />
-            <div className="flex items-center space-x-2">
-            <div className="w-8 h-6 bg-gray-50 rounded flex items-center justify-center overflow-hidden border">
-            <Image
-              src={payment.icon}
-              alt={payment.name}
-                width={32}
-                height={24}
-              className="w-full h-full object-contain"
-            onError={(e) => {
-            const img = e.target as HTMLImageElement;
-            img.style.display = 'none';
-            const parent = img.parentElement;
-            if (parent) {
-              parent.innerHTML = `<span class="text-xs font-bold text-gray-500">${payment.name.charAt(0)}</span>`;
-            }
-        }}
+        <OptimizedPaymentSelector
+          payments={paymentMethodsData.ewallet}
+          selectedPayment={selectedPayment}
+          onSelect={setSelectedPayment}
+          category="ewallet"
         />
-        </div>
-        <span className="text-xs font-medium text-gray-700 leading-tight">
-        {payment.name}
-        </span>
-        </div>
-        <div className="absolute inset-0 rounded-lg bg-primary/5 opacity-0 
-                      group-hover:opacity-100 transition-opacity duration-200"></div>
-        </motion.div>
-        ))}
-        </div>
         </div>
 
         {/* Bank Transfer Section */}
         <div className="mb-4">
         <h4 className="text-sm font-medium text-gray-300 mb-2">Bank Transfer</h4>
-          <div className="grid grid-cols-1 gap-2">
-              {[
-                  ...getPaymentMethodsByCategory('bank'),
-                  ...getPaymentMethodsByCategory('qr-code')
-                ].map((payment) => (
-                  <motion.div
-                  key={payment.name}
-                  onClick={() => setSelectedPayment(payment.name)}
-                className={`relative p-2 rounded-lg border cursor-pointer transition-all duration-200 group
-              hover:shadow-lg hover:-translate-y-1 ${
-                selectedPayment === payment.name
-                  ? 'bg-primary/10 border-primary'
-                  : 'bg-white border-gray-200 hover:border-primary/50'
-              }`}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            >
-              <input 
-              type="radio" 
-              name="payment" 
-              checked={selectedPayment === payment.name}
-              onChange={() => setSelectedPayment(payment.name)}
-            className="absolute top-1 right-1 text-primary scale-75" 
-          />
-            <div className="flex items-center space-x-2">
-                <div className="w-8 h-6 bg-gray-50 rounded flex items-center justify-center overflow-hidden border">
-                  <Image
-                  src={payment.icon}
-                  alt={payment.name}
-                width={32}
-                height={24}
-                  className="w-full h-full object-contain"
-                    onError={(e) => {
-                      const img = e.target as HTMLImageElement;
-                    img.style.display = 'none';
-                    const parent = img.parentElement;
-                  if (parent) {
-                    parent.innerHTML = `<span class="text-xs font-bold text-gray-500">${payment.name.charAt(0)}</span>`;
-                    }
-                    }}
-                    />
-                    </div>
-                      <span className="text-xs font-medium text-gray-700 leading-tight">
-                          {payment.name}
-                          </span>
-                          </div>
-                          <div className="absolute inset-0 rounded-lg bg-primary/5 opacity-0 
-                                        group-hover:opacity-100 transition-opacity duration-200"></div>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
+        <OptimizedPaymentSelector
+          payments={paymentMethodsData.bank}
+          selectedPayment={selectedPayment}
+          onSelect={setSelectedPayment}
+          category="bank"
+        />
+        </div>
 
                   {/* Minimarket Section */}
                   <div className="mb-4">
                     <h4 className="text-sm font-medium text-gray-300 mb-2">Minimarket</h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      {getPaymentMethodsByCategory('convenience-store').map((payment) => (
-                        <motion.div
-                          key={payment.name}
-                          onClick={() => setSelectedPayment(payment.name)}
-                          className={`relative p-2 rounded-lg border cursor-pointer transition-all duration-200 group
-                          hover:shadow-lg hover:-translate-y-1 ${
-                            selectedPayment === payment.name
-                              ? 'bg-primary/10 border-primary'
-                              : 'bg-white border-gray-200 hover:border-primary/50'
-                          }`}
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          <input 
-                            type="radio" 
-                            name="payment" 
-                            checked={selectedPayment === payment.name}
-                            onChange={() => setSelectedPayment(payment.name)}
-                            className="absolute top-1 right-1 text-primary scale-75" 
-                          />
-                          <div className="flex items-center space-x-2">
-                            <div className="w-8 h-6 bg-gray-50 rounded flex items-center justify-center overflow-hidden border">
-                              <Image
-                                src={payment.icon}
-                                alt={payment.name}
-                                width={32}
-                                height={24}
-                                className="w-full h-full object-contain"
-                                onError={(e) => {
-                                  const img = e.target as HTMLImageElement;
-                                  img.style.display = 'none';
-                                  const parent = img.parentElement;
-                                  if (parent) {
-                                    parent.innerHTML = `<span class="text-xs font-bold text-gray-500">${payment.name.charAt(0)}</span>`;
-                                  }
-                                }}
-                              />
-                            </div>
-                            <span className="text-xs font-medium text-gray-700 leading-tight">
-                              {payment.name}
-                            </span>
-                          </div>
-                          <div className="absolute inset-0 rounded-lg bg-primary/5 opacity-0 
-                                        group-hover:opacity-100 transition-opacity duration-200"></div>
-                        </motion.div>
-                      ))}
-                    </div>
+                    <OptimizedPaymentSelector
+                      payments={paymentMethodsData.convenience}
+                      selectedPayment={selectedPayment}
+                      onSelect={setSelectedPayment}
+                      category="convenience"
+                    />
                   </div>
 
                   {/* Pulsa Section */}
                   <div>
                     <h4 className="text-sm font-medium text-gray-300 mb-2">Pulsa</h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      {getPaymentMethodsByCategory('mobile-provider').map((payment) => (
-                        <motion.div
-                          key={payment.name}
-                          onClick={() => setSelectedPayment(payment.name)}
-                          className={`relative p-2 rounded-lg border cursor-pointer transition-all duration-200 group
-                          hover:shadow-lg hover:-translate-y-1 ${
-                            selectedPayment === payment.name
-                              ? 'bg-primary/10 border-primary'
-                              : 'bg-white border-gray-200 hover:border-primary/50'
-                          }`}
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          <input 
-                            type="radio" 
-                            name="payment" 
-                            checked={selectedPayment === payment.name}
-                            onChange={() => setSelectedPayment(payment.name)}
-                            className="absolute top-1 right-1 text-primary scale-75" 
-                          />
-                          <div className="flex items-center space-x-2">
-                            <div className="w-8 h-6 bg-gray-50 rounded flex items-center justify-center overflow-hidden border">
-                              <Image
-                                src={payment.icon}
-                                alt={payment.name}
-                                width={32}
-                                height={24}
-                                className="w-full h-full object-contain"
-                                onError={(e) => {
-                                  const img = e.target as HTMLImageElement;
-                                  img.style.display = 'none';
-                                  const parent = img.parentElement;
-                                  if (parent) {
-                                    parent.innerHTML = `<span class="text-xs font-bold text-gray-500">${payment.name.charAt(0)}</span>`;
-                                  }
-                                }}
-                              />
-                            </div>
-                            <span className="text-xs font-medium text-gray-700 leading-tight">
-                              {payment.name}
-                            </span>
-                          </div>
-                          <div className="absolute inset-0 rounded-lg bg-primary/5 opacity-0 
-                                        group-hover:opacity-100 transition-opacity duration-200"></div>
-                        </motion.div>
-                      ))}
-                    </div>
+                    <OptimizedPaymentSelector
+                      payments={paymentMethodsData.mobile}
+                      selectedPayment={selectedPayment}
+                      onSelect={setSelectedPayment}
+                      category="mobile"
+                    />
                   </div>
                 </div>
               </div>
@@ -557,48 +476,11 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
               Pilih Nominal Top Up
             </h3>
             
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-              {topupPackages.map((pkg) => (
-                <motion.div
-                  key={pkg.id}
-                  onClick={() => setSelectedPackage(pkg.id)}
-                  className={`relative p-3 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
-                    selectedPackage === pkg.id
-                      ? 'border-primary bg-primary/10 shadow-glow'
-                      : 'border-gray-700 bg-dark-light hover:border-gray-600 hover:bg-gray-800/50'
-                  }`}
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  {pkg.popular && (
-                    <div className="absolute -top-2 left-3 px-2 py-0.5 bg-gradient-to-r 
-                                  from-yellow-400 to-orange-500 rounded-full text-xs font-bold text-black">
-                      POPULER
-                    </div>
-                  )}
-                  
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <h4 className="font-medium text-white text-sm">{pkg.amount}</h4>
-                      <p className="text-lg font-semibold text-primary">{pkg.price}</p>
-                    </div>
-                    <div className={`w-5 h-5 rounded-full border-2 transition-colors ${
-                      selectedPackage === pkg.id
-                        ? 'border-primary bg-primary'
-                        : 'border-gray-400'
-                    }`}>
-                      {selectedPackage === pkg.id && (
-                        <motion.div
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          className="w-full h-full rounded-full bg-white/20"
-                        />
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+            <OptimizedPackageSelector
+              packages={topupPackages}
+              selectedPackage={selectedPackage}
+              onSelect={setSelectedPackage}
+            />
           </div>
 
           {/* Purchase Section - No 14 */}
@@ -606,9 +488,10 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
             {/* Order Summary */}
             {selectedPackage && (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="glass-effect rounded-xl p-6 mb-6"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: animationConfig.duration }}
+                  className="glass-effect rounded-xl p-6 mb-6"
               >
                 <h3 className="text-lg font-semibold mb-4 text-white">Ringkasan Pesanan</h3>
                 <div className="space-y-3">
@@ -647,9 +530,9 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
             {/* Purchase Button */}
             <motion.div
               className="flex justify-center"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
+              transition={{ delay: 0.1, duration: animationConfig.duration }}
             >
               <Button
                 onClick={handlePurchase}
@@ -667,7 +550,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
+              transition={{ delay: 0.2, duration: animationConfig.duration }}
               className="mt-6 grid grid-cols-3 gap-4 text-center"
             >
               <div className="flex flex-col items-center">
