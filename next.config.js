@@ -4,7 +4,18 @@ const nextConfig = {
   swcMinify: true,
   
   images: {
-    domains: ['localhost'],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
     formats: ['image/webp', 'image/avif'],
   },
 

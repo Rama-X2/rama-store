@@ -41,7 +41,7 @@ const portfolioData = {
     bio: "Developer dengan 5 tahun pengalaman dalam membangun solusi digital yang fungsional dan intuitif. Fokus pada pengembangan full stack, serta aktif di bidang modding seperti pembuatan modul Magisk, custom kernel & OS, dan overclocking untuk performa maksimal.",
     avatar: "/images/portfolio/foto_rama.png",
     location: "Sukabumi, Indonesia",
-    email: "rama@server.my.id",
+    email: "rama.server.my.id(CDN CLOUD)",
     phone: "+62 857-9518-5561",
     website: "https://rama.server.my.id",
     github: "https://github.com/Rama-X2",
@@ -359,7 +359,7 @@ export default function Portfolio({ onClose }: PortfolioProps) {
         <motion.div
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
-          className="flex-1 p-6 overflow-y-auto custom-scrollbar"
+          className="flex-1 p-6 overflow-y-auto custom-scrollbar transform-gpu will-change-scroll"
           style={{ background: 'rgba(34, 20, 75, 0.7)' }}
         >
           <AnimatePresence mode="wait">
@@ -378,7 +378,8 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, ease: "easeOut" }}
-                    className="relative mx-auto w-32 h-32 will-change-transform"
+                    className="relative mx-auto w-32 h-32"
+                    style={{ transform: 'translateZ(0)' }}
                   >
                     <div className="w-full h-full rounded-full bg-gradient-to-r from-primary to-secondary p-1">
                       <div className="w-full h-full rounded-full bg-dark-light flex items-center justify-center overflow-hidden">
@@ -496,7 +497,7 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}
                       className="glass-effect p-6 rounded-xl hover:shadow-glow transition-all duration-300"
-                      whileHover={{ scale: 1.02, y: -5 }}
+                      whileHover={{ scale: 1.01, y: -2 }}
                     >
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center space-x-3">
@@ -543,7 +544,7 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}
                       className="glass-effect p-6 rounded-xl hover:shadow-glow transition-all duration-300 cursor-pointer"
-                      whileHover={{ scale: 1.02, y: -5 }}
+                      whileHover={{ scale: 1.01, y: -2 }}
                       onClick={() => setSelectedProject(project)}
                     >
                       <Image
@@ -588,7 +589,7 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.2 }}
                       className="glass-effect p-6 rounded-xl hover:shadow-glow transition-all duration-300"
-                      whileHover={{ scale: 1.02, y: -5 }}
+                      whileHover={{ scale: 1.01, y: -2 }}
                     >
                       <div className="flex items-start space-x-4">
                         <div className="p-3 bg-primary/20 rounded-lg">
@@ -835,15 +836,14 @@ export default function Portfolio({ onClose }: PortfolioProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-gradient-to-br from-[#22144b] to-[#2d1a5a] backdrop-blur-xl flex items-center justify-center p-4"
+            className="portfolio-modal"
           >
             <motion.div
-              initial={{ scale: 0.8, y: 50 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.8, y: 50 }}
-              className="rounded-2xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar"
-              style={{ background: 'rgba(34, 20, 75, 0.92)' }}
-            >
+            initial={{ scale: 0.8, y: 50 }}
+            animate={{ scale: 1, y: 0 }}
+            exit={{ scale: 0.8, y: 50 }}
+            className="portfolio-modal-content"
+          >
               <div className="flex justify-between items-start mb-6">
                 <div>
                   <h2 className="text-3xl font-bold glow-text mb-2">{selectedProject.title}</h2>

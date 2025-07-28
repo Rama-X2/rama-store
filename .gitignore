@@ -39,4 +39,11 @@ next-env.d.ts
 *.log
 .cache 
 
+# Windows system files
+DumpStack.log.tmp
+pagefile.sys
+hiberfil.sys
+swapfile.sys
+System Volume Information
+
 .vercel

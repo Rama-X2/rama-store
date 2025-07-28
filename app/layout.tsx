@@ -51,7 +51,10 @@ export const metadata = {
     canonical: 'https://rama-store.vercel.app',
   },
   icons: {
-    icon: '/favicon.ico',
+    icon: [
+      { url: '/favicon.ico', sizes: '16x16', type: 'image/x-icon' },
+      { url: '/favicon.svg', type: 'image/svg+xml' }
+    ],
     shortcut: '/favicon-16x16.png',
     apple: '/apple-touch-icon.png',
   },
@@ -78,7 +81,7 @@ export default function RootLayout({
       "query-input": "required name=search_term_string"
     },
     "sameAs": [
-      "https://instagram.com/ramastore",
+      "https://instagram.com/rama_tcp",
       "https://facebook.com/ramastore",
       "https://twitter.com/ramastore"
     ]
