@@ -10,6 +10,7 @@ import Input from './ui/Input'
 import { PurchaseConfirmModal } from './ui/ConfirmModal'
 import { useToastContext } from './ui/ToastProvider'
 import { useEffect } from 'react'
+import { paymentMethods, getPaymentMethodsByCategory } from '../lib/payment-images'
 
 interface GameDetailProps {
   game: Game
@@ -300,12 +301,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
         <div className="mb-4">
         <h4 className="text-sm font-medium text-gray-300 mb-2">E-Wallet</h4>
         <div className="grid grid-cols-2 gap-2">
-        {[
-          { name: 'GoPay', logo: '/images/payments/gopay.svg' },
-          { name: 'DANA', logo: '/images/payments/dana.svg' },
-          { name: 'OVO', logo: '/images/payments/ovo.svg' },
-          { name: 'ShopeePay', logo: '/images/payments/shopeepay.svg' }
-        ].map((payment) => (
+        {getPaymentMethodsByCategory('e-wallet').map((payment) => (
           <motion.div
             key={payment.name}
             onClick={() => setSelectedPayment(payment.name)}
@@ -328,7 +324,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
             <div className="flex items-center space-x-2">
             <div className="w-8 h-6 bg-gray-50 rounded flex items-center justify-center overflow-hidden border">
             <Image
-              src={payment.logo}
+              src={payment.icon}
               alt={payment.name}
                 width={32}
                 height={24}
@@ -359,8 +355,8 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
         <h4 className="text-sm font-medium text-gray-300 mb-2">Bank Transfer</h4>
           <div className="grid grid-cols-1 gap-2">
               {[
-                  { name: 'Bank Transfer', logo: '/images/payments/bank.svg' },
-                        { name: 'QRIS', logo: '/images/payments/qris.svg' }
+                  ...getPaymentMethodsByCategory('bank'),
+                  ...getPaymentMethodsByCategory('qr-code')
                 ].map((payment) => (
                   <motion.div
                   key={payment.name}
@@ -384,7 +380,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
             <div className="flex items-center space-x-2">
                 <div className="w-8 h-6 bg-gray-50 rounded flex items-center justify-center overflow-hidden border">
                   <Image
-                  src={payment.logo}
+                  src={payment.icon}
                   alt={payment.name}
                 width={32}
                 height={24}
@@ -414,10 +410,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                   <div className="mb-4">
                     <h4 className="text-sm font-medium text-gray-300 mb-2">Minimarket</h4>
                     <div className="grid grid-cols-2 gap-2">
-                      {[
-                        { name: 'Indomaret', logo: '/images/payments/indomaret.svg' },
-                        { name: 'Alfamart', logo: '/images/payments/alfamart.svg' }
-                      ].map((payment) => (
+                      {getPaymentMethodsByCategory('convenience-store').map((payment) => (
                         <motion.div
                           key={payment.name}
                           onClick={() => setSelectedPayment(payment.name)}
@@ -440,7 +433,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                           <div className="flex items-center space-x-2">
                             <div className="w-8 h-6 bg-gray-50 rounded flex items-center justify-center overflow-hidden border">
                               <Image
-                                src={payment.logo}
+                                src={payment.icon}
                                 alt={payment.name}
                                 width={32}
                                 height={24}
@@ -470,12 +463,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                   <div>
                     <h4 className="text-sm font-medium text-gray-300 mb-2">Pulsa</h4>
                     <div className="grid grid-cols-2 gap-2">
-                      {[
-                        { name: 'Telkomsel', logo: '/images/payments/telkomsel.svg' },
-                        { name: 'Indosat', logo: '/images/payments/indosat.svg' },
-                        { name: 'XL Axiata', logo: '/images/payments/xl.svg' },
-                        { name: 'Tri', logo: '/images/payments/tri.svg' }
-                      ].map((payment) => (
+                      {getPaymentMethodsByCategory('mobile-provider').map((payment) => (
                         <motion.div
                           key={payment.name}
                           onClick={() => setSelectedPayment(payment.name)}
@@ -498,7 +486,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                           <div className="flex items-center space-x-2">
                             <div className="w-8 h-6 bg-gray-50 rounded flex items-center justify-center overflow-hidden border">
                               <Image
-                                src={payment.logo}
+                                src={payment.icon}
                                 alt={payment.name}
                                 width={32}
                                 height={24}
