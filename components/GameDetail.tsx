@@ -280,98 +280,59 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                 <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6">
                   <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-white">Metode Pembayaran</h3>
                   
-                  {/* E-Wallet Section */}
-                  <div className="mb-4">
-                    <h4 className="text-sm font-medium text-gray-300 mb-2">E-Wallet</h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      {[
-                        { name: 'GoPay', icon: '🟢' },
-                        { name: 'ShopeePay', icon: '🧡' },
-                        { name: 'OVO', icon: '💜' },
-                        { name: 'DANA', icon: '🔵' }
-                      ].map((wallet) => (
-                        <motion.div
-                          key={wallet.name}
-                          className="flex items-center space-x-2 p-2 rounded-lg bg-dark-light/50 
-                          hover:bg-dark-light cursor-pointer transition-colors border border-gray-700 hover:border-primary/50"
-                          whileHover={{ scale: 1.02 }}
-                        >
-                          <input type="radio" name="payment" className="text-primary" />
-                          <span className="text-lg">{wallet.icon}</span>
-                          <span className="text-white text-xs md:text-sm">{wallet.name}</span>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Bank Transfer Section */}
-                  <div className="mb-4">
-                    <h4 className="text-sm font-medium text-gray-300 mb-2">Bank Transfer</h4>
-                    <div className="grid grid-cols-1 gap-2">
-                      {[
-                        { name: 'BCA Virtual Account', icon: '🏦' },
-                        { name: 'Mandiri Virtual Account', icon: '🏛️' },
-                        { name: 'BNI Virtual Account', icon: '🏢' },
-                        { name: 'BRI Virtual Account', icon: '🏪' }
-                      ].map((bank) => (
-                        <motion.div
-                          key={bank.name}
-                          className="flex items-center space-x-2 p-2 rounded-lg bg-dark-light/50 
-                          hover:bg-dark-light cursor-pointer transition-colors border border-gray-700 hover:border-primary/50"
-                          whileHover={{ scale: 1.02 }}
-                        >
-                          <input type="radio" name="payment" className="text-primary" />
-                          <span className="text-lg">{bank.icon}</span>
-                          <span className="text-white text-xs md:text-sm">{bank.name}</span>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Minimarket Section */}
-                  <div className="mb-4">
-                    <h4 className="text-sm font-medium text-gray-300 mb-2">Minimarket</h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      {[
-                        { name: 'Indomaret', icon: '🏪' },
-                        { name: 'Alfamart', icon: '🏬' }
-                      ].map((store) => (
-                        <motion.div
-                          key={store.name}
-                          className="flex items-center space-x-2 p-2 rounded-lg bg-dark-light/50 
-                          hover:bg-dark-light cursor-pointer transition-colors border border-gray-700 hover:border-primary/50"
-                          whileHover={{ scale: 1.02 }}
-                        >
-                          <input type="radio" name="payment" className="text-primary" />
-                          <span className="text-lg">{store.icon}</span>
-                          <span className="text-white text-xs md:text-sm">{store.name}</span>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Pulsa Section */}
-                  <div>
-                    <h4 className="text-sm font-medium text-gray-300 mb-2">Pulsa</h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      {[
-                        { name: 'Telkomsel', icon: '📱' },
-                        { name: 'Indosat', icon: '📲' },
-                        { name: 'XL', icon: '📞' },
-                        { name: 'Tri', icon: '☎️' }
-                      ].map((provider) => (
-                        <motion.div
-                          key={provider.name}
-                          className="flex items-center space-x-2 p-2 rounded-lg bg-dark-light/50 
-                          hover:bg-dark-light cursor-pointer transition-colors border border-gray-700 hover:border-primary/50"
-                          whileHover={{ scale: 1.02 }}
-                        >
-                          <input type="radio" name="payment" className="text-primary" />
-                          <span className="text-lg">{provider.icon}</span>
-                          <span className="text-white text-xs md:text-sm">{provider.name}</span>
-                        </motion.div>
-                      ))}
-                    </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+                    {/* E-Wallet */}
+                    {[
+                      { name: 'GoPay', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/gopay.png', category: 'ewallet' },
+                      { name: 'DANA', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/dana.png', category: 'ewallet' },
+                      { name: 'OVO', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/ovo.png', category: 'ewallet' },
+                      { name: 'ShopeePay', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/shopeepay.png', category: 'ewallet' },
+                      { name: 'LinkAja', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/linkaja.png', category: 'ewallet' },
+                      
+                      /* Bank Transfer */
+                      { name: 'Bank Transfer', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/bank.png', category: 'bank' },
+                      { name: 'QRIS', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/qris.png', category: 'bank' },
+                      { name: 'Kartu Kredit', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/credit.png', category: 'bank' },
+                      
+                      /* Minimarket */
+                      { name: 'Indomaret', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/indomaret.png', category: 'minimarket' },
+                      { name: 'Alfamart', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/alfamart.png', category: 'minimarket' },
+                      
+                      /* Pulsa */
+                      { name: 'Telkomsel', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/telkomsel.png', category: 'pulsa' },
+                      { name: 'Indosat', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/indosat.png', category: 'pulsa' },
+                      { name: 'XL Axiata', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/xl.png', category: 'pulsa' },
+                      { name: 'Tri', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/tri.png', category: 'pulsa' },
+                      { name: 'Smartfren', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/smartfren.png', category: 'pulsa' }
+                    ].map((payment) => (
+                      <motion.div
+                        key={payment.name}
+                        className="relative p-3 rounded-lg bg-white border border-gray-200 
+                        hover:border-primary/50 cursor-pointer transition-all duration-200 group
+                        hover:shadow-lg hover:-translate-y-1"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <input 
+                          type="radio" 
+                          name="payment" 
+                          className="absolute top-2 right-2 text-primary scale-90" 
+                        />
+                        <div className="flex flex-col items-center text-center space-y-2">
+                          <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden">
+                            <div className="w-8 h-8 bg-gradient-to-br from-primary/20 to-secondary/20 rounded 
+                                          flex items-center justify-center text-xs font-bold text-gray-600">
+                              {payment.name.charAt(0)}
+                            </div>
+                          </div>
+                          <span className="text-xs font-medium text-gray-700 leading-tight">
+                            {payment.name}
+                          </span>
+                        </div>
+                        <div className="absolute inset-0 rounded-lg bg-primary/5 opacity-0 
+                                      group-hover:opacity-100 transition-opacity duration-200"></div>
+                      </motion.div>
+                    ))}
                   </div>
                 </div>
               </div>
