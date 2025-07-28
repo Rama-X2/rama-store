@@ -354,130 +354,130 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
             overscrollBehavior: 'contain'
           }}
         >
-        {/* Game Info Section - No 12 */}
-        <div className="p-4 md:p-6 border-b border-gray-700">
-        <div className="grid lg:grid-cols-5 gap-4 md:gap-8">
-        {/* Left side - User Input (2 columns) - Yellow Border */}
-        <div className="lg:col-span-2 space-y-4 md:space-y-6">
-        <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6 border-2 border-yellow-400">
-        <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-white">Data Akun</h3>
-        <div className="space-y-3 md:space-y-4">
-        <Input
-        label="User ID"
-        type="text"
-        defaultValue={userId}
-        onChange={(e) => debouncedSetUserId(e.target.value)}
-        placeholder="Masukkan User ID"
-        helperText="ID pengguna akun game Anda"
-        />
-        <Input
-        label="Server ID"
-        type="text"
-        defaultValue={serverId}
-        onChange={(e) => debouncedSetServerId(e.target.value)}
-        placeholder="Masukkan Server ID"
-        helperText="ID server tempat Anda bermain"
-        />
-        </div>
-        </div>
+          {/* Game Info Section - No 12 */}
+          <div className="p-4 md:p-6 border-b border-gray-700">
+            <div className="grid lg:grid-cols-5 gap-4 md:gap-8">
+              {/* Left side - User Input (2 columns) - Yellow Border */}
+              <div className="lg:col-span-2 space-y-4 md:space-y-6">
+                <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6 border-2 border-yellow-400">
+                  <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-white">Data Akun</h3>
+                  <div className="space-y-3 md:space-y-4">
+                    <Input
+                      label="User ID"
+                      type="text"
+                      defaultValue={userId}
+                      onChange={(e) => debouncedSetUserId(e.target.value)}
+                      placeholder="Masukkan User ID"
+                      helperText="ID pengguna akun game Anda"
+                    />
+                    <Input
+                      label="Server ID"
+                      type="text"
+                      defaultValue={serverId}
+                      onChange={(e) => debouncedSetServerId(e.target.value)}
+                      placeholder="Masukkan Server ID"
+                      helperText="ID server tempat Anda bermain"
+                    />
+                  </div>
+                </div>
               </div>
 
-        {/* Middle - Payment Method (2 columns) - Red Border */}
-        <div className="lg:col-span-2">
-        <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6 border-2 border-red-500">
-        <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-white">Metode Pembayaran</h3>
-        
-        {/* E-Wallet Section */}
-        <div className="mb-4">
-        <h4 className="text-sm font-medium text-gray-300 mb-2">E-Wallet</h4>
-        <div className="grid grid-cols-2 gap-2">
-          <button
-            onClick={() => setSelectedPayment('gopay')}
-            className={`p-2 rounded-lg border text-center transition-all duration-200 ${
-              selectedPayment === 'gopay'
-                ? 'border-primary bg-primary/10'
-                : 'border-gray-600 hover:border-gray-500'
-            }`}
-          >
-            <div className="flex flex-col items-center space-y-1">
-              <span className="w-6 h-6 bg-blue-500 rounded flex items-center justify-center text-xs font-bold text-white">G</span>
-              <span className="text-xs text-white truncate">GoPay</span>
-            </div>
-          </button>
-          <button
-            onClick={() => setSelectedPayment('dana')}
-            className={`p-2 rounded-lg border text-center transition-all duration-200 ${
-              selectedPayment === 'dana'
-                ? 'border-primary bg-primary/10'
-                : 'border-gray-600 hover:border-gray-500'
-            }`}
-          >
-            <div className="flex flex-col items-center space-y-1">
-              <span className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center text-xs font-bold text-white">D</span>
-              <span className="text-xs text-white truncate">DANA</span>
-            </div>
-          </button>
-          <button
-            onClick={() => setSelectedPayment('ovo')}
-            className={`p-2 rounded-lg border text-center transition-all duration-200 ${
-              selectedPayment === 'ovo'
-                ? 'border-primary bg-primary/10'
-                : 'border-gray-600 hover:border-gray-500'
-            }`}
-          >
-            <div className="flex flex-col items-center space-y-1">
-              <span className="w-6 h-6 bg-purple-500 rounded flex items-center justify-center text-xs font-bold text-white">O</span>
-              <span className="text-xs text-white truncate">OVO</span>
-            </div>
-          </button>
-          <button
-            onClick={() => setSelectedPayment('shopeepay')}
-            className={`p-2 rounded-lg border text-center transition-all duration-200 ${
-              selectedPayment === 'shopeepay'
-                ? 'border-primary bg-primary/10'
-                : 'border-gray-600 hover:border-gray-500'
-            }`}
-          >
-            <div className="flex flex-col items-center space-y-1">
-              <span className="w-6 h-6 bg-orange-500 rounded flex items-center justify-center text-xs font-bold text-white">S</span>
-              <span className="text-xs text-white truncate">ShopeePay</span>
-            </div>
-          </button>
-        </div>
-        </div>
+              {/* Middle - Payment Method (2 columns) - Red Border */}
+              <div className="lg:col-span-2">
+                <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6 border-2 border-red-500">
+                  <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-white">Metode Pembayaran</h3>
+                  
+                  {/* E-Wallet Section */}
+                  <div className="mb-4">
+                    <h4 className="text-sm font-medium text-gray-300 mb-2">E-Wallet</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={() => setSelectedPayment('gopay')}
+                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
+                          selectedPayment === 'gopay'
+                            ? 'border-primary bg-primary/10'
+                            : 'border-gray-600 hover:border-gray-500'
+                        }`}
+                      >
+                        <div className="flex flex-col items-center space-y-1">
+                          <span className="w-6 h-6 bg-blue-500 rounded flex items-center justify-center text-xs font-bold text-white">G</span>
+                          <span className="text-xs text-white truncate">GoPay</span>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => setSelectedPayment('dana')}
+                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
+                          selectedPayment === 'dana'
+                            ? 'border-primary bg-primary/10'
+                            : 'border-gray-600 hover:border-gray-500'
+                        }`}
+                      >
+                        <div className="flex flex-col items-center space-y-1">
+                          <span className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center text-xs font-bold text-white">D</span>
+                          <span className="text-xs text-white truncate">DANA</span>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => setSelectedPayment('ovo')}
+                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
+                          selectedPayment === 'ovo'
+                            ? 'border-primary bg-primary/10'
+                            : 'border-gray-600 hover:border-gray-500'
+                        }`}
+                      >
+                        <div className="flex flex-col items-center space-y-1">
+                          <span className="w-6 h-6 bg-purple-500 rounded flex items-center justify-center text-xs font-bold text-white">O</span>
+                          <span className="text-xs text-white truncate">OVO</span>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => setSelectedPayment('shopeepay')}
+                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
+                          selectedPayment === 'shopeepay'
+                            ? 'border-primary bg-primary/10'
+                            : 'border-gray-600 hover:border-gray-500'
+                        }`}
+                      >
+                        <div className="flex flex-col items-center space-y-1">
+                          <span className="w-6 h-6 bg-orange-500 rounded flex items-center justify-center text-xs font-bold text-white">S</span>
+                          <span className="text-xs text-white truncate">ShopeePay</span>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
 
-        {/* Bank Transfer Section */}
-        <div className="mb-4">
-        <h4 className="text-sm font-medium text-gray-300 mb-2">Bank Transfer</h4>
-        <div className="grid grid-cols-2 gap-2">
-          <button
-            onClick={() => setSelectedPayment('bank_transfer')}
-            className={`p-2 rounded-lg border text-center transition-all duration-200 ${
-              selectedPayment === 'bank_transfer'
-                ? 'border-primary bg-primary/10'
-                : 'border-gray-600 hover:border-gray-500'
-            }`}
-          >
-            <div className="flex flex-col items-center space-y-1">
-              <span className="w-6 h-6 bg-green-600 rounded flex items-center justify-center text-xs font-bold text-white">B</span>
-              <span className="text-xs text-white truncate">Bank Transfer</span>
-            </div>
-          </button>
-          <button
-            onClick={() => setSelectedPayment('qris')}
-            className={`p-2 rounded-lg border text-center transition-all duration-200 ${
-              selectedPayment === 'qris'
-                ? 'border-primary bg-primary/10'
-                : 'border-gray-600 hover:border-gray-500'
-            }`}
-          >
-            <div className="flex flex-col items-center space-y-1">
-              <span className="w-6 h-6 bg-red-500 rounded flex items-center justify-center text-xs font-bold text-white">Q</span>
-              <span className="text-xs text-white truncate">QRIS</span>
-            </div>
-          </button>
-        </div>
-        </div>
+                  {/* Bank Transfer Section */}
+                  <div className="mb-4">
+                    <h4 className="text-sm font-medium text-gray-300 mb-2">Bank Transfer</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={() => setSelectedPayment('bank_transfer')}
+                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
+                          selectedPayment === 'bank_transfer'
+                            ? 'border-primary bg-primary/10'
+                            : 'border-gray-600 hover:border-gray-500'
+                        }`}
+                      >
+                        <div className="flex flex-col items-center space-y-1">
+                          <span className="w-6 h-6 bg-green-600 rounded flex items-center justify-center text-xs font-bold text-white">B</span>
+                          <span className="text-xs text-white truncate">Bank Transfer</span>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => setSelectedPayment('qris')}
+                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
+                          selectedPayment === 'qris'
+                            ? 'border-primary bg-primary/10'
+                            : 'border-gray-600 hover:border-gray-500'
+                        }`}
+                      >
+                        <div className="flex flex-col items-center space-y-1">
+                          <span className="w-6 h-6 bg-red-500 rounded flex items-center justify-center text-xs font-bold text-white">Q</span>
+                          <span className="text-xs text-white truncate">QRIS</span>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
 
                   {/* Minimarket Section */}
                   <div className="mb-4">
@@ -571,6 +571,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                     </div>
                   </div>
                 </div>
+              </div>
               </div>
 
               {/* Right side - Game Detail Info (1 column) */}
