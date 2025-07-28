@@ -1,0 +1,253 @@
+[33mcommit 8ad2673e7f49184a5c302930b9778a1ee44c02ff[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Mon Jul 28 02:41:49 2025 +0700
+
+    Remove middleware completely
+
+[33mcommit 7fdb9708ef7b48679672f79f953dc44037931c92[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Mon Jul 28 02:39:47 2025 +0700
+
+    Disable all middleware
+
+[33mcommit 7ab82964a875a76f953e909b9542a59d99e5ab9c[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Mon Jul 28 02:37:55 2025 +0700
+
+    Disable anti-clone system
+
+[33mcommit e836e679c738bbdd517c2fecb17e2f8acd492d1b[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Mon Jul 28 02:34:29 2025 +0700
+
+    Allow all rama vercel domains automatically
+
+[33mcommit 361852845dcc75f4b82df931a0c79538c997a28c[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Mon Jul 28 02:31:51 2025 +0700
+
+    Allow all rama vercel deployments
+
+[33mcommit 7963d5c3fd9d94233d5a955fdd10dd3eb5465be4[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Mon Jul 28 02:26:11 2025 +0700
+
+    Remove crypto-browserify dependency
+
+[33mcommit 13ea9fc40ba03a6848c92ebbf86efcac207d0c5e[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Mon Jul 28 02:24:33 2025 +0700
+
+    Fix webpack DefinePlugin error
+
+[33mcommit 37142a2cd7007293693bbdd79f031f3b47b690a0[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Mon Jul 28 02:21:20 2025 +0700
+
+    Fix 'self is not defined' error with webpack config
+
+[33mcommit 64a7f762defb2a19e16fc983d1ab94d4f7f6fd4e[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Mon Jul 28 02:19:21 2025 +0700
+
+    Fix server-side error - simplify anti-clone utilities
+
+[33mcommit f1ce2035c1630c31ca7b8570e314ce98d129f908[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Mon Jul 28 02:15:57 2025 +0700
+
+    Fix TypeScript error - add Record type for securityHeaders
+
+[33mcommit ffcaf165b908e44203eb1bb6243ff9dbbf691e89[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Mon Jul 28 02:14:20 2025 +0700
+
+    Fix vercel.json - remove invalid middleware pattern
+
+[33mcommit e5ae758d9a561d8ace5608aee951de24102573c3[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Mon Jul 28 02:13:13 2025 +0700
+
+    Fix vercel.json - remove invalid JSON comments
+
+[33mcommit b001b9b20497caba634e69dcfc4f10cdaf51345c[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Mon Jul 28 02:05:50 2025 +0700
+
+    Update anti-clone middleware - remove logs
+
+[33mcommit 0540e212f9d108f57dcd60cca96c41100fc817d8[m
+Author: Rama Armytha <aderamadhaniputra35@gmail.com>
+Date:   Mon Jul 28 01:15:04 2025 +0700
+
+    Update README.md
+
+[33mcommit a4eab801b369722a64f1070117d08cde885192da[m
+Author: Rama Armytha <aderamadhaniputra35@gmail.com>
+Date:   Mon Jul 28 01:14:44 2025 +0700
+
+    Update README.md
+
+[33mcommit 2f9e2e19f4b3bf0d53caf58c558518333efc2695[m
+Author: Rama Armytha <aderamadhaniputra35@gmail.com>
+Date:   Mon Jul 28 01:13:52 2025 +0700
+
+    Update README.md
+
+[33mcommit 6488535ce50bd6d83fbacbb27155ab1682105f09[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Mon Jul 28 01:10:40 2025 +0700
+
+    Rename File
+
+[33mcommit b0964f8e6fc4c8e6796b3c7bddeaea224cfcee64[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Mon Jul 28 00:33:11 2025 +0700
+
+    GameGrid.tsx dan FeaturedGames.tsx
+
+[33mcommit f97a8b0848eb63d8fffd1312c3d0a24dbe4b28ec[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Mon Jul 28 00:23:26 2025 +0700
+
+    update: layout, tailwind, globals, theme provider
+
+[33mcommit 9d920734af772a3c8cdaeeefa3daf09305d4db77[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Mon Jul 28 00:15:45 2025 +0700
+
+    layout.tsx dan ThemeProvider.tsx diubah jadi defaultnya ke dark mode
+
+[33mcommit 689b6e3d20f2574e5491338c592dac7c4c5bdfee[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Mon Jul 28 00:00:31 2025 +0700
+
+    Update: fix motion element usage in portfolio
+
+[33mcommit a53fac221e5800816de82db648596c36bd3da32f[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Sun Jul 27 17:30:26 2025 +0700
+
+    Update: fix motion element usage in portfolio
+
+[33mcommit 77f6a876139aa24325c71f120a39ff736e51556c[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Sun Jul 27 17:07:19 2025 +0700
+
+    Update: fix motion element usage in portfolio
+
+[33mcommit 904bb756c1885a87c8dda9c9934e2dc1155831cd[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Sun Jul 27 16:03:36 2025 +0700
+
+    Update: fix motion element usage in portfolio
+
+[33mcommit f9e03af95aadf99c394d3c87d185e543eae8b189[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Sun Jul 27 15:53:41 2025 +0700
+
+    Update: fix motion element usage in portfolio
+
+[33mcommit 5b2d4b930592029a2b159f52d518de13e4904bc1[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Sun Jul 27 14:05:17 2025 +0700
+
+    Nambahin Portfolio
+
+[33mcommit a84eb272ec002f652ab3e9342274cbf0c6afb02a[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Sun Jul 27 10:35:53 2025 +0700
+
+    Fix Portfolio.tsx component and improve UI
+
+[33mcommit 47c5633a332e9081f8c2105b9989e9f3f564347f[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Sun Jul 27 07:32:12 2025 +0700
+
+    Fixed upstream branch issue
+
+[33mcommit 1cf11d9a27d8bab80bc55b2842854483df42fbf2[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Sun Jul 27 07:26:19 2025 +0700
+
+    Benerin Masalah Mobile Respons dan penambahan Portofolio
+
+[33mcommit 01af49df2bcdbfcb41ff885a569bd7ea4e41881c[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Fri Jul 25 22:47:00 2025 +0700
+
+    Anjay....kelar juga nih bug njir :v
+
+[33mcommit 8050da33bfb9966a6cdf856ee14b88ebf905c7e2[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Fri Jul 25 16:50:19 2025 +0700
+
+    Fix: Resolve framer-motion TypeScript errors
+
+[33mcommit 087c8a93176ce96157b66b085a95fe891d76d4a2[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Fri Jul 25 16:47:27 2025 +0700
+
+    Fix: Resolve framer-motion TypeScript errors
+
+[33mcommit 2a7eefc2f3f551f7ee7a20e60a535ad448c63732[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Fri Jul 25 16:32:55 2025 +0700
+
+    VERCEL FIX: Force add package-lock.json and config files [2025-25-07_16-32-55]
+
+[33mcommit ed71ebc67d14d76cb75b83a8ab7ee9bd755af288[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Fri Jul 25 16:24:45 2025 +0700
+
+    Fix: Remove package-lock.json from .gitignore and commit it for Vercel deployment
+
+[33mcommit 888d376e6a6c5b03661bc95a9843bfe3ebb17127[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Fri Jul 25 16:21:38 2025 +0700
+
+    Fix: Update Node.js to 22.x and regenerate package-lock.json
+
+[33mcommit 18205eb1970df9dccf73e5546e1f2ac8a8cc84e7[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Fri Jul 25 16:05:39 2025 +0700
+
+    fix: resolve Vercel build issues
+
+[33mcommit fcef925456ed1b5eaeafdfd7c7c1cb73e521825c[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Fri Jul 25 14:06:42 2025 +0700
+
+    Fix Vercel build issues - Button.tsx TypeScript error resolved
+
+[33mcommit 5696aac8ce33b2cd16b31d0777614bbc18ee88b0[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Fri Jul 25 14:03:15 2025 +0700
+
+    Fix Vercel build issues - Button.tsx TypeScript error resolved
+
+[33mcommit 7f75b1c60392c93b6189bbd7192e415e04b9282d[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Fri Jul 25 13:59:17 2025 +0700
+
+    Fix Vercel build issues - Button.tsx TypeScript error resolved
+
+[33mcommit aa40b5a2de0150dfd69f5d8d5cf40b541e3d9c76[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Fri Jul 25 13:32:56 2025 +0700
+
+    Fix: All deployment issues resolved
+
+[33mcommit 2c4638b99c7152c8f97879e9ff5bcc1f209a90d8[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Fri Jul 25 13:24:15 2025 +0700
+
+    Fix: CSS circular dependency resolved
+
+[33mcommit 59d255e77c0f53e97895f0746d66e46c5f37111e[m
+Author: Rama-X2 <aderamadhaniputra35@gmail.com>
+Date:   Fri Jul 25 13:11:06 2025 +0700
+
+    Fix: Remove group utility from @apply in CSS
+
+[33mcommit 8b25

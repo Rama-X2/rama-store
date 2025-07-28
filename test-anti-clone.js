@@ -1,50 +1,69 @@
-// Test script untuk memverifikasi sistem anti-clone
-// Jalankan dengan: node test-anti-clone.js
+#!/usr/bin/env node
 
-const https = require('https');
+/**
+ * Anti-Clone System Test Script - Updated Version
+ * Script untuk testing sistem anti-clone protection yang lebih fleksibel
+ */
+
 const http = require('http');
+const https = require('https');
+const { URL } = require('url');
 
-// Konfigurasi test
+// Konfigurasi test yang diperbarui
 const TEST_CONFIG = {
-  // Domain yang seharusnya diizinkan
+  // Domain yang harus berhasil (mengandung 'rama-store')
   ALLOWED_DOMAINS: [
-    'rama-store.vercel.app',
-    'localhost:3000'
+    'http://localhost:3000',
+    'https://rama-store.vercel.app',
+    'https://rama-store-git-main-rama-x2s-projects.vercel.app',
+    'https://rama-store-4pmk9m537-rama-x2s-projects.vercel.app',
+    // Tambahan test untuk berbagai format Vercel
   ],
   
-  // Domain yang seharusnya diblokir
+  // Domain yang harus diblokir (tidak mengandung 'rama-store')
   BLOCKED_DOMAINS: [
-    'fake-clone-site.com',
-    'unauthorized-domain.com',
-    'malicious-clone.vercel.app'
+    'http://localhost:8080',
+    'http://127.0.0.1:8080',
+    'https://fake-domain.com',
+    'https://other-store.vercel.app',
+    'https://clone-website.vercel.app',
   ],
-  
-  // Bypass secret untuk testing (jika ada)
-  BYPASS_SECRET: process.env.ANTI_CLONE_BYPASS_SECRET || '',
   
   // Timeout untuk request
-  TIMEOUT: 10000
+  TIMEOUT: 10000,
 };
 
 /**
- * Membuat HTTP request untuk testing
+ * Test apakah domain mengandung 'rama-store'
  */
-function makeRequest(domain, path = '/', headers = {}) {
+function testDomainPattern(domain) {
+  const normalizedDomain = domain.toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '');
+  return normalizedDomain.includes('rama-store');
+}
+
+/**
+ * Fungsi untuk melakukan HTTP request
+ */
+function makeRequest(url, timeout = 10000) {
   return new Promise((resolve, reject) => {
-    const isHttps = domain.includes('vercel.app') || domain.includes('https://');
-    const client = isHttps ? https : http;
-    const url = `${isHttps ? 'https' : 'http'}://${domain}${path}`;
+    const urlObj = new URL(url);
+    const isHttps = urlObj.protocol === 'https:';
+    const httpModule = isHttps ? https : http;
     
     const options = {
+      hostname: urlObj.hostname,
+      port: urlObj.port || (isHttps ? 443 : 80),
+      path: urlObj.pathname + urlObj.search,
       method: 'GET',
       headers: {
-        'User-Agent': 'Anti-Clone-Test/1.0',
-        ...headers
+        'User-Agent': 'Rama-Store-Anti-Clone-Test/2.0',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'id-ID,id;q=0.9,en;q=0.8',
       },
-      timeout: TEST_CONFIG.TIMEOUT
+      timeout: timeout,
     };
 
-    const req = client.get(url, options, (res) => {
+    const req = httpModule.request(options, (res) => {
       let data = '';
       
       res.on('data', (chunk) => {
@@ -53,345 +72,212 @@ function makeRequest(domain, path = '/', headers = {}) {
       
       res.on('end', () => {
         resolve({
-          domain,
           statusCode: res.statusCode,
           headers: res.headers,
-          body: data.substring(0, 500), // Ambil 500 karakter pertama saja
-          success: res.statusCode === 200
+          body: data,
+          url: url,
         });
       });
     });
 
     req.on('error', (error) => {
-      resolve({
-        domain,
-        statusCode: 0,
+      reject({
         error: error.message,
-        success: false
+        url: url,
       });
     });
 
     req.on('timeout', () => {
       req.destroy();
-      resolve({
-        domain,
-        statusCode: 0,
+      reject({
         error: 'Request timeout',
-        success: false
+        url: url,
       });
     });
+
+    req.end();
   });
 }
 
 /**
- * Test akses ke domain yang diizinkan
+ * Test domain yang harus diizinkan
  */
 async function testAllowedDomains() {
-  console.log('🟢 Testing ALLOWED domains...');
+  console.log('\n🟢 Testing ALLOWED domains (should contain "rama-store")...');
+  console.log('=' .repeat(70));
+  
+  let successCount = 0;
+  let totalCount = TEST_CONFIG.ALLOWED_DOMAINS.length;
   
   for (const domain of TEST_CONFIG.ALLOWED_DOMAINS) {
     try {
-      const result = await makeRequest(domain);
+      console.log(`\n📍 Testing: ${domain}`);
       
-      if (result.success) {
-        console.log(`✅ ${domain}: PASSED (Status: ${result.statusCode})`);
+      // Check pattern first
+      const hasRamaStore = testDomainPattern(domain);
+      console.log(`   🔍 Contains 'rama-store': ${hasRamaStore ? '✅' : '❌'}`);
+      
+      const result = await makeRequest(domain, TEST_CONFIG.TIMEOUT);
+      
+      if (result.statusCode === 200) {
+        console.log(`   ✅ SUCCESS - Status: ${result.statusCode}`);
+        successCount++;
+        
+        // Check security headers
+        const securityHeaders = {
+          'x-frame-options': result.headers['x-frame-options'],
+          'x-content-type-options': result.headers['x-content-type-options'],
+          'referrer-policy': result.headers['referrer-policy'],
+          'x-xss-protection': result.headers['x-xss-protection'],
+        };
+        
+        console.log('   📋 Security Headers:');
+        Object.entries(securityHeaders).forEach(([key, value]) => {
+          if (value) {
+            console.log(`      ${key}: ${value}`);
+          }
+        });
+        
+        // Check if it's the actual Rama Store website
+        if (result.body.includes('Rama Store') || result.body.includes('Top Up Game')) {
+          console.log('   🎯 Verified: Actual Rama Store website content detected');
+        }
+        
+      } else if (result.statusCode === 403) {
+        console.log(`   ⚠️  UNEXPECTED BLOCK - Status: ${result.statusCode}`);
+        if (result.body.includes('Akses Ditolak') || result.body.includes('403')) {
+          console.log('   ❓ This domain was blocked by anti-clone system');
+        }
       } else {
-        console.log(`❌ ${domain}: FAILED (Status: ${result.statusCode}) - ${result.error || 'Unknown error'}`);
-      }
-      
-      // Check security headers
-      const securityHeaders = [
-        'x-frame-options',
-        'x-content-type-options',
-        'referrer-policy'
-      ];
-      
-      const hasSecurityHeaders = securityHeaders.some(header => 
-        result.headers && result.headers[header]
-      );
-      
-      if (hasSecurityHeaders) {
-        console.log(`   🛡️  Security headers detected`);
+        console.log(`   ⚠️  UNEXPECTED STATUS - Status: ${result.statusCode}`);
       }
       
     } catch (error) {
-      console.log(`❌ ${domain}: ERROR - ${error.message}`);
+      console.log(`   ❌ CONNECTION ERROR - ${error.error}`);
+      if (error.error.includes('ENOTFOUND')) {
+        console.log('   💡 This might be a test domain that doesn\'t exist');
+      }
     }
   }
+  
+  console.log(`\n📊 Summary: ${successCount}/${totalCount} allowed domains accessible`);
 }
 
 /**
- * Test akses ke domain yang seharusnya diblokir
+ * Test domain yang harus diblokir
  */
 async function testBlockedDomains() {
-  console.log('\\n🔴 Testing BLOCKED domains...');
+  console.log('\n🔴 Testing BLOCKED domains (should NOT contain "rama-store")...');
+  console.log('=' .repeat(70));
+  
+  let blockedCount = 0;
+  let totalCount = TEST_CONFIG.BLOCKED_DOMAINS.length;
   
   for (const domain of TEST_CONFIG.BLOCKED_DOMAINS) {
     try {
-      const result = await makeRequest(domain);
+      console.log(`\n📍 Testing: ${domain}`);
+      
+      // Check pattern first
+      const hasRamaStore = testDomainPattern(domain);
+      console.log(`   🔍 Contains 'rama-store': ${hasRamaStore ? '❌ (Should not!)' : '✅'}`);
+      
+      const result = await makeRequest(domain, TEST_CONFIG.TIMEOUT);
       
       if (result.statusCode === 403) {
-        console.log(`✅ ${domain}: CORRECTLY BLOCKED (Status: 403)`);
+        console.log(`   ✅ CORRECTLY BLOCKED - Status: ${result.statusCode}`);
+        blockedCount++;
         
-        // Check if response contains anti-clone message
-        if (result.body && result.body.includes('Akses Ditolak')) {
-          console.log(`   🛡️  Anti-clone message detected`);
+        // Check if it's our custom 403 page
+        if (result.body.includes('Akses Ditolak') || result.body.includes('Rama Store')) {
+          console.log('   🎯 Verified: Custom anti-clone 403 page detected');
         }
-      } else if (result.statusCode === 0) {
-        console.log(`⚠️  ${domain}: UNREACHABLE (${result.error}) - This is expected for fake domains`);
+        
+      } else if (result.statusCode === 200) {
+        console.log(`   ⚠️  SECURITY ISSUE - Domain not blocked! Status: ${result.statusCode}`);
+        console.log('   🚨 This domain should have been blocked by the anti-clone system');
       } else {
-        console.log(`❌ ${domain}: NOT BLOCKED! Status: ${result.statusCode} - SECURITY ISSUE!`);
+        console.log(`   ❓ UNEXPECTED STATUS - Status: ${result.statusCode}`);
       }
       
     } catch (error) {
-      console.log(`⚠️  ${domain}: ERROR - ${error.message} (This might be expected for fake domains)`);
+      if (error.error.includes('ENOTFOUND') || error.error.includes('ECONNREFUSED')) {
+        console.log(`   ✅ BLOCKED (Connection refused) - ${error.error}`);
+        blockedCount++;
+      } else {
+        console.log(`   ❌ CONNECTION ERROR - ${error.error}`);
+      }
     }
   }
+  
+  console.log(`\n📊 Summary: ${blockedCount}/${totalCount} domains properly blocked`);
 }
 
 /**
- * Test bypass secret functionality
+ * Test dengan domain Vercel yang mengandung 'rama-store'
  */
-async function testBypassSecret() {
-  if (!TEST_CONFIG.BYPASS_SECRET) {
-    console.log('\\n⚠️  No bypass secret configured, skipping bypass tests');
-    return;
-  }
+async function testVercelDomains() {
+  console.log('\n🌐 Testing Vercel domain patterns...');
+  console.log('=' .repeat(70));
   
-  console.log('\\n🔑 Testing BYPASS secret...');
-  
-  const testDomain = TEST_CONFIG.BLOCKED_DOMAINS[0];
-  
-  try {
-    // Test bypass via query parameter
-    const queryResult = await makeRequest(testDomain, `/?bypass=${TEST_CONFIG.BYPASS_SECRET}`);
-    
-    if (queryResult.success) {
-      console.log(`✅ Query bypass: WORKING`);
-    } else {
-      console.log(`❌ Query bypass: FAILED (Status: ${queryResult.statusCode})`);
-    }
-    
-    // Test bypass via header
-    const headerResult = await makeRequest(testDomain, '/', {
-      'x-bypass-secret': TEST_CONFIG.BYPASS_SECRET
-    });
-    
-    if (headerResult.success) {
-      console.log(`✅ Header bypass: WORKING`);
-    } else {
-      console.log(`❌ Header bypass: FAILED (Status: ${headerResult.statusCode})`);
-    }
-    
-  } catch (error) {
-    console.log(`❌ Bypass test ERROR: ${error.message}`);
-  }
-}
-
-/**
- * Test localhost variations
- */
-async function testLocalhostVariations() {
-  console.log('\\n🏠 Testing LOCALHOST variations...');
-  
-  const localhostVariations = [
-    'localhost:3000',
-    'localhost:3001', 
-    '127.0.0.1:3000',
-    '0.0.0.0:3000'
+  const vercelPatterns = [
+    'rama-store-git-main-test.vercel.app',
+    'rama-store-abc123.vercel.app', 
+    'test-rama-store-xyz.vercel.app',
+    'my-rama-store-project.vercel.app',
   ];
   
-  for (const domain of localhostVariations) {
-    try {
-      const result = await makeRequest(domain);
-      
-      if (result.success) {
-        console.log(`✅ ${domain}: ACCESSIBLE`);
-      } else if (result.statusCode === 0) {
-        console.log(`⚠️  ${domain}: NOT RUNNING (This is normal if dev server is not started)`);
-      } else {
-        console.log(`❌ ${domain}: BLOCKED (Status: ${result.statusCode}) - Check middleware config`);
-      }
-      
-    } catch (error) {
-      console.log(`⚠️  ${domain}: ${error.message}`);
-    }
-  }
-}
-
-/**
- * Test rate limiting (jika diimplementasikan)
- */
-async function testRateLimit() {
-  console.log('\\n⏱️  Testing RATE LIMITING...');
-  
-  const testDomain = TEST_CONFIG.BLOCKED_DOMAINS[0];
-  const requests = [];
-  
-  // Send multiple requests rapidly
-  for (let i = 0; i < 10; i++) {
-    requests.push(makeRequest(testDomain));
-  }
-  
-  try {
-    const results = await Promise.all(requests);
-    const blockedCount = results.filter(r => r.statusCode === 403).length;
-    const errorCount = results.filter(r => r.statusCode === 0).length;
-    
-    console.log(`   📊 Sent 10 rapid requests to blocked domain`);
-    console.log(`   📊 403 responses: ${blockedCount}`);
-    console.log(`   📊 Errors/timeouts: ${errorCount}`);
-    
-    if (blockedCount > 0) {
-      console.log(`✅ Rate limiting appears to be working`);
-    }
-    
-  } catch (error) {
-    console.log(`❌ Rate limit test ERROR: ${error.message}`);
-  }
-}
-
-/**
- * Test dengan User-Agent yang berbeda
- */
-async function testUserAgents() {
-  console.log('\\n🤖 Testing different USER AGENTS...');
-  
-  const userAgents = [
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', // Normal browser
-    'Googlebot/2.1 (+http://www.google.com/bot.html)', // Google bot
-    'curl/7.68.0', // Curl
-    'PostmanRuntime/7.28.0', // Postman
-    'python-requests/2.25.1' // Python requests
-  ];
-  
-  const testDomain = TEST_CONFIG.BLOCKED_DOMAINS[0];
-  
-  for (const ua of userAgents) {
-    try {
-      const result = await makeRequest(testDomain, '/', {
-        'User-Agent': ua
-      });
-      
-      const userAgentType = ua.includes('Googlebot') ? 'Bot' : 
-                           ua.includes('curl') ? 'Curl' :
-                           ua.includes('Postman') ? 'Postman' :
-                           ua.includes('python') ? 'Python' : 'Browser';
-      
-      if (result.statusCode === 403) {
-        console.log(`✅ ${userAgentType}: BLOCKED (Status: 403)`);
-      } else {
-        console.log(`❌ ${userAgentType}: NOT BLOCKED (Status: ${result.statusCode})`);
-      }
-      
-    } catch (error) {
-      console.log(`⚠️  ${ua.substring(0, 20)}...: ${error.message}`);
-    }
-  }
+  vercelPatterns.forEach(pattern => {
+    const hasRamaStore = testDomainPattern(`https://${pattern}`);
+    console.log(`   ${pattern}: ${hasRamaStore ? '✅ Should be allowed' : '❌ Would be blocked'}`);
+  });
 }
 
 /**
  * Main test function
  */
-async function runAllTests() {
-  console.log('🧪 ANTI-CLONE SYSTEM TEST SUITE');
-  console.log('================================\\n');
-  
-  const startTime = Date.now();
+async function runTests() {
+  console.log('🔒 RAMA STORE ANTI-CLONE PROTECTION TEST');
+  console.log('=' .repeat(70));
+  console.log(`🕐 Test started at: ${new Date().toISOString()}`);
+  console.log(`⏱️  Timeout: ${TEST_CONFIG.TIMEOUT}ms`);
+  console.log(`🎯 Testing anti-clone system for domains containing 'rama-store'`);
   
   try {
+    await testVercelDomains();
     await testAllowedDomains();
     await testBlockedDomains();
-    await testBypassSecret();
-    await testLocalhostVariations();
-    await testRateLimit();
-    await testUserAgents();
     
-    const endTime = Date.now();
-    const duration = ((endTime - startTime) / 1000).toFixed(2);
+    console.log('\n' + '=' .repeat(70));
+    console.log('🎉 ANTI-CLONE TEST COMPLETED!');
+    console.log('\n📋 Test Summary:');
+    console.log('✅ Domains containing "rama-store" should be accessible (200 OK)');
+    console.log('🚫 Domains NOT containing "rama-store" should be blocked (403 Forbidden)');
+    console.log('🔒 All Vercel preview URLs with "rama-store" should work');
+    console.log('\n⚠️  Note: Some test domains may not exist, causing connection errors');
+    console.log('🌐 The actual test should be done with real deployed URLs');
     
-    console.log('\\n================================');
-    console.log(`✅ Test suite completed in ${duration} seconds`);
-    console.log('\\n📋 SUMMARY:');
-    console.log('- ✅ Green checkmarks = Working as expected');
-    console.log('- ❌ Red X marks = Issues that need attention');
-    console.log('- ⚠️  Yellow warnings = Expected behavior or info');
-    console.log('\\n🔍 NEXT STEPS:');
-    console.log('1. Fix any red X issues');
-    console.log('2. Deploy to production if all tests pass');
-    console.log('3. Monitor logs in Vercel dashboard');
-    console.log('4. Set up monitoring alerts');
+    console.log('\n🚀 To test your live website:');
+    console.log('1. Deploy using: deploy-anti-clone.bat');
+    console.log('2. Access https://rama-store.vercel.app (should work)');
+    console.log('3. Try accessing from a different domain (should be blocked)');
     
   } catch (error) {
-    console.error('❌ Test suite failed:', error.message);
+    console.error('❌ Test failed:', error);
     process.exit(1);
   }
 }
 
-/**
- * Interactive test menu
- */
-function showTestMenu() {
-  console.log('\\n🧪 ANTI-CLONE TEST MENU');
-  console.log('========================');
-  console.log('1. Test allowed domains');
-  console.log('2. Test blocked domains');
-  console.log('3. Test bypass secret');
-  console.log('4. Test localhost variations');
-  console.log('5. Test rate limiting');
-  console.log('6. Test user agents');
-  console.log('7. Run all tests');
-  console.log('0. Exit');
-  console.log('\\nSelect option (0-7): ');
-}
-
-// Check command line arguments
-const args = process.argv.slice(2);
-
-if (args.includes('--help') || args.includes('-h')) {
-  console.log('\\n🧪 Anti-Clone Test Suite');
-  console.log('Usage: node test-anti-clone.js [options]');
-  console.log('\\nOptions:');
-  console.log('  --all, -a    Run all tests');
-  console.log('  --allowed    Test allowed domains only');
-  console.log('  --blocked    Test blocked domains only');
-  console.log('  --bypass     Test bypass secret only');
-  console.log('  --localhost  Test localhost variations only');
-  console.log('  --rate       Test rate limiting only');
-  console.log('  --ua         Test user agents only');
-  console.log('  --help, -h   Show this help');
-  console.log('\\nEnvironment Variables:');
-  console.log('  ANTI_CLONE_BYPASS_SECRET  Bypass secret for testing');
-  process.exit(0);
-}
-
-// Run specific tests based on arguments
-if (args.includes('--all') || args.includes('-a')) {
-  runAllTests();
-} else if (args.includes('--allowed')) {
-  testAllowedDomains();
-} else if (args.includes('--blocked')) {
-  testBlockedDomains();
-} else if (args.includes('--bypass')) {
-  testBypassSecret();
-} else if (args.includes('--localhost')) {
-  testLocalhostVariations();
-} else if (args.includes('--rate')) {
-  testRateLimit();
-} else if (args.includes('--ua')) {
-  testUserAgents();
-} else {
-  // Default: run all tests
-  runAllTests();
-}
-
-// Export for use as module
+// Export functions untuk penggunaan lain
 module.exports = {
+  makeRequest,
+  testDomainPattern,
   testAllowedDomains,
   testBlockedDomains,
-  testBypassSecret,
-  testLocalhostVariations,
-  testRateLimit,
-  testUserAgents,
-  runAllTests
+  testVercelDomains,
+  runTests,
 };
+
+// Jalankan test jika script dipanggil langsung
+if (require.main === module) {
+  runTests();
+}

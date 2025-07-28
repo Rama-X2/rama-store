@@ -4,7 +4,6 @@ import { Inter } from 'next/font/google'
 import ToastProvider from '../components/ui/ToastProvider'
 import ErrorBoundary from '../components/ui/ErrorBoundary'
 import { ThemeProvider } from '../components/ui/ThemeProvider'
-import { Analytics } from '@vercel/analytics/next';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,11 +18,11 @@ export const viewport: Viewport = {
 export const metadata = {
   title: 'Rama Store - Website Top Up Game Terpercaya Indonesia',
   description: 'Platform top up game terlengkap di Indonesia! Mobile Legends, Free Fire, Genshin Impact, PUBG Mobile, dan 100+ game lainnya. Harga murah, proses instant, aman & terpercaya.',
-  metadataBase: new URL('https://rama-store.vercel.app'),
+  metadataBase: new URL('https://topupgame-premium.vercel.app'),
   keywords: 'top up game, mobile legends, free fire, genshin impact, pubg mobile, diamond ml, voucher game, pulsa murah, paket data, topup game indonesia, game online',
-  authors: [{ name: 'Rama Store' }],
-  creator: 'Rama Store',
-  publisher: 'Rama Store',
+  authors: [{ name: 'TopUp Game Premium' }],
+  creator: 'TopUp Game Premium',
+  publisher: 'TopUp Game Premium',
   robots: 'index, follow',
   openGraph: {
     type: 'website',
@@ -36,7 +35,7 @@ export const metadata = {
         url: '/images/banners/banner.jpg',
         width: 1200,
         height: 630,
-        alt: 'Rama Store - Website Top Up Game Terpercaya',
+        alt: 'TopUp Game Premium - Website Top Up Game Terpercaya',
       },
     ],
   },
@@ -45,10 +44,10 @@ export const metadata = {
     title: 'Rama Store - Top Up Game Terpercaya',
     description: 'Platform top up game terlengkap! Mobile Legends, Free Fire, Genshin Impact & 100+ game lainnya. Harga murah, proses instant!',
     images: ['/images/banners/banner.jpg'],
-    creator: '@ramastore',
+    creator: '@topupgamepremium',
   },
   alternates: {
-    canonical: 'https://rama-store.vercel.app',
+    canonical: 'https://topupgame-premium.vercel.app',
   },
   icons: {
     icon: '/favicon.ico',
@@ -71,16 +70,16 @@ export default function RootLayout({
     "@type": "WebSite",
     "name": "Rama Store",
     "description": "Platform top up game terlengkap di Indonesia",
-    "url": "https://rama-store.vercel.app",
+    "url": "https://topupgame-premium.vercel.app",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://rama-store.vercel.app/search?q={search_term_string}",
+      "target": "https://topupgame-premium.vercel.app/search?q={search_term_string}",
       "query-input": "required name=search_term_string"
     },
     "sameAs": [
-      "https://instagram.com/ramastore",
-      "https://facebook.com/ramastore",
-      "https://twitter.com/ramastore"
+      "https://instagram.com/topupgamepremium",
+      "https://facebook.com/topupgamepremium",
+      "https://twitter.com/topupgamepremium"
     ]
   }
 
@@ -130,7 +129,6 @@ export default function RootLayout({
           <ErrorBoundary>
             <ToastProvider>
               {children}
-              <Analytics />
             </ToastProvider>
           </ErrorBoundary>
         </ThemeProvider>

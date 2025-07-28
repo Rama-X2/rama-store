@@ -4,28 +4,26 @@
   "installCommand": "npm install",
   "regions": ["iad1"],
   
-  "env": {
-    "ALLOWED_DOMAINS": "rama-store.vercel.app,localhost:3000,localhost:3001",
-    "ANTI_CLONE_ENABLED": "true",
-    "STRICT_DOMAIN_CHECK": "true"
-  },
-  
   "functions": {
     "app/**/*.tsx": {
       "maxDuration": 30
+    },
+    "middleware.ts": {
+      "maxDuration": 10
     }
   },
+  
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
         {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
           "key": "X-Frame-Options",
           "value": "DENY"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
         },
         {
           "key": "X-XSS-Protection",
@@ -55,6 +53,7 @@
       ]
     }
   ],
+  
   "redirects": [
     {
       "source": "/home",

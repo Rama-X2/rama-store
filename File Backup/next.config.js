@@ -1,40 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Security headers untuk anti-clone protection
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin',
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block',
-          },
-          {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=(), payment=()',
-          },
-          {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=31536000; includeSubDomains',
-          },
-        ],
-      },
-    ];
-  },
-
   // Image optimization configuration
   images: {
     domains: ['localhost'],
@@ -51,6 +16,11 @@ const nextConfig = {
 
   // Disable x-powered-by header
   poweredByHeader: false,
+
+  // REMOVE the experimental optimizeCss that causes critters error
+  // experimental: {
+  //   optimizeCss: true, // This causes the critters module error
+  // },
 
   // Simplified webpack configuration
   webpack: (config, { isServer, dev }) => {
