@@ -9,6 +9,7 @@ import Button from './ui/Button'
 import Input from './ui/Input'
 import { PurchaseConfirmModal } from './ui/ConfirmModal'
 import { useToastContext } from './ui/ToastProvider'
+import { paymentMethods, getPaymentMethodsByCategory } from '../lib/payment-images'
 
 interface GameDetailProps {
   game: Game
@@ -16,40 +17,63 @@ interface GameDetailProps {
 }
 
 const topupPackages = [
-  { id: 1, amount: '86 Diamonds', price: 'Rp 20.000', popular: false },
-  { id: 2, amount: '172 Diamonds', price: 'Rp 40.000', popular: false },
-  { id: 3, amount: '257 Diamonds', price: 'Rp 60.000', popular: true },
-  { id: 4, amount: '344 Diamonds', price: 'Rp 80.000', popular: false },
-  { id: 5, amount: '429 Diamonds', price: 'Rp 100.000', popular: false },
-  { id: 6, amount: '514 Diamonds', price: 'Rp 120.000', popular: false },
-  { id: 7, amount: '878 Diamonds', price: 'Rp 200.000', popular: false },
-  { id: 8, amount: '1159 Diamonds', price: 'Rp 250.000', popular: false },
-  { id: 9, amount: '2195 Diamonds', price: 'Rp 500.000', popular: false },
-  { id: 10, amount: '4830 Diamonds', price: 'Rp 1.000.000', popular: false },
+  { id: 1, amount: '86 Diamonds', price: 'Rp 20.000', originalPrice: 'Rp 25.000', popular: false },
+  { id: 2, amount: '172 Diamonds', price: 'Rp 40.000', originalPrice: 'Rp 50.000', popular: false },
+  { id: 3, amount: '257 Diamonds', price: 'Rp 60.000', originalPrice: 'Rp 75.000', popular: true },
+  { id: 4, amount: '344 Diamonds', price: 'Rp 80.000', originalPrice: 'Rp 100.000', popular: false },
+  { id: 5, amount: '429 Diamonds', price: 'Rp 100.000', originalPrice: 'Rp 125.000', popular: false },
+  { id: 6, amount: '514 Diamonds', price: 'Rp 120.000', originalPrice: 'Rp 150.000', popular: false },
+  { id: 7, amount: '878 Diamonds', price: 'Rp 200.000', originalPrice: 'Rp 250.000', popular: false },
+  { id: 8, amount: '1159 Diamonds', price: 'Rp 250.000', originalPrice: 'Rp 300.000', popular: false },
+  { id: 9, amount: '2195 Diamonds', price: 'Rp 500.000', originalPrice: 'Rp 625.000', popular: false },
+  { id: 10, amount: '4830 Diamonds', price: 'Rp 1.000.000', originalPrice: 'Rp 1.250.000', popular: false },
 ]
 
 export default function GameDetail({ game, onClose }: GameDetailProps) {
   const [selectedPackage, setSelectedPackage] = useState<number | null>(null)
   const [userId, setUserId] = useState('')
   const [serverId, setServerId] = useState('')
+  const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
   const { showSuccess, showError } = useToastContext()
 
+  // Payment method categories
+  const paymentCategories = [
+    { id: 'e-wallet', name: 'E-Wallet', methods: getPaymentMethodsByCategory('e-wallet') },
+    { id: 'bank', name: 'Bank Transfer', methods: getPaymentMethodsByCategory('bank') },
+    { id: 'convenience-store', name: 'Minimarket', methods: getPaymentMethodsByCategory('convenience-store') },
+    { id: 'mobile-provider', name: 'Pulsa', methods: getPaymentMethodsByCategory('mobile-provider') },
+    { id: 'qr-code', name: 'QRIS', methods: getPaymentMethodsByCategory('qr-code') },
+  ]
+
   // Prevent body scroll when modal is open
   useEffect(() => {
+    const originalStyle = window.getComputedStyle(document.body).overflow
     document.body.style.overflow = 'hidden'
-    document.body.style.paddingRight = '0px' // Prevent layout shift
+    document.body.style.position = 'fixed'
+    document.body.style.top = '0'
+    document.body.style.left = '0'
+    document.body.style.right = '0'
+    document.body.style.bottom = '0'
     
     return () => {
-      document.body.style.overflow = 'unset'
-      document.body.style.paddingRight = '0px'
+      document.body.style.overflow = originalStyle
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.left = ''
+      document.body.style.right = ''
+      document.body.style.bottom = ''
     }
   }, [])
 
   const handlePurchase = () => {
     if (!selectedPackage || !userId || !serverId) {
       showError('Data Tidak Lengkap', 'Mohon lengkapi User ID dan Server ID terlebih dahulu.')
+      return
+    }
+    if (!selectedPayment) {
+      showError('Pilih Metode Pembayaran', 'Mohon pilih metode pembayaran terlebih dahulu.')
       return
     }
     setShowConfirmModal(true)
@@ -77,9 +101,8 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 modal-background"
       onClick={onClose}
-      style={{ overflow: 'hidden', position: 'fixed' }}
     >
       <motion.div
         initial={{ scale: 0.8, opacity: 0, y: 50 }}
@@ -260,7 +283,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
         </div>
 
         {/* Content */}
-        <div className="custom-scrollbar max-h-[calc(90vh-12rem)] overflow-y-auto overscroll-contain">
+        <div className="custom-scrollbar max-h-[calc(90vh-12rem)] overflow-y-auto overscroll-contain modal-scroll">
           {/* Game Info Section - No 12 */}
           <div className="p-6 border-b border-gray-700">
             <div className="grid lg:grid-cols-3 gap-8">
@@ -290,20 +313,59 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
 
                 {/* Payment Method */}
                 <div className="glass-effect rounded-xl p-6">
-                  <h3 className="text-lg font-semibold mb-4 text-white">Metode Pembayaran</h3>
-                  <div className="space-y-3">
-                    {['E-Wallet', 'Bank Transfer', 'Minimarket', 'Pulsa'].map((method) => (
-                      <motion.div
-                      key={method}
-                      className="flex items-center space-x-3 p-3 rounded-lg bg-dark-light/50 
-                      hover:bg-dark-light cursor-pointer transition-colors"
-                      whileHover={{ scale: 1.02 }}
-                      >
-                      <label className="flex items-center space-x-3 cursor-pointer w-full">
-                        <input type="radio" name="payment" className="text-primary" />
-                        <span className="text-white">{method}</span>
-                      </label>
-                    </motion.div>
+                  <h3 className="text-lg font-semibold mb-6 text-white">Metode Pembayaran</h3>
+                  <div className="space-y-6">
+                    {paymentCategories.map((category) => (
+                      category.methods.length > 0 && (
+                        <div key={category.id} className="space-y-3">
+                          <h4 className="text-sm font-medium text-gray-300 uppercase tracking-wide">
+                            {category.name}
+                          </h4>
+                          <div className="grid grid-cols-1 gap-2">
+                            {category.methods.map((method) => (
+                              <motion.div
+                                key={method.id}
+                                onClick={() => setSelectedPayment(method.id)}
+                                className={`flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-all duration-300 ${
+                                  selectedPayment === method.id
+                                    ? 'bg-primary/20 border-2 border-primary shadow-glow'
+                                    : 'bg-dark-light/50 border-2 border-transparent hover:bg-dark-light hover:border-gray-600'
+                                }`}
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                              >
+                                <div className="relative w-10 h-10 flex-shrink-0">
+                                  <Image
+                                    src={method.icon}
+                                    alt={method.name}
+                                    width={40}
+                                    height={40}
+                                    className="w-full h-full object-contain rounded-lg"
+                                    onError={(e) => {
+                                      const img = e.target as HTMLImageElement;
+                                      img.style.display = 'none';
+                                    }}
+                                  />
+                                </div>
+                                <span className="text-white font-medium flex-1">{method.name}</span>
+                                <div className={`w-5 h-5 rounded-full border-2 transition-colors flex-shrink-0 ${
+                                  selectedPayment === method.id
+                                    ? 'border-primary bg-primary'
+                                    : 'border-gray-500'
+                                }`}>
+                                  {selectedPayment === method.id && (
+                                    <motion.div
+                                      initial={{ scale: 0 }}
+                                      animate={{ scale: 1 }}
+                                      className="w-full h-full rounded-full bg-white/20"
+                                    />
+                                  )}
+                                </div>
+                              </motion.div>
+                            ))}
+                          </div>
+                        </div>
+                      )
                     ))}
                   </div>
                 </div>
@@ -357,7 +419,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                 <motion.div
                   key={pkg.id}
                   onClick={() => setSelectedPackage(pkg.id)}
-                  className={`relative p-3 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
+                  className={`relative p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
                     selectedPackage === pkg.id
                       ? 'border-primary bg-primary/10 shadow-glow'
                       : 'border-gray-700 bg-dark-light hover:border-gray-600 hover:bg-gray-800/50'
@@ -372,12 +434,15 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                     </div>
                   )}
                   
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <h4 className="text-sm font-medium text-white mb-1">{pkg.amount}</h4>
-                      <p className="text-lg font-bold text-primary">{pkg.price}</p>
+                  <div className="text-center space-y-2">
+                    <h4 className="text-sm font-medium text-white">{pkg.amount}</h4>
+                    <div className="space-y-1">
+                      {pkg.originalPrice && (
+                        <p className="text-xs text-gray-400 line-through">{pkg.originalPrice}</p>
+                      )}
+                      <p className="text-base font-bold text-primary">{pkg.price}</p>
                     </div>
-                    <div className={`w-5 h-5 rounded-full border-2 transition-colors ${
+                    <div className={`w-5 h-5 rounded-full border-2 transition-colors mx-auto ${
                       selectedPackage === pkg.id
                         ? 'border-primary bg-primary'
                         : 'border-gray-500'
@@ -424,6 +489,12 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                   <div className="flex justify-between">
                     <span className="text-gray-400">Server:</span>
                     <span className="text-white font-medium">{serverId || '-'}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Pembayaran:</span>
+                    <span className="text-white font-medium">
+                      {selectedPayment ? paymentMethods.find(p => p.id === selectedPayment)?.name : '-'}
+                    </span>
                   </div>
                   <div className="border-t border-gray-600 pt-3 flex justify-between text-lg">
                     <span className="text-white font-semibold">Total:</span>
