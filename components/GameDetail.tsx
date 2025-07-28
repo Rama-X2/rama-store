@@ -507,44 +507,34 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
             )}
 
             {/* Purchase Button */}
-            <motion.div
-              className="flex justify-center"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-            >
+            <div className="flex justify-center mb-6">
               <Button
                 onClick={handlePurchase}
                 disabled={!selectedPackage || !userId || !serverId}
                 size="lg"
                 glow
                 icon={<ShoppingCart size={20} />}
-                className="px-8 py-4"
+                className="px-8 py-4 w-full max-w-md"
               >
                 Beli Sekarang
               </Button>
-            </motion.div>
+            </div>
 
             {/* Trust Indicators */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="mt-8 grid grid-cols-3 gap-4 text-center"
-            >
-              <div className="flex flex-col items-center">
-                <Shield className="w-8 h-8 text-green-400 mb-2" />
-                <span className="text-sm text-gray-400">100% Aman</span>
+            <div className="flex justify-center items-center space-x-8 py-4 bg-dark/50 rounded-xl backdrop-blur-sm border border-gray-700/50">
+              <div className="flex items-center space-x-2">
+                <Shield className="w-5 h-5 text-green-400 flex-shrink-0" />
+                <span className="text-sm text-gray-300 whitespace-nowrap">100% Aman</span>
               </div>
-              <div className="flex flex-col items-center">
-                <Clock className="w-8 h-8 text-blue-400 mb-2" />
-                <span className="text-sm text-gray-400">Proses Instan</span>
+              <div className="flex items-center space-x-2">
+                <Clock className="w-5 h-5 text-blue-400 flex-shrink-0" />
+                <span className="text-sm text-gray-300 whitespace-nowrap">Proses Instan</span>
               </div>
-              <div className="flex flex-col items-center">
-                <Star className="w-8 h-8 text-yellow-400 mb-2" fill="currentColor" />
-                <span className="text-sm text-gray-400">Rating 4.8</span>
+              <div className="flex items-center space-x-2">
+                <Star className="w-5 h-5 text-yellow-400 flex-shrink-0" fill="currentColor" />
+                <span className="text-sm text-gray-300 whitespace-nowrap">Rating 4.8</span>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </motion.div>
