@@ -5,10 +5,10 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { X, ShoppingCart, Star, Clock, Shield } from 'lucide-react'
 import { Game } from '../types/game'
-import Button from './ui/Button'
-import Input from './ui/Input'
-import { PurchaseConfirmModal } from './ui/ConfirmModal'
-import { useToastContext } from './ui/ToastProvider'
+import Button from '../components/ui/Button'
+import Input from '../components/ui/Input'
+import { PurchaseConfirmModal } from '../components/ui/ConfirmModal'
+import { useToastContext } from '../components/ui/ToastProvider'
 
 interface GameDetailProps {
   game: Game
@@ -75,7 +75,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
         exit={{ scale: 0.8, opacity: 0, y: 50 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
         className="w-full max-w-4xl max-h-[90vh] overflow-hidden rounded-2xl bg-dark border border-gray-700"
-        onClick={(e: React.MouseEvent) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Header dengan banner game yang lebih besar dan menarik */}
         <div className="relative h-64 bg-gradient-to-br from-primary/20 to-secondary/20 overflow-hidden">
@@ -261,7 +261,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                       label="User ID"
                       type="text"
                       value={userId}
-                      onChange={(e) => setUserId(e.target.value)}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserId(e.target.value)}
                       placeholder="Masukkan User ID"
                       helperText="ID pengguna akun game Anda"
                     />
@@ -269,7 +269,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                       label="Server ID"
                       type="text"
                       value={serverId}
-                      onChange={(e) => setServerId(e.target.value)}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setServerId(e.target.value)}
                       placeholder="Masukkan Server ID"
                       helperText="ID server tempat Anda bermain"
                     />
