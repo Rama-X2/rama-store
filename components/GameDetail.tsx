@@ -249,103 +249,250 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
 
         {/* Content */}
         <div className="custom-scrollbar max-h-[70vh] overflow-y-auto pb-8">
-          {/* Game Info Section - No 12 */}
-          <div className="p-4 md:p-6 border-b border-gray-700">
-            <div className="grid lg:grid-cols-3 gap-4 md:gap-8">
-              {/* Left side - User Input */}
-              <div className="lg:col-span-1 space-y-4 md:space-y-6">
-                <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6">
-                  <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-white">Data Akun</h3>
-                  <div className="space-y-3 md:space-y-4">
-                    <Input
-                      label="User ID"
-                      type="text"
-                      value={userId}
-                      onChange={(e) => setUserId(e.target.value)}
-                      placeholder="Masukkan User ID"
-                      helperText="ID pengguna akun game Anda"
-                    />
-                    <Input
-                      label="Server ID"
-                      type="text"
-                      value={serverId}
-                      onChange={(e) => setServerId(e.target.value)}
-                      placeholder="Masukkan Server ID"
-                      helperText="ID server tempat Anda bermain"
-                    />
-                  </div>
-                </div>
+        {/* Game Info Section - No 12 */}
+        <div className="p-4 md:p-6 border-b border-gray-700">
+        <div className="grid lg:grid-cols-5 gap-4 md:gap-8">
+        {/* Left side - User Input (2 columns) */}
+        <div className="lg:col-span-2 space-y-4 md:space-y-6">
+        <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6">
+        <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-white">Data Akun</h3>
+        <div className="space-y-3 md:space-y-4">
+        <Input
+        label="User ID"
+        type="text"
+        value={userId}
+        onChange={(e) => setUserId(e.target.value)}
+        placeholder="Masukkan User ID"
+        helperText="ID pengguna akun game Anda"
+        />
+        <Input
+        label="Server ID"
+        type="text"
+        value={serverId}
+        onChange={(e) => setServerId(e.target.value)}
+        placeholder="Masukkan Server ID"
+        helperText="ID server tempat Anda bermain"
+        />
+        </div>
+        </div>
+              </div>
 
-                {/* Payment Method */}
-                <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6">
-                  <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-white">Metode Pembayaran</h3>
-                  
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
-                    {[
-                      { name: 'GoPay', logo: '/images/payments/gopay.svg' },
-                      { name: 'DANA', logo: '/images/payments/dana.svg' },
-                      { name: 'OVO', logo: '/images/payments/ovo.svg' },
-                      { name: 'ShopeePay', logo: '/images/payments/shopeepay.svg' },
-                      { name: 'LinkAja', logo: '/images/payments/linkaja.svg' },
-                      { name: 'Bank Transfer', logo: '/images/payments/bank.svg' },
-                      { name: 'QRIS', logo: '/images/payments/qris.svg' },
-                      { name: 'Kartu Kredit', logo: '/images/payments/credit.svg' },
-                      { name: 'Indomaret', logo: '/images/payments/indomaret.svg' },
-                      { name: 'Alfamart', logo: '/images/payments/alfamart.svg' },
-                      { name: 'Telkomsel', logo: '/images/payments/telkomsel.svg' },
-                      { name: 'Indosat', logo: '/images/payments/indosat.svg' },
-                      { name: 'XL Axiata', logo: '/images/payments/xl.svg' },
-                      { name: 'Tri', logo: '/images/payments/tri.svg' },
-                      { name: 'Smartfren', logo: '/images/payments/smartfren.svg' }
-                    ].map((payment) => (
-                      <motion.div
-                        key={payment.name}
-                        className="relative p-3 rounded-lg bg-white border border-gray-200 
-                        hover:border-primary/50 cursor-pointer transition-all duration-200 group
-                        hover:shadow-lg hover:-translate-y-1"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <input 
-                          type="radio" 
-                          name="payment" 
-                          className="absolute top-2 right-2 text-primary scale-90" 
-                        />
-                        <div className="flex flex-col items-center text-center space-y-2">
-                          <div className="w-12 h-8 bg-gray-50 rounded flex items-center justify-center overflow-hidden border">
-                            <Image
-                              src={payment.logo}
-                              alt={payment.name}
-                              width={48}
-                              height={32}
-                              className="w-full h-full object-contain"
-                              onError={(e) => {
-                                const img = e.target as HTMLImageElement;
-                                img.style.display = 'none';
-                                const parent = img.parentElement;
-                                if (parent) {
-                                  parent.innerHTML = `<span class="text-xs font-bold text-gray-500">${payment.name.charAt(0)}</span>`;
-                                }
-                              }}
-                            />
-                          </div>
-                          <span className="text-xs font-medium text-gray-700 leading-tight">
-                            {payment.name}
+        {/* Middle - Payment Method (2 columns) */}
+        <div className="lg:col-span-2">
+        <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6">
+        <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-white">Metode Pembayaran</h3>
+        
+        {/* E-Wallet Section */}
+        <div className="mb-4">
+        <h4 className="text-sm font-medium text-gray-300 mb-2">E-Wallet</h4>
+        <div className="grid grid-cols-2 gap-2">
+        {[
+          { name: 'GoPay', logo: '/images/payments/gopay.svg' },
+          { name: 'DANA', logo: '/images/payments/dana.svg' },
+          { name: 'OVO', logo: '/images/payments/ovo.svg' },
+          { name: 'ShopeePay', logo: '/images/payments/shopeepay.svg' }
+        ].map((payment) => (
+          <motion.div
+            key={payment.name}
+            className="relative p-2 rounded-lg bg-white border border-gray-200 
+            hover:border-primary/50 cursor-pointer transition-all duration-200 group
+            hover:shadow-lg hover:-translate-y-1"
+              whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+        >
+          <input 
+            type="radio" 
+            name="payment" 
+            className="absolute top-1 right-1 text-primary scale-75" 
+          />
+            <div className="flex items-center space-x-2">
+            <div className="w-8 h-6 bg-gray-50 rounded flex items-center justify-center overflow-hidden border">
+            <Image
+              src={payment.logo}
+              alt={payment.name}
+                width={32}
+                height={24}
+              className="w-full h-full object-contain"
+            onError={(e) => {
+            const img = e.target as HTMLImageElement;
+            img.style.display = 'none';
+            const parent = img.parentElement;
+            if (parent) {
+              parent.innerHTML = `<span class="text-xs font-bold text-gray-500">${payment.name.charAt(0)}</span>`;
+            }
+        }}
+        />
+        </div>
+        <span className="text-xs font-medium text-gray-700 leading-tight">
+        {payment.name}
+        </span>
+        </div>
+        <div className="absolute inset-0 rounded-lg bg-primary/5 opacity-0 
+                      group-hover:opacity-100 transition-opacity duration-200"></div>
+        </motion.div>
+        ))}
+        </div>
+        </div>
+
+        {/* Bank Transfer Section */}
+        <div className="mb-4">
+        <h4 className="text-sm font-medium text-gray-300 mb-2">Bank Transfer</h4>
+          <div className="grid grid-cols-1 gap-2">
+              {[
+                  { name: 'Bank Transfer', logo: '/images/payments/bank.svg' },
+                        { name: 'QRIS', logo: '/images/payments/qris.svg' }
+                ].map((payment) => (
+                  <motion.div
+                  key={payment.name}
+                className="relative p-2 rounded-lg bg-white border border-gray-200 
+                hover:border-primary/50 cursor-pointer transition-all duration-200 group
+              hover:shadow-lg hover:-translate-y-1"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            >
+              <input 
+              type="radio" 
+              name="payment" 
+            className="absolute top-1 right-1 text-primary scale-75" 
+          />
+            <div className="flex items-center space-x-2">
+                <div className="w-8 h-6 bg-gray-50 rounded flex items-center justify-center overflow-hidden border">
+                  <Image
+                  src={payment.logo}
+                  alt={payment.name}
+                width={32}
+                height={24}
+                  className="w-full h-full object-contain"
+                    onError={(e) => {
+                      const img = e.target as HTMLImageElement;
+                    img.style.display = 'none';
+                    const parent = img.parentElement;
+                  if (parent) {
+                    parent.innerHTML = `<span class="text-xs font-bold text-gray-500">${payment.name.charAt(0)}</span>`;
+                    }
+                    }}
+                    />
+                    </div>
+                      <span className="text-xs font-medium text-gray-700 leading-tight">
+                          {payment.name}
                           </span>
-                        </div>
-                        <div className="absolute inset-0 rounded-lg bg-primary/5 opacity-0 
-                                      group-hover:opacity-100 transition-opacity duration-200"></div>
-                      </motion.div>
-                    ))}
+                          </div>
+                          <div className="absolute inset-0 rounded-lg bg-primary/5 opacity-0 
+                                        group-hover:opacity-100 transition-opacity duration-200"></div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Minimarket Section */}
+                  <div className="mb-4">
+                    <h4 className="text-sm font-medium text-gray-300 mb-2">Minimarket</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { name: 'Indomaret', logo: '/images/payments/indomaret.svg' },
+                        { name: 'Alfamart', logo: '/images/payments/alfamart.svg' }
+                      ].map((payment) => (
+                        <motion.div
+                          key={payment.name}
+                          className="relative p-2 rounded-lg bg-white border border-gray-200 
+                          hover:border-primary/50 cursor-pointer transition-all duration-200 group
+                          hover:shadow-lg hover:-translate-y-1"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          <input 
+                            type="radio" 
+                            name="payment" 
+                            className="absolute top-1 right-1 text-primary scale-75" 
+                          />
+                          <div className="flex items-center space-x-2">
+                            <div className="w-8 h-6 bg-gray-50 rounded flex items-center justify-center overflow-hidden border">
+                              <Image
+                                src={payment.logo}
+                                alt={payment.name}
+                                width={32}
+                                height={24}
+                                className="w-full h-full object-contain"
+                                onError={(e) => {
+                                  const img = e.target as HTMLImageElement;
+                                  img.style.display = 'none';
+                                  const parent = img.parentElement;
+                                  if (parent) {
+                                    parent.innerHTML = `<span class="text-xs font-bold text-gray-500">${payment.name.charAt(0)}</span>`;
+                                  }
+                                }}
+                              />
+                            </div>
+                            <span className="text-xs font-medium text-gray-700 leading-tight">
+                              {payment.name}
+                            </span>
+                          </div>
+                          <div className="absolute inset-0 rounded-lg bg-primary/5 opacity-0 
+                                        group-hover:opacity-100 transition-opacity duration-200"></div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Pulsa Section */}
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-300 mb-2">Pulsa</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { name: 'Telkomsel', logo: '/images/payments/telkomsel.svg' },
+                        { name: 'Indosat', logo: '/images/payments/indosat.svg' },
+                        { name: 'XL Axiata', logo: '/images/payments/xl.svg' },
+                        { name: 'Tri', logo: '/images/payments/tri.svg' }
+                      ].map((payment) => (
+                        <motion.div
+                          key={payment.name}
+                          className="relative p-2 rounded-lg bg-white border border-gray-200 
+                          hover:border-primary/50 cursor-pointer transition-all duration-200 group
+                          hover:shadow-lg hover:-translate-y-1"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          <input 
+                            type="radio" 
+                            name="payment" 
+                            className="absolute top-1 right-1 text-primary scale-75" 
+                          />
+                          <div className="flex items-center space-x-2">
+                            <div className="w-8 h-6 bg-gray-50 rounded flex items-center justify-center overflow-hidden border">
+                              <Image
+                                src={payment.logo}
+                                alt={payment.name}
+                                width={32}
+                                height={24}
+                                className="w-full h-full object-contain"
+                                onError={(e) => {
+                                  const img = e.target as HTMLImageElement;
+                                  img.style.display = 'none';
+                                  const parent = img.parentElement;
+                                  if (parent) {
+                                    parent.innerHTML = `<span class="text-xs font-bold text-gray-500">${payment.name.charAt(0)}</span>`;
+                                  }
+                                }}
+                              />
+                            </div>
+                            <span className="text-xs font-medium text-gray-700 leading-tight">
+                              {payment.name}
+                            </span>
+                          </div>
+                          <div className="absolute inset-0 rounded-lg bg-primary/5 opacity-0 
+                                        group-hover:opacity-100 transition-opacity duration-200"></div>
+                        </motion.div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Right side - Game Detail Info */}
-              <div className="lg:col-span-2">
+              {/* Right side - Game Detail Info (1 column) */}
+              <div className="lg:col-span-1">
                 <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6">
                   <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-white">Informasi Game</h3>
-                  <div className="grid grid-cols-2 gap-3 md:gap-4 text-sm">
+                  <div className="space-y-3 text-sm">
                     <div>
                       <span className="text-gray-400">Developer:</span>
                       <p className="text-white font-medium">Game Studio</p>
