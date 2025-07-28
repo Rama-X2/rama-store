@@ -12,7 +12,7 @@ import { useToastContext } from './ui/ToastProvider'
 import { paymentMethods, getPaymentMethodsByCategory } from '../lib/payment-images'
 import { throttle, getMobileAnimationConfig, isMobile } from '../lib/mobile-performance'
 import { usePerformanceMonitor, useTouchOptimization, useViewportOptimization, useMemoryCleanup } from '../lib/performance-hooks'
-import { OptimizedPaymentSelector, OptimizedPackageSelector } from './VirtualizedComponents'
+// Removed VirtualizedComponents import - using direct implementation
 
 // Debounce utility function for performance optimization
 function debounce<T extends (...args: any[]) => any>(
@@ -390,45 +390,133 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
         {/* E-Wallet Section */}
         <div className="mb-4">
         <h4 className="text-sm font-medium text-gray-300 mb-2">E-Wallet</h4>
-        <OptimizedPaymentSelector
-          payments={paymentMethodsData.ewallet}
-          selectedPayment={selectedPayment}
-          onSelect={setSelectedPayment}
-          category="ewallet"
-        />
+        <div className="grid grid-cols-2 gap-2">
+          {paymentMethodsData.ewallet.map((payment) => (
+            <button
+              key={payment.id}
+              onClick={() => setSelectedPayment(payment.id)}
+              className={`p-2 rounded-lg border text-center transition-all duration-200 ${
+                selectedPayment === payment.id
+                  ? 'border-primary bg-primary/10'
+                  : 'border-gray-600 hover:border-gray-500'
+              }`}
+            >
+              <div className="flex flex-col items-center space-y-1">
+                <div className="w-6 h-6 relative">
+                  <img
+                    src={payment.image}
+                    alt={payment.name}
+                    className="w-full h-full object-contain"
+                    onError={(e) => {
+                      const img = e.target as HTMLImageElement;
+                      img.src = '/images/payment/default.png';
+                    }}
+                  />
+                </div>
+                <span className="text-xs text-white truncate">{payment.name}</span>
+              </div>
+            </button>
+          ))}
+        </div>
         </div>
 
         {/* Bank Transfer Section */}
         <div className="mb-4">
         <h4 className="text-sm font-medium text-gray-300 mb-2">Bank Transfer</h4>
-        <OptimizedPaymentSelector
-          payments={paymentMethodsData.bank}
-          selectedPayment={selectedPayment}
-          onSelect={setSelectedPayment}
-          category="bank"
-        />
+        <div className="grid grid-cols-2 gap-2">
+          {paymentMethodsData.bank.map((payment) => (
+            <button
+              key={payment.id}
+              onClick={() => setSelectedPayment(payment.id)}
+              className={`p-2 rounded-lg border text-center transition-all duration-200 ${
+                selectedPayment === payment.id
+                  ? 'border-primary bg-primary/10'
+                  : 'border-gray-600 hover:border-gray-500'
+              }`}
+            >
+              <div className="flex flex-col items-center space-y-1">
+                <div className="w-6 h-6 relative">
+                  <img
+                    src={payment.image}
+                    alt={payment.name}
+                    className="w-full h-full object-contain"
+                    onError={(e) => {
+                      const img = e.target as HTMLImageElement;
+                      img.src = '/images/payment/default.png';
+                    }}
+                  />
+                </div>
+                <span className="text-xs text-white truncate">{payment.name}</span>
+              </div>
+            </button>
+          ))}
+        </div>
         </div>
 
                   {/* Minimarket Section */}
                   <div className="mb-4">
                     <h4 className="text-sm font-medium text-gray-300 mb-2">Minimarket</h4>
-                    <OptimizedPaymentSelector
-                      payments={paymentMethodsData.convenience}
-                      selectedPayment={selectedPayment}
-                      onSelect={setSelectedPayment}
-                      category="convenience"
-                    />
+                    <div className="grid grid-cols-2 gap-2">
+                      {paymentMethodsData.convenience.map((payment) => (
+                        <button
+                          key={payment.id}
+                          onClick={() => setSelectedPayment(payment.id)}
+                          className={`p-2 rounded-lg border text-center transition-all duration-200 ${
+                            selectedPayment === payment.id
+                              ? 'border-primary bg-primary/10'
+                              : 'border-gray-600 hover:border-gray-500'
+                          }`}
+                        >
+                          <div className="flex flex-col items-center space-y-1">
+                            <div className="w-6 h-6 relative">
+                              <img
+                                src={payment.image}
+                                alt={payment.name}
+                                className="w-full h-full object-contain"
+                                onError={(e) => {
+                                  const img = e.target as HTMLImageElement;
+                                  img.src = '/images/payment/default.png';
+                                }}
+                              />
+                            </div>
+                            <span className="text-xs text-white truncate">{payment.name}</span>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
                   </div>
 
                   {/* Pulsa Section */}
                   <div>
                     <h4 className="text-sm font-medium text-gray-300 mb-2">Pulsa</h4>
-                    <OptimizedPaymentSelector
-                      payments={paymentMethodsData.mobile}
-                      selectedPayment={selectedPayment}
-                      onSelect={setSelectedPayment}
-                      category="mobile"
-                    />
+                    <div className="grid grid-cols-2 gap-2">
+                      {paymentMethodsData.mobile.map((payment) => (
+                        <button
+                          key={payment.id}
+                          onClick={() => setSelectedPayment(payment.id)}
+                          className={`p-2 rounded-lg border text-center transition-all duration-200 ${
+                            selectedPayment === payment.id
+                              ? 'border-primary bg-primary/10'
+                              : 'border-gray-600 hover:border-gray-500'
+                          }`}
+                        >
+                          <div className="flex flex-col items-center space-y-1">
+                            <div className="w-6 h-6 relative">
+                              <img
+                                src={payment.image}
+                                alt={payment.name}
+                                className="w-full h-full object-contain"
+                                onError={(e) => {
+                                  const img = e.target as HTMLImageElement;
+                                  img.src = '/images/payment/default.png';
+                                }}
+                              />
+                            </div>
+                            <span className="text-xs text-white truncate">{payment.name}</span>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -476,11 +564,34 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
               Pilih Nominal Top Up
             </h3>
             
-            <OptimizedPackageSelector
-              packages={topupPackages}
-              selectedPackage={selectedPackage}
-              onSelect={setSelectedPackage}
-            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {topupPackages.map((pkg) => (
+                <button
+                  key={pkg.id}
+                  onClick={() => setSelectedPackage(pkg.id)}
+                  className={`relative p-4 rounded-xl border-2 text-left transition-all duration-200 ${
+                    selectedPackage === pkg.id
+                      ? 'border-primary bg-primary/10 shadow-glow'
+                      : 'border-gray-600 hover:border-gray-500 glass-effect'
+                  }`}
+                >
+                  {pkg.popular && (
+                    <div className="absolute -top-2 -right-2 bg-yellow-500 text-black px-2 py-1 rounded-full text-xs font-bold">
+                      POPULER
+                    </div>
+                  )}
+                  
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-white text-sm md:text-base">
+                      {pkg.amount}
+                    </h4>
+                    <p className="text-primary font-bold text-sm md:text-lg">
+                      {pkg.price}
+                    </p>
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Purchase Section - No 14 */}
