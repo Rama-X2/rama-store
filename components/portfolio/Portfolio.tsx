@@ -44,7 +44,7 @@ const portfolioData = {
     email: "rama@server.my.id",
     phone: "+62 857-9518-5561",
     website: "https://rama.server.my.id",
-    github: "https://github.com/rama-developer",
+    github: "https://github.com/Rama-X2",
     linkedin: "https://linkedin.com/in/rama-xd"
   },
   

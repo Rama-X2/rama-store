@@ -11,7 +11,7 @@ interface GameGridProps {
 
 export default function GameGrid({ games, onGameClick }: GameGridProps) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-6">
       {games.map((game, index) => (
         <motion.div
           key={game.id}
@@ -84,8 +84,8 @@ export default function GameGrid({ games, onGameClick }: GameGridProps) {
                           transform skew-x-12"></div>
           </div>
 
-          <div className="p-4">
-            <h3 className="font-semibold text-sm text-center group-hover:text-primary 
+          <div className="p-3 md:p-4">
+            <h3 className="font-semibold text-xs md:text-sm text-center group-hover:text-primary 
                          transition-colors duration-300 line-clamp-2">
               {game.name}
             </h3>

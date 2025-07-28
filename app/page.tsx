@@ -688,8 +688,101 @@ export default function Home() {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="sticky top-0 z-40 glass-effect"
       >
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
+        <div className="container mx-auto px-4 py-3">
+          {/* Mobile Header */}
+          <div className="md:hidden">
+            <div className="flex items-center justify-between mb-3">
+              <motion.h1 
+                className="text-xl font-bold glow-text"
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                Rama Store
+              </motion.h1>
+              
+              <div className="flex items-center space-x-2">
+                {/* Mobile Search Toggle */}
+                <motion.button
+                  onClick={() => setShowSearch(!showSearch)}
+                  className="p-2 text-gray-400 hover:text-white transition-colors"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  {showSearch ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
+                </motion.button>
+                
+                {/* Portfolio Button - Mobile */}
+                <motion.button
+                  onClick={() => setShowPortfolio(true)}
+                  className="p-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-white shadow-glow hover:shadow-glow-lg transition-all duration-300"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <User className="w-4 h-4" />
+                </motion.button>
+                
+                <ThemeToggle />
+              </div>
+            </div>
+            
+            {/* Mobile Search Bar */}
+            <AnimatePresence>
+              {showSearch && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="mb-3"
+                >
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Cari game favorit..."
+                      className="w-full px-4 py-3 pl-10 bg-dark-light/80 rounded-full border border-gray-600 
+                               text-white placeholder-gray-400 focus:border-primary 
+                               focus:ring-2 focus:ring-primary/20 transition-all backdrop-blur-sm"
+                      autoFocus
+                    />
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            
+            {/* Mobile Navigation */}
+            <div className="flex space-x-1 bg-dark-light/50 rounded-full p-1 backdrop-blur-sm overflow-x-auto">
+              {[
+                { id: 'topup', name: 'Top Up' },
+                { id: 'transaction', name: 'Check' },
+                { id: 'leaderboard', name: 'Leaderboard' },
+                { id: 'credit', name: 'Credit' },
+              ].map((tab) => (
+                <motion.button
+                  key={tab.id}
+                  onClick={() => {
+                    setActiveTab(tab.id)
+                    if (tab.id === 'topup') setActiveCategory('new-release')
+                    setSearchQuery('')
+                    setShowSearch(false)
+                  }}
+                  className={`px-3 py-2 rounded-full text-xs font-medium transition-all duration-300 whitespace-nowrap flex-shrink-0 ${
+                    activeTab === tab.id
+                      ? 'bg-primary text-white shadow-glow'
+                      : 'text-gray-300 hover:text-white hover:bg-white/10'
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {tab.name}
+                </motion.button>
+              ))}
+            </div>
+          </div>
+          
+          {/* Desktop Header */}
+          <div className="hidden md:flex items-center justify-between">
             <motion.h1 
               className="text-2xl font-bold glow-text"
               whileHover={{ scale: 1.05 }}
@@ -788,7 +881,7 @@ export default function Home() {
       </motion.header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-4 md:py-8">
         {/* Top Up Tab */}
         {activeTab === 'topup' && (
           <motion.div
@@ -805,7 +898,7 @@ export default function Home() {
             )}
             
             {/* Category Tabs */}
-            <div className="flex space-x-2 mb-8 overflow-x-auto custom-scrollbar">
+            <div className="flex space-x-2 mb-6 md:mb-8 overflow-x-auto custom-scrollbar pb-2">
               {categories.map((category) => (
                 <motion.button
                   key={category.id}
@@ -814,7 +907,7 @@ export default function Home() {
                     setVisibleItems(8)
                     setSearchQuery('')
                   }}
-                  className={`px-6 py-3 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-300 ${
+                  className={`px-4 md:px-6 py-2 md:py-3 rounded-lg text-xs md:text-sm font-medium whitespace-nowrap transition-all duration-300 flex-shrink-0 ${
                     activeCategory === category.id
                       ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-glow'
                       : 'bg-dark-light text-gray-300 hover:text-white hover:bg-gray-700'

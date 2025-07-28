@@ -175,7 +175,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                   alt={game.name}
                   width={96}
                   height={96}
-                  className="w-full h-full object-cover rounded-2xl opacity-0 transition-opacity duration-300"
+                  className="w-full h-full object-cover rounded-xl md:rounded-2xl opacity-0 transition-opacity duration-300"
                   onLoad={(e) => {
                     const img = e.target as HTMLImageElement;
                     img.style.opacity = '1';
@@ -188,7 +188,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                   }}
                 />
                 {/* Glow effect */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/30 to-secondary/30 
+                <div className="absolute inset-0 rounded-xl md:rounded-2xl bg-gradient-to-br from-primary/30 to-secondary/30 
                               opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
               {/* Pulsing ring */}
@@ -202,14 +202,14 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
-                className="absolute inset-0 rounded-2xl border-2 border-white/40"
+                className="absolute inset-0 rounded-xl md:rounded-2xl border-2 border-white/40"
               />
             </motion.div>
             
             {/* Game details */}
-            <div className="flex-1">
+            <div className="flex-1 min-w-0">
               <motion.h1 
-                className="text-3xl font-bold text-white mb-2 drop-shadow-lg"
+                className="text-lg md:text-3xl font-bold text-white mb-1 md:mb-2 drop-shadow-lg truncate"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2 }}
@@ -217,7 +217,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                 {game.name}
               </motion.h1>
               <motion.p 
-                className="text-white/90 mb-4 text-lg drop-shadow-md"
+                className="text-white/90 mb-2 md:mb-4 text-sm md:text-lg drop-shadow-md line-clamp-2"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
@@ -225,22 +225,22 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                 {game.description}
               </motion.p>
               <motion.div 
-                className="flex items-center space-x-6 text-sm"
+                className="flex items-center space-x-2 md:space-x-6 text-xs md:text-sm"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 }}
               >
-                <div className="flex items-center space-x-2 bg-black/30 px-3 py-2 rounded-full backdrop-blur-sm">
-                  <Star size={18} className="text-yellow-400" fill="currentColor" />
-                  <span className="text-white font-medium">4.8</span>
+                <div className="flex items-center space-x-1 md:space-x-2 bg-black/30 px-2 md:px-3 py-1 md:py-2 rounded-full backdrop-blur-sm">
+                  <Star size={14} className="text-yellow-400 md:w-[18px] md:h-[18px]" fill="currentColor" />
+                  <span className="text-white font-medium hidden sm:inline">4.8</span>
                 </div>
-                <div className="flex items-center space-x-2 bg-black/30 px-3 py-2 rounded-full backdrop-blur-sm">
-                  <Clock size={18} className="text-green-400" />
-                  <span className="text-white font-medium">Instant</span>
+                <div className="flex items-center space-x-1 md:space-x-2 bg-black/30 px-2 md:px-3 py-1 md:py-2 rounded-full backdrop-blur-sm">
+                  <Clock size={14} className="text-green-400 md:w-[18px] md:h-[18px]" />
+                  <span className="text-white font-medium hidden sm:inline">Instant</span>
                 </div>
-                <div className="flex items-center space-x-2 bg-black/30 px-3 py-2 rounded-full backdrop-blur-sm">
-                  <Shield size={18} className="text-blue-400" />
-                  <span className="text-white font-medium">100% Aman</span>
+                <div className="flex items-center space-x-1 md:space-x-2 bg-black/30 px-2 md:px-3 py-1 md:py-2 rounded-full backdrop-blur-sm">
+                  <Shield size={14} className="text-blue-400 md:w-[18px] md:h-[18px]" />
+                  <span className="text-white font-medium hidden sm:inline">Aman</span>
                 </div>
               </motion.div>
             </div>
@@ -248,15 +248,15 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
         </div>
 
         {/* Content */}
-        <div className="custom-scrollbar max-h-[calc(90vh-12rem)] overflow-y-auto">
+        <div className="custom-scrollbar max-h-[calc(95vh-10rem)] md:max-h-[calc(90vh-12rem)] overflow-y-auto">
           {/* Game Info Section - No 12 */}
-          <div className="p-6 border-b border-gray-700">
-            <div className="grid lg:grid-cols-3 gap-8">
+          <div className="p-4 md:p-6 border-b border-gray-700">
+            <div className="grid lg:grid-cols-3 gap-4 md:gap-8">
               {/* Left side - User Input */}
-              <div className="lg:col-span-1 space-y-6">
-                <div className="glass-effect rounded-xl p-6">
-                  <h3 className="text-lg font-semibold mb-4 text-white">Data Akun</h3>
-                  <div className="space-y-4">
+              <div className="lg:col-span-1 space-y-4 md:space-y-6">
+                <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6">
+                  <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-white">Data Akun</h3>
+                  <div className="space-y-3 md:space-y-4">
                     <Input
                       label="User ID"
                       type="text"
@@ -277,19 +277,19 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                 </div>
 
                 {/* Payment Method */}
-                <div className="glass-effect rounded-xl p-6">
-                  <h3 className="text-lg font-semibold mb-4 text-white">Metode Pembayaran</h3>
-                  <div className="space-y-3">
+                <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6">
+                  <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-white">Metode Pembayaran</h3>
+                  <div className="space-y-2 md:space-y-3">
                     {['E-Wallet', 'Bank Transfer', 'Minimarket', 'Pulsa'].map((method) => (
                       <motion.div
                       key={method}
-                      className="flex items-center space-x-3 p-3 rounded-lg bg-dark-light/50 
+                      className="flex items-center space-x-3 p-2 md:p-3 rounded-lg bg-dark-light/50 
                       hover:bg-dark-light cursor-pointer transition-colors"
                       whileHover={{ scale: 1.02 }}
                       >
                       <label className="flex items-center space-x-3 cursor-pointer w-full">
                         <input type="radio" name="payment" className="text-primary" />
-                        <span className="text-white">{method}</span>
+                        <span className="text-white text-sm md:text-base">{method}</span>
                       </label>
                     </motion.div>
                     ))}
@@ -299,9 +299,9 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
 
               {/* Right side - Game Detail Info */}
               <div className="lg:col-span-2">
-                <div className="glass-effect rounded-xl p-6">
-                  <h3 className="text-lg font-semibold mb-4 text-white">Informasi Game</h3>
-                  <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6">
+                  <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-white">Informasi Game</h3>
+                  <div className="grid grid-cols-2 gap-3 md:gap-4 text-sm">
                     <div>
                       <span className="text-gray-400">Developer:</span>
                       <p className="text-white font-medium">Game Studio</p>
@@ -450,16 +450,16 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
               className="mt-8 grid grid-cols-3 gap-4 text-center"
             >
               <div className="flex flex-col items-center">
-                <Shield className="w-8 h-8 text-green-400 mb-2" />
-                <span className="text-sm text-gray-400">100% Aman</span>
+                <Shield className="w-6 h-6 md:w-8 md:h-8 text-green-400 mb-1 md:mb-2" />
+                <span className="text-xs md:text-sm text-gray-400">100% Aman</span>
               </div>
               <div className="flex flex-col items-center">
-                <Clock className="w-8 h-8 text-blue-400 mb-2" />
-                <span className="text-sm text-gray-400">Proses Instan</span>
+                <Clock className="w-6 h-6 md:w-8 md:h-8 text-blue-400 mb-1 md:mb-2" />
+                <span className="text-xs md:text-sm text-gray-400">Proses Instan</span>
               </div>
               <div className="flex flex-col items-center">
-                <Star className="w-8 h-8 text-yellow-400 mb-2" fill="currentColor" />
-                <span className="text-sm text-gray-400">Rating 4.8</span>
+                <Star className="w-6 h-6 md:w-8 md:h-8 text-yellow-400 mb-1 md:mb-2" fill="currentColor" />
+                <span className="text-xs md:text-sm text-gray-400">Rating 4.8</span>
               </div>
             </motion.div>
           </div>

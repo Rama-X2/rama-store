@@ -55,7 +55,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
       
       <div className="relative">
         {icon && (
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+          <div className="absolute left-2 md:left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
             {icon}
           </div>
         )}
@@ -64,11 +64,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
           ref={ref}
           type={inputType}
           className={`
-            w-full px-4 py-3 rounded-lg border transition-all duration-300
-            text-white placeholder-gray-400 focus:ring-2 focus:ring-primary/20
+            w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border transition-all duration-300
+            text-white placeholder-gray-400 focus:ring-2 focus:ring-primary/20 text-sm md:text-base
             ${getVariantStyles()}
-            ${icon ? 'pl-11' : ''}
-            ${isPassword ? 'pr-11' : ''}
+            ${icon ? 'pl-10 md:pl-11' : ''}
+            ${isPassword ? 'pr-10 md:pr-11' : ''}
             ${error ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : ''}
             ${isFocused ? 'scale-[1.02] transform' : ''}
             ${className}
@@ -82,9 +82,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+            className="absolute right-2 md:right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
           >
-            {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+            {showPassword ? <EyeOff className="w-4 h-4 md:w-5 md:h-5" /> : <Eye className="w-4 h-4 md:w-5 md:h-5" />}
           </button>
         )}
         
@@ -162,9 +162,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
         <textarea
           ref={ref}
           className={`
-            w-full px-4 py-3 rounded-lg border transition-all duration-300
-            text-white placeholder-gray-400 focus:ring-2 focus:ring-primary/20
-            resize-none min-h-[100px]
+            w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border transition-all duration-300
+            text-white placeholder-gray-400 focus:ring-2 focus:ring-primary/20 text-sm md:text-base
+            resize-none min-h-[80px] md:min-h-[100px]
             ${getVariantStyles()}
             ${error ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : ''}
             ${isFocused ? 'scale-[1.01] transform' : ''}
@@ -240,8 +240,8 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(({
         <select
           ref={ref}
           className={`
-            w-full px-4 py-3 rounded-lg border transition-all duration-300
-            text-white bg-dark-light border-gray-600 focus:border-primary
+            w-full px-3 py-2 md:px-4 md:py-3 rounded-lg border transition-all duration-300
+            text-white bg-dark-light border-gray-600 focus:border-primary text-sm md:text-base
             focus:ring-2 focus:ring-primary/20 appearance-none cursor-pointer
             ${error ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : ''}
             ${isFocused ? 'scale-[1.02] transform' : ''}
@@ -264,8 +264,8 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(({
         </select>
         
         {/* Dropdown arrow */}
-        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-          <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="absolute right-2 md:right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+          <svg className="w-4 h-4 md:w-5 md:h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
         </div>
