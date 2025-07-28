@@ -9,6 +9,7 @@ import Button from './ui/Button'
 import Input from './ui/Input'
 import { PurchaseConfirmModal } from './ui/ConfirmModal'
 import { useToastContext } from './ui/ToastProvider'
+import { useEffect } from 'react'
 
 interface GameDetailProps {
   game: Game
@@ -36,6 +37,14 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
   const { showSuccess, showError } = useToastContext()
+
+  // Disable body scroll when popup is open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [])
 
   const handlePurchase = () => {
     if (!selectedPackage || !userId || !serverId) {
@@ -71,7 +80,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-6 pb-20 overflow-y-auto"
+      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 md:p-6 overflow-hidden"
       onClick={onClose}
     >
       <motion.div
@@ -79,11 +88,11 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.8, opacity: 0, y: 50 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
-        className="w-full max-w-4xl my-12 mx-auto rounded-3xl bg-dark border border-gray-700 shadow-2xl"
+        className="w-full max-w-4xl max-h-[95vh] mx-auto rounded-3xl bg-dark border border-gray-700 shadow-2xl overflow-hidden flex flex-col"
         onClick={(e: React.MouseEvent) => e.stopPropagation()}
       >
         {/* Header dengan banner game yang lebih besar dan menarik */}
-        <div className="relative h-64 bg-gradient-to-br from-primary/20 to-secondary/20 overflow-hidden rounded-t-3xl">
+        <div className="relative h-48 md:h-64 bg-gradient-to-br from-primary/20 to-secondary/20 overflow-hidden rounded-t-3xl flex-shrink-0">
           {/* Parallax background */}
           <motion.div 
             className="absolute inset-0 scale-110"
@@ -144,16 +153,16 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
           {/* Close button */}
           <motion.button
             onClick={onClose}
-            className="absolute top-6 right-6 z-10 w-12 h-12 bg-black/60 rounded-2xl 
+            className="absolute top-4 right-4 z-10 w-10 h-10 md:w-12 md:h-12 bg-black/60 rounded-2xl 
                      flex items-center justify-center text-white hover:bg-black/80 transition-all duration-200 backdrop-blur-md border border-white/10"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <X size={24} />
+            <X size={20} className="md:w-6 md:h-6" />
           </motion.button>
           
           {/* Game info dengan desain yang lebih menarik */}
-          <div className="absolute bottom-8 left-8 flex items-center space-x-6 z-10">
+          <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8 flex items-center space-x-3 md:space-x-6 z-10">
             {/* Game icon dengan efek glow */}
             <motion.div 
               className="relative"
@@ -167,8 +176,8 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                 ease: "easeInOut"
               }}
             >
-              <div className="w-24 h-24 bg-gradient-to-br from-white/20 to-white/10 rounded-2xl 
-                            flex items-center justify-center text-4xl font-bold backdrop-blur-sm
+              <div className="w-16 h-16 md:w-24 md:h-24 bg-gradient-to-br from-white/20 to-white/10 rounded-xl md:rounded-2xl 
+                            flex items-center justify-center text-2xl md:text-4xl font-bold backdrop-blur-sm
                             border border-white/20 shadow-2xl relative overflow-hidden">
                 {/* Fallback character */}
                 <div className="absolute inset-0 flex items-center justify-center z-10 text-white">
@@ -178,8 +187,8 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                 <Image 
                   src={game.icon} 
                   alt={game.name}
-                  width={96}
-                  height={96}
+                  width={64}
+                  height={64}
                   className="w-full h-full object-cover rounded-xl md:rounded-2xl opacity-0 transition-opacity duration-300"
                   onLoad={(e) => {
                     const img = e.target as HTMLImageElement;
@@ -253,7 +262,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
         </div>
 
         {/* Content */}
-        <div className="custom-scrollbar max-h-[70vh] overflow-y-auto pb-8">
+        <div className="custom-scrollbar flex-1 overflow-y-auto pb-8" style={{scrollbarWidth: 'none', msOverflowStyle: 'none'}}>
         {/* Game Info Section - No 12 */}
         <div className="p-4 md:p-6 border-b border-gray-700">
         <div className="grid lg:grid-cols-5 gap-4 md:gap-8">
