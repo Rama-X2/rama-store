@@ -64,10 +64,10 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
 
   // Memoize payment methods to prevent unnecessary re-renders
   const paymentMethodsData = useMemo(() => ({
-    ewallet: getPaymentMethodsByCategory('e-wallet'),
-    bank: [...getPaymentMethodsByCategory('bank'), ...getPaymentMethodsByCategory('qr-code')],
-    convenience: getPaymentMethodsByCategory('convenience-store'),
-    mobile: getPaymentMethodsByCategory('mobile-provider')
+    ewallet: getPaymentMethodsByCategory('e-wallet').map(p => ({ ...p, image: p.icon })),
+    bank: [...getPaymentMethodsByCategory('bank'), ...getPaymentMethodsByCategory('qr-code')].map(p => ({ ...p, image: p.icon })),
+    convenience: getPaymentMethodsByCategory('convenience-store').map(p => ({ ...p, image: p.icon })),
+    mobile: getPaymentMethodsByCategory('mobile-provider').map(p => ({ ...p, image: p.icon }))
   }), [])
 
   // Throttled scroll handler for better performance

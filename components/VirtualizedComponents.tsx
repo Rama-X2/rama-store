@@ -2,7 +2,6 @@
 
 import React, { memo, useMemo, useCallback } from 'react'
 import { motion } from 'framer-motion'
-import Image from 'next/image'
 import { useVirtualScroll, useIntersectionObserver } from '../lib/performance-hooks'
 import { getMobileAnimationConfig, isMobile } from '../lib/mobile-performance'
 
@@ -139,9 +138,10 @@ const OptimizedPaymentItem = memo<OptimizedPaymentItemProps>(({
     >
       <div className="flex flex-col items-center space-y-1">
         <div className="w-8 h-8 relative">
-          <Image
+          <img
             ref={imageRef}
             data-src={payment.image}
+            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect width='100%25' height='100%25' fill='%23374151'/%3E%3C/svg%3E"
             alt={payment.name}
             width={32}
             height={32}
@@ -401,9 +401,10 @@ const OptimizedGameCard = memo<OptimizedGameCardProps>(({
       }}
     >
       <div className="relative aspect-video mb-3 rounded-lg overflow-hidden">
-        <Image
+        <img
           ref={imageRef}
           data-src={game.image}
+          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='169'%3E%3Crect width='100%25' height='100%25' fill='%23374151'/%3E%3C/svg%3E"
           alt={game.name}
           width={300}
           height={169}

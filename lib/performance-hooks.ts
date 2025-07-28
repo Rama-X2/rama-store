@@ -51,7 +51,7 @@ export const useTouchOptimization = () => {
   useEffect(() => {
     const handleTouchStart = (e: TouchEvent) => {
       // Prevent zoom on touch
-      if (e.touches.length > 1 || e.scale !== 1) {
+      if (e.touches.length > 1) {
         e.preventDefault()
       }
     }
@@ -117,9 +117,9 @@ export const useMemoryCleanup = () => {
       })
 
       // Force garbage collection if available
-      if ('gc' in window && performance.memory) {
+      if ('gc' in window) {
         const memory = (performance as any).memory
-        if (memory.usedJSHeapSize > memory.jsHeapSizeLimit * 0.8) {
+        if (memory && memory.usedJSHeapSize > memory.jsHeapSizeLimit * 0.8) {
           (window as any).gc()
         }
       }
