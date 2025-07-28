@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
 import { X, ShoppingCart, Star, Clock, Shield } from 'lucide-react'
 import { Game } from '../types/game'
@@ -9,25 +9,6 @@ import Button from './ui/Button'
 import Input from './ui/Input'
 import { PurchaseConfirmModal } from './ui/ConfirmModal'
 import { useToastContext } from './ui/ToastProvider'
-import { paymentMethods, getPaymentMethodsByCategory } from '../lib/payment-images'
-import { throttle, getMobileAnimationConfig, isMobile } from '../lib/mobile-performance'
-import { usePerformanceMonitor, useTouchOptimization, useViewportOptimization, useMemoryCleanup } from '../lib/performance-hooks'
-// Removed VirtualizedComponents import - using direct implementation
-
-// Debounce utility function for performance optimization
-function debounce<T extends (...args: any[]) => any>(
-  func: T,
-  wait: number
-): (...args: Parameters<T>) => void {
-  let timeout: NodeJS.Timeout
-  return (...args: Parameters<T>) => {
-    clearTimeout(timeout)
-    timeout = setTimeout(() => func(...args), wait)
-  }
-}
-
-// Get optimized animation config based on device
-const animationConfig = getMobileAnimationConfig()
 
 interface GameDetailProps {
   game: Game
@@ -51,71 +32,13 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
   const [selectedPackage, setSelectedPackage] = useState<number | null>(null)
   const [userId, setUserId] = useState('')
   const [serverId, setServerId] = useState('')
-  const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
   const { showSuccess, showError } = useToastContext()
 
-  // Performance optimization hooks
-  const fps = usePerformanceMonitor()
-  useTouchOptimization()
-  useViewportOptimization()
-  useMemoryCleanup()
-
-  // Memoize payment methods to prevent unnecessary re-renders
-  const paymentMethodsData = useMemo(() => ({
-    ewallet: getPaymentMethodsByCategory('e-wallet').map(p => ({ ...p, image: p.icon })),
-    bank: [...getPaymentMethodsByCategory('bank'), ...getPaymentMethodsByCategory('qr-code')].map(p => ({ ...p, image: p.icon })),
-    convenience: getPaymentMethodsByCategory('convenience-store').map(p => ({ ...p, image: p.icon })),
-    mobile: getPaymentMethodsByCategory('mobile-provider').map(p => ({ ...p, image: p.icon }))
-  }), [])
-
-  // Throttled scroll handler for better performance
-  const throttledScrollHandler = useCallback(
-    throttle(() => {
-      // Handle scroll events efficiently
-    }, 16), // 60fps
-    []
-  )
-
-  // Debounced input handlers for better performance
-  const debouncedSetUserId = useCallback(
-    debounce((value: string) => setUserId(value), 300),
-    []
-  )
-  
-  const debouncedSetServerId = useCallback(
-    debounce((value: string) => setServerId(value), 300),
-    []
-  )
-
-  // Disable body scroll when popup is open with performance optimization
-  useEffect(() => {
-    const originalOverflow = document.body.style.overflow
-    const originalPosition = document.body.style.position
-    const originalWidth = document.body.style.width
-    const originalHeight = document.body.style.height
-    
-    document.body.style.overflow = 'hidden'
-    document.body.style.position = 'fixed'
-    document.body.style.width = '100%'
-    document.body.style.height = '100%'
-    
-    return () => {
-      document.body.style.overflow = originalOverflow
-      document.body.style.position = originalPosition
-      document.body.style.width = originalWidth
-      document.body.style.height = originalHeight
-    }
-  }, [])
-
   const handlePurchase = () => {
     if (!selectedPackage || !userId || !serverId) {
       showError('Data Tidak Lengkap', 'Mohon lengkapi User ID dan Server ID terlebih dahulu.')
-      return
-    }
-    if (!selectedPayment) {
-      showError('Metode Pembayaran Belum Dipilih', 'Mohon pilih metode pembayaran terlebih dahulu.')
       return
     }
     setShowConfirmModal(true)
@@ -142,41 +65,29 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: animationConfig.duration }}
-      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 md:p-6 overflow-hidden game-detail-popup"
+      transition={{ duration: 0.3 }}
+      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
       onClick={onClose}
-      style={{
-        contain: 'layout style paint',
-        backfaceVisibility: 'hidden',
-        WebkitBackfaceVisibility: 'hidden'
-      }}
     >
       <motion.div
-        initial={{ scale: 0.95, opacity: 0, y: 20 }}
+        initial={{ scale: 0.8, opacity: 0, y: 50 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.95, opacity: 0, y: 20 }}
-        transition={{ duration: animationConfig.duration, ease: animationConfig.ease }}
-        className="w-full max-w-4xl max-h-[95vh] mx-auto rounded-3xl bg-dark border border-gray-700 shadow-2xl overflow-hidden flex flex-col will-change-transform motion-div"
-        onClick={(e: React.MouseEvent) => e.stopPropagation()}
-        style={{ 
-          contain: 'layout style paint size',
-          isolation: 'isolate',
-          backfaceVisibility: 'hidden',
-          WebkitBackfaceVisibility: 'hidden',
-          perspective: '1000px'
-        }}
+        exit={{ scale: 0.8, opacity: 0, y: 50 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="w-full max-w-4xl max-h-[90vh] overflow-hidden rounded-2xl bg-dark border border-gray-700"
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Header dengan banner game yang lebih besar dan menarik */}
-        <div className="relative h-48 md:h-64 bg-gradient-to-br from-primary/20 to-secondary/20 overflow-hidden rounded-t-3xl flex-shrink-0">
+        <div className="relative h-64 bg-gradient-to-br from-primary/20 to-secondary/20 overflow-hidden">
           {/* Parallax background */}
           <motion.div 
             className="absolute inset-0 scale-110"
             animate={{
-              scale: [1.1, 1.12, 1.1],
-              rotate: [0, 0.5, 0]
+              scale: [1.1, 1.15, 1.1],
+              rotate: [0, 1, 0]
             }}
             transition={{
-              duration: 12,
+              duration: 8,
               repeat: Infinity,
               ease: "easeInOut"
             }}
@@ -198,10 +109,9 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
           
-          {/* Floating particles effect - reduced for mobile performance */}
-          {!isMobile() && (
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              {[...Array(4)].map((_, i) => (
+          {/* Floating particles effect */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {[...Array(10)].map((_, i) => (
               <motion.div
                 key={i}
                 initial={{ 
@@ -212,49 +122,48 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                 }}
                 animate={{ 
                   y: '-10%',
-                  opacity: [0, 0.8, 0],
-                  scale: [0, Math.random() * 0.6 + 0.4, 0]
+                  opacity: [0, 1, 0],
+                  scale: [0, Math.random() * 0.8 + 0.5, 0]
                 }}
                 transition={{
-                  duration: Math.random() * 4 + 3,
+                  duration: Math.random() * 3 + 2,
                   repeat: Infinity,
-                  delay: Math.random() * 3,
+                  delay: Math.random() * 2,
                   ease: "easeOut"
                 }}
-                className="absolute w-1 h-1 bg-white/20 rounded-full"
+                className="absolute w-1 h-1 bg-white/30 rounded-full"
               />
-              ))}
-            </div>
-          )}
+            ))}
+          </div>
           
           {/* Close button */}
           <motion.button
             onClick={onClose}
-            className="absolute top-4 right-4 z-10 w-10 h-10 md:w-12 md:h-12 bg-black/60 rounded-2xl 
-                     flex items-center justify-center text-white hover:bg-black/80 transition-all duration-200 backdrop-blur-md border border-white/10"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 rounded-full 
+                     flex items-center justify-center text-white hover:bg-black/70 transition-colors backdrop-blur-sm"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
           >
-            <X size={20} className="md:w-6 md:h-6" />
+            <X size={20} />
           </motion.button>
           
           {/* Game info dengan desain yang lebih menarik */}
-          <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8 flex items-center space-x-3 md:space-x-6 z-10">
+          <div className="absolute bottom-8 left-8 flex items-center space-x-6 z-10">
             {/* Game icon dengan efek glow */}
             <motion.div 
               className="relative"
-              animate={isMobile() ? {} : {
-                y: [0, -3, 0],
-                rotate: [0, 1, 0]
+              animate={{
+                y: [0, -5, 0],
+                rotate: [0, 2, 0]
               }}
               transition={{
-                duration: 4,
+                duration: 3,
                 repeat: Infinity,
                 ease: "easeInOut"
               }}
             >
-              <div className="w-16 h-16 md:w-24 md:h-24 bg-gradient-to-br from-white/20 to-white/10 rounded-xl md:rounded-2xl 
-                            flex items-center justify-center text-2xl md:text-4xl font-bold backdrop-blur-sm
+              <div className="w-24 h-24 bg-gradient-to-br from-white/20 to-white/10 rounded-2xl 
+                            flex items-center justify-center text-4xl font-bold backdrop-blur-sm
                             border border-white/20 shadow-2xl relative overflow-hidden">
                 {/* Fallback character */}
                 <div className="absolute inset-0 flex items-center justify-center z-10 text-white">
@@ -264,9 +173,9 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                 <Image 
                   src={game.icon} 
                   alt={game.name}
-                  width={64}
-                  height={64}
-                  className="w-full h-full object-cover rounded-xl md:rounded-2xl opacity-0 transition-opacity duration-300"
+                  width={96}
+                  height={96}
+                  className="w-full h-full object-cover rounded-2xl opacity-0 transition-opacity duration-300"
                   onLoad={(e) => {
                     const img = e.target as HTMLImageElement;
                     img.style.opacity = '1';
@@ -279,30 +188,28 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                   }}
                 />
                 {/* Glow effect */}
-                <div className="absolute inset-0 rounded-xl md:rounded-2xl bg-gradient-to-br from-primary/30 to-secondary/30 
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/30 to-secondary/30 
                               opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
-              {/* Pulsing ring - reduced for mobile */}
-              {!isMobile() && (
-                <motion.div
-                  animate={{ 
-                    scale: [1, 1.1, 1],
-                    opacity: [0.2, 0, 0.2]
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                  className="absolute inset-0 rounded-xl md:rounded-2xl border-2 border-white/30"
-                />
-              )}
+              {/* Pulsing ring */}
+              <motion.div
+                animate={{ 
+                  scale: [1, 1.2, 1],
+                  opacity: [0.3, 0, 0.3]
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                className="absolute inset-0 rounded-2xl border-2 border-white/40"
+              />
             </motion.div>
             
             {/* Game details */}
-            <div className="flex-1 min-w-0">
+            <div className="flex-1">
               <motion.h1 
-                className="text-lg md:text-3xl font-bold text-white mb-1 md:mb-2 drop-shadow-lg truncate"
+                className="text-3xl font-bold text-white mb-2 drop-shadow-lg"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2 }}
@@ -310,7 +217,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                 {game.name}
               </motion.h1>
               <motion.p 
-                className="text-white/90 mb-2 md:mb-4 text-sm md:text-lg drop-shadow-md line-clamp-2"
+                className="text-white/90 mb-4 text-lg drop-shadow-md"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
@@ -318,22 +225,22 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                 {game.description}
               </motion.p>
               <motion.div 
-                className="flex items-center space-x-2 md:space-x-6 text-xs md:text-sm"
+                className="flex items-center space-x-6 text-sm"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 }}
               >
-                <div className="flex items-center space-x-1 md:space-x-2 bg-black/30 px-2 md:px-3 py-1 md:py-2 rounded-full backdrop-blur-sm">
-                  <Star size={14} className="text-yellow-400 md:w-[18px] md:h-[18px]" fill="currentColor" />
-                  <span className="text-white font-medium hidden sm:inline">4.8</span>
+                <div className="flex items-center space-x-2 bg-black/30 px-3 py-2 rounded-full backdrop-blur-sm">
+                  <Star size={18} className="text-yellow-400" fill="currentColor" />
+                  <span className="text-white font-medium">4.8</span>
                 </div>
-                <div className="flex items-center space-x-1 md:space-x-2 bg-black/30 px-2 md:px-3 py-1 md:py-2 rounded-full backdrop-blur-sm">
-                  <Clock size={14} className="text-green-400 md:w-[18px] md:h-[18px]" />
-                  <span className="text-white font-medium hidden sm:inline">Instant</span>
+                <div className="flex items-center space-x-2 bg-black/30 px-3 py-2 rounded-full backdrop-blur-sm">
+                  <Clock size={18} className="text-green-400" />
+                  <span className="text-white font-medium">Instant</span>
                 </div>
-                <div className="flex items-center space-x-1 md:space-x-2 bg-black/30 px-2 md:px-3 py-1 md:py-2 rounded-full backdrop-blur-sm">
-                  <Shield size={14} className="text-blue-400 md:w-[18px] md:h-[18px]" />
-                  <span className="text-white font-medium hidden sm:inline">Aman</span>
+                <div className="flex items-center space-x-2 bg-black/30 px-3 py-2 rounded-full backdrop-blur-sm">
+                  <Shield size={18} className="text-blue-400" />
+                  <span className="text-white font-medium">100% Aman</span>
                 </div>
               </motion.div>
             </div>
@@ -341,184 +248,60 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
         </div>
 
         {/* Content */}
-        <div 
-          className="custom-scrollbar flex-1 overflow-y-auto pb-8 will-change-scroll scroll-container" 
-          onScroll={throttledScrollHandler}
-          style={{
-            scrollbarWidth: 'none', 
-            msOverflowStyle: 'none',
-            contain: 'layout style paint size',
-            transform: 'translateZ(0)',
-            WebkitOverflowScrolling: 'touch',
-            isolation: 'isolate',
-            overscrollBehavior: 'contain'
-          }}
-        >
+        <div className="custom-scrollbar max-h-[calc(90vh-12rem)] overflow-y-auto">
           {/* Game Info Section - No 12 */}
-          <div className="p-4 md:p-6 border-b border-gray-700">
-            <div className="grid lg:grid-cols-5 gap-4 md:gap-8">
-              {/* Left side - User Input (2 columns) - Yellow Border */}
-              <div className="lg:col-span-2 space-y-4 md:space-y-6">
-                <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6 border-2 border-yellow-400">
-                  <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-white">Data Akun</h3>
-                  <div className="space-y-3 md:space-y-4">
+          <div className="p-6 border-b border-gray-700">
+            <div className="grid lg:grid-cols-3 gap-8">
+              {/* Left side - User Input */}
+              <div className="lg:col-span-1 space-y-6">
+                <div className="glass-effect rounded-xl p-6">
+                  <h3 className="text-lg font-semibold mb-4 text-white">Data Akun</h3>
+                  <div className="space-y-4">
                     <Input
                       label="User ID"
                       type="text"
-                      defaultValue={userId}
-                      onChange={(e) => debouncedSetUserId(e.target.value)}
+                      value={userId}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserId(e.target.value)}
                       placeholder="Masukkan User ID"
                       helperText="ID pengguna akun game Anda"
                     />
                     <Input
                       label="Server ID"
                       type="text"
-                      defaultValue={serverId}
-                      onChange={(e) => debouncedSetServerId(e.target.value)}
+                      value={serverId}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setServerId(e.target.value)}
                       placeholder="Masukkan Server ID"
                       helperText="ID server tempat Anda bermain"
                     />
                   </div>
                 </div>
-              </div>
 
-              {/* Middle - Payment Methods */}
-              <div className="lg:col-span-2">
-                <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6">
-                  <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-white">Metode Pembayaran</h3>
-                  
-                  {/* E-Wallet */}
-                  <div className="mb-6">
-                    <h4 className="text-sm font-medium text-gray-300 mb-3">E-Wallet</h4>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      {[
-                        { id: 'gopay', name: 'GoPay', color: 'bg-blue-500', icon: 'G' },
-                        { id: 'dana', name: 'DANA', color: 'bg-blue-600', icon: 'D' },
-                        { id: 'ovo', name: 'OVO', color: 'bg-purple-500', icon: 'O' },
-                        { id: 'shopeepay', name: 'ShopeePay', color: 'bg-orange-500', icon: 'S' }
-                      ].map((method) => (
-                        <motion.button
-                          key={method.id}
-                          onClick={() => setSelectedPayment(method.id)}
-                          className={`p-3 rounded-lg border-2 text-center transition-all duration-200 ${
-                            selectedPayment === method.id
-                              ? 'border-primary bg-primary/10 shadow-glow'
-                              : 'border-gray-600 hover:border-gray-500 glass-effect'
-                          }`}
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          <div className="flex flex-col items-center space-y-2">
-                            <div className={`w-8 h-8 ${method.color} rounded-lg flex items-center justify-center text-white font-bold text-sm`}>
-                              {method.icon}
-                            </div>
-                            <span className="text-xs text-white font-medium">{method.name}</span>
-                          </div>
-                        </motion.button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Bank & QRIS */}
-                  <div className="mb-6">
-                    <h4 className="text-sm font-medium text-gray-300 mb-3">Bank Transfer & QRIS</h4>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                      {[
-                        { id: 'bank_transfer', name: 'Bank Transfer', color: 'bg-green-600', icon: 'B' },
-                        { id: 'qris', name: 'QRIS', color: 'bg-red-500', icon: 'Q' },
-                        { id: 'bca', name: 'BCA', color: 'bg-blue-800', icon: 'BC' }
-                      ].map((method) => (
-                        <motion.button
-                          key={method.id}
-                          onClick={() => setSelectedPayment(method.id)}
-                          className={`p-3 rounded-lg border-2 text-center transition-all duration-200 ${
-                            selectedPayment === method.id
-                              ? 'border-primary bg-primary/10 shadow-glow'
-                              : 'border-gray-600 hover:border-gray-500 glass-effect'
-                          }`}
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          <div className="flex flex-col items-center space-y-2">
-                            <div className={`w-8 h-8 ${method.color} rounded-lg flex items-center justify-center text-white font-bold text-xs`}>
-                              {method.icon}
-                            </div>
-                            <span className="text-xs text-white font-medium">{method.name}</span>
-                          </div>
-                        </motion.button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Minimarket */}
-                  <div className="mb-6">
-                    <h4 className="text-sm font-medium text-gray-300 mb-3">Minimarket</h4>
-                    <div className="grid grid-cols-2 gap-3">
-                      {[
-                        { id: 'indomaret', name: 'Indomaret', color: 'bg-yellow-500', icon: 'I' },
-                        { id: 'alfamart', name: 'Alfamart', color: 'bg-red-600', icon: 'A' }
-                      ].map((method) => (
-                        <motion.button
-                          key={method.id}
-                          onClick={() => setSelectedPayment(method.id)}
-                          className={`p-3 rounded-lg border-2 text-center transition-all duration-200 ${
-                            selectedPayment === method.id
-                              ? 'border-primary bg-primary/10 shadow-glow'
-                              : 'border-gray-600 hover:border-gray-500 glass-effect'
-                          }`}
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          <div className="flex flex-col items-center space-y-2">
-                            <div className={`w-8 h-8 ${method.color} rounded-lg flex items-center justify-center text-white font-bold text-sm`}>
-                              {method.icon}
-                            </div>
-                            <span className="text-xs text-white font-medium">{method.name}</span>
-                          </div>
-                        </motion.button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Pulsa */}
-                  <div>
-                    <h4 className="text-sm font-medium text-gray-300 mb-3">Pulsa</h4>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      {[
-                        { id: 'telkomsel', name: 'Telkomsel', color: 'bg-red-500', icon: 'T' },
-                        { id: 'indosat', name: 'Indosat', color: 'bg-yellow-600', icon: 'I' },
-                        { id: 'xl', name: 'XL Axiata', color: 'bg-blue-700', icon: 'XL' },
-                        { id: 'tri', name: 'Tri', color: 'bg-pink-500', icon: '3' }
-                      ].map((method) => (
-                        <motion.button
-                          key={method.id}
-                          onClick={() => setSelectedPayment(method.id)}
-                          className={`p-3 rounded-lg border-2 text-center transition-all duration-200 ${
-                            selectedPayment === method.id
-                              ? 'border-primary bg-primary/10 shadow-glow'
-                              : 'border-gray-600 hover:border-gray-500 glass-effect'
-                          }`}
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          <div className="flex flex-col items-center space-y-2">
-                            <div className={`w-8 h-8 ${method.color} rounded-lg flex items-center justify-center text-white font-bold text-xs`}>
-                              {method.icon}
-                            </div>
-                            <span className="text-xs text-white font-medium">{method.name}</span>
-                          </div>
-                        </motion.button>
-                      ))}
-                    </div>
+                {/* Payment Method */}
+                <div className="glass-effect rounded-xl p-6">
+                  <h3 className="text-lg font-semibold mb-4 text-white">Metode Pembayaran</h3>
+                  <div className="space-y-3">
+                    {['E-Wallet', 'Bank Transfer', 'Minimarket', 'Pulsa'].map((method) => (
+                      <motion.div
+                      key={method}
+                      className="flex items-center space-x-3 p-3 rounded-lg bg-dark-light/50 
+                      hover:bg-dark-light cursor-pointer transition-colors"
+                      whileHover={{ scale: 1.02 }}
+                      >
+                      <label className="flex items-center space-x-3 cursor-pointer w-full">
+                        <input type="radio" name="payment" className="text-primary" />
+                        <span className="text-white">{method}</span>
+                      </label>
+                    </motion.div>
+                    ))}
                   </div>
                 </div>
               </div>
 
-              {/* Right side - Game Detail Info (1 column) */}
-              <div className="lg:col-span-1">
-                <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6">
-                  <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-white">Informasi Game</h3>
-                  <div className="space-y-3 text-sm">
+              {/* Right side - Game Detail Info */}
+              <div className="lg:col-span-2">
+                <div className="glass-effect rounded-xl p-6">
+                  <h3 className="text-lg font-semibold mb-4 text-white">Informasi Game</h3>
+                  <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
                       <span className="text-gray-400">Developer:</span>
                       <p className="text-white font-medium">Game Studio</p>
@@ -579,7 +362,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                   
                   <div className="flex justify-between items-center">
                     <div>
-                      <h4 className="font-semibold text-white mb-1">{pkg.amount}</h4>
+                      <h4 className="font-semibold text-white">{pkg.amount}</h4>
                       <p className="text-2xl font-bold text-primary">{pkg.price}</p>
                     </div>
                     <div className={`w-6 h-6 rounded-full border-2 transition-colors ${
@@ -602,14 +385,13 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
           </div>
 
           {/* Purchase Section - No 14 */}
-          <div className="p-6 pb-8 border-t border-gray-700 bg-dark-light/30 rounded-b-3xl">
+          <div className="p-6 border-t border-gray-700 bg-dark-light/30">
             {/* Order Summary */}
             {selectedPackage && (
               <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: animationConfig.duration }}
-                  className="glass-effect rounded-xl p-6 mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="glass-effect rounded-xl p-6 mb-6"
               >
                 <h3 className="text-lg font-semibold mb-4 text-white">Ringkasan Pesanan</h3>
                 <div className="space-y-3">
@@ -631,24 +413,6 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                     <span className="text-gray-400">Server:</span>
                     <span className="text-white font-medium">{serverId || '-'}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">Pembayaran:</span>
-                    <span className="text-white font-medium">
-                      {selectedPayment === 'gopay' ? 'GoPay' :
-                       selectedPayment === 'dana' ? 'DANA' :
-                       selectedPayment === 'ovo' ? 'OVO' :
-                       selectedPayment === 'shopeepay' ? 'ShopeePay' :
-                       selectedPayment === 'bank_transfer' ? 'Bank Transfer' :
-                       selectedPayment === 'qris' ? 'QRIS' :
-                       selectedPayment === 'bca' ? 'BCA' :
-                       selectedPayment === 'indomaret' ? 'Indomaret' :
-                       selectedPayment === 'alfamart' ? 'Alfamart' :
-                       selectedPayment === 'telkomsel' ? 'Telkomsel' :
-                       selectedPayment === 'indosat' ? 'Indosat' :
-                       selectedPayment === 'xl' ? 'XL Axiata' :
-                       selectedPayment === 'tri' ? 'Tri' : '-'}
-                    </span>
-                  </div>
                   <div className="border-t border-gray-600 pt-3 flex justify-between text-lg">
                     <span className="text-white font-semibold">Total:</span>
                     <span className="text-primary font-bold">
@@ -662,13 +426,13 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
             {/* Purchase Button */}
             <motion.div
               className="flex justify-center"
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: animationConfig.duration }}
+              transition={{ delay: 0.3 }}
             >
               <Button
                 onClick={handlePurchase}
-                disabled={!selectedPackage || !userId || !serverId || !selectedPayment}
+                disabled={!selectedPackage || !userId || !serverId}
                 size="lg"
                 glow
                 icon={<ShoppingCart size={20} />}
@@ -682,20 +446,20 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.2, duration: animationConfig.duration }}
-              className="mt-6 grid grid-cols-3 gap-4 text-center"
+              transition={{ delay: 0.5 }}
+              className="mt-8 grid grid-cols-3 gap-4 text-center"
             >
               <div className="flex flex-col items-center">
-                <Shield className="w-6 h-6 md:w-8 md:h-8 text-green-400 mb-1 md:mb-2" />
-                <span className="text-xs md:text-sm text-gray-400">100% Aman</span>
+                <Shield className="w-8 h-8 text-green-400 mb-2" />
+                <span className="text-sm text-gray-400">100% Aman</span>
               </div>
               <div className="flex flex-col items-center">
-                <Clock className="w-6 h-6 md:w-8 md:h-8 text-blue-400 mb-1 md:mb-2" />
-                <span className="text-xs md:text-sm text-gray-400">Proses Instan</span>
+                <Clock className="w-8 h-8 text-blue-400 mb-2" />
+                <span className="text-sm text-gray-400">Proses Instan</span>
               </div>
               <div className="flex flex-col items-center">
-                <Star className="w-6 h-6 md:w-8 md:h-8 text-yellow-400 mb-1 md:mb-2" fill="currentColor" />
-                <span className="text-xs md:text-sm text-gray-400">Rating 4.8</span>
+                <Star className="w-8 h-8 text-yellow-400 mb-2" fill="currentColor" />
+                <span className="text-sm text-gray-400">Rating 4.8</span>
               </div>
             </motion.div>
           </div>
