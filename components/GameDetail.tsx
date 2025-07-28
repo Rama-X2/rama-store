@@ -281,29 +281,22 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                   <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-white">Metode Pembayaran</h3>
                   
                   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
-                    {/* E-Wallet */}
                     {[
-                      { name: 'GoPay', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/gopay.png', category: 'ewallet' },
-                      { name: 'DANA', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/dana.png', category: 'ewallet' },
-                      { name: 'OVO', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/ovo.png', category: 'ewallet' },
-                      { name: 'ShopeePay', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/shopeepay.png', category: 'ewallet' },
-                      { name: 'LinkAja', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/linkaja.png', category: 'ewallet' },
-                      
-                      /* Bank Transfer */
-                      { name: 'Bank Transfer', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/bank.png', category: 'bank' },
-                      { name: 'QRIS', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/qris.png', category: 'bank' },
-                      { name: 'Kartu Kredit', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/credit.png', category: 'bank' },
-                      
-                      /* Minimarket */
-                      { name: 'Indomaret', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/indomaret.png', category: 'minimarket' },
-                      { name: 'Alfamart', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/alfamart.png', category: 'minimarket' },
-                      
-                      /* Pulsa */
-                      { name: 'Telkomsel', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/telkomsel.png', category: 'pulsa' },
-                      { name: 'Indosat', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/indosat.png', category: 'pulsa' },
-                      { name: 'XL Axiata', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/xl.png', category: 'pulsa' },
-                      { name: 'Tri', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/tri.png', category: 'pulsa' },
-                      { name: 'Smartfren', logo: 'https://cdn.jsdelivr.net/gh/atapas/add-copyright@main/icons/smartfren.png', category: 'pulsa' }
+                      { name: 'GoPay', logo: '/images/payments/gopay.svg' },
+                      { name: 'DANA', logo: '/images/payments/dana.svg' },
+                      { name: 'OVO', logo: '/images/payments/ovo.svg' },
+                      { name: 'ShopeePay', logo: '/images/payments/shopeepay.svg' },
+                      { name: 'LinkAja', logo: '/images/payments/linkaja.svg' },
+                      { name: 'Bank Transfer', logo: '/images/payments/bank.svg' },
+                      { name: 'QRIS', logo: '/images/payments/qris.svg' },
+                      { name: 'Kartu Kredit', logo: '/images/payments/credit.svg' },
+                      { name: 'Indomaret', logo: '/images/payments/indomaret.svg' },
+                      { name: 'Alfamart', logo: '/images/payments/alfamart.svg' },
+                      { name: 'Telkomsel', logo: '/images/payments/telkomsel.svg' },
+                      { name: 'Indosat', logo: '/images/payments/indosat.svg' },
+                      { name: 'XL Axiata', logo: '/images/payments/xl.svg' },
+                      { name: 'Tri', logo: '/images/payments/tri.svg' },
+                      { name: 'Smartfren', logo: '/images/payments/smartfren.svg' }
                     ].map((payment) => (
                       <motion.div
                         key={payment.name}
@@ -319,11 +312,22 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                           className="absolute top-2 right-2 text-primary scale-90" 
                         />
                         <div className="flex flex-col items-center text-center space-y-2">
-                          <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden">
-                            <div className="w-8 h-8 bg-gradient-to-br from-primary/20 to-secondary/20 rounded 
-                                          flex items-center justify-center text-xs font-bold text-gray-600">
-                              {payment.name.charAt(0)}
-                            </div>
+                          <div className="w-12 h-8 bg-gray-50 rounded flex items-center justify-center overflow-hidden border">
+                            <Image
+                              src={payment.logo}
+                              alt={payment.name}
+                              width={48}
+                              height={32}
+                              className="w-full h-full object-contain"
+                              onError={(e) => {
+                                const img = e.target as HTMLImageElement;
+                                img.style.display = 'none';
+                                const parent = img.parentElement;
+                                if (parent) {
+                                  parent.innerHTML = `<span class="text-xs font-bold text-gray-500">${payment.name.charAt(0)}</span>`;
+                                }
+                              }}
+                            />
                           </div>
                           <span className="text-xs font-medium text-gray-700 leading-tight">
                             {payment.name}
