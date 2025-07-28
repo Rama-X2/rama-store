@@ -7,9 +7,6 @@
   "functions": {
     "app/**/*.tsx": {
       "maxDuration": 30
-    },
-    "middleware.ts": {
-      "maxDuration": 10
     }
   },
   
