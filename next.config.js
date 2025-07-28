@@ -1,6 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Security headers untuk anti-clone protection
+  reactStrictMode: true,
+  swcMinify: true,
+  
+  images: {
+    domains: ['localhost'],
+    formats: ['image/webp', 'image/avif'],
+  },
+
+  // Basic security headers
   async headers() {
     return [
       {
@@ -14,47 +22,13 @@ const nextConfig = {
             key: 'X-Content-Type-Options',
             value: 'nosniff',
           },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin',
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block',
-          },
-          {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=(), payment=()',
-          },
-          {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=31536000; includeSubDomains',
-          },
         ],
       },
     ];
   },
 
-  // Image optimization configuration
-  images: {
-    domains: ['localhost'],
-    formats: ['image/webp', 'image/avif'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL: 86400, // 24 hours
-  },
-
-  // Performance optimizations
-  compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
-  },
-
-  // Disable x-powered-by header
-  poweredByHeader: false,
-
-  // Simplified webpack configuration
-  webpack: (config, { isServer, dev }) => {
-    // Only add essential configurations
+  // Simplified webpack config
+  webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
@@ -63,44 +37,8 @@ const nextConfig = {
         tls: false,
       };
     }
-
-    // Optimize chunks in production
-    if (!dev) {
-      config.optimization = {
-        ...config.optimization,
-        splitChunks: {
-          chunks: 'all',
-          cacheGroups: {
-            vendor: {
-              test: /[\\/]node_modules[\\/]/,
-              name: 'vendors',
-              chunks: 'all',
-            },
-          },
-        },
-      };
-    }
-
     return config;
   },
-
-  // Transpile packages if needed
-  transpilePackages: ['framer-motion'],
-
-  // Use standalone output for better performance on Vercel
-  output: 'standalone',
-  
-  // Disable sourcemaps in production to reduce build size and time
-  productionBrowserSourceMaps: false,
-
-  // Enable SWC minification (faster than Terser)
-  swcMinify: true,
-
-  // Compress responses
-  compress: true,
-
-  // Enable React strict mode
-  reactStrictMode: true,
 }
 
 module.exports = nextConfig
