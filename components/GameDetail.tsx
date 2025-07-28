@@ -382,197 +382,138 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                 </div>
               </div>
 
-              {/* Middle - Payment Method (2 columns) - Red Border */}
+              {/* Middle - Payment Methods */}
               <div className="lg:col-span-2">
-                <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6 border-2 border-red-500">
+                <div className="glass-effect rounded-lg md:rounded-xl p-4 md:p-6">
                   <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-white">Metode Pembayaran</h3>
                   
-                  {/* E-Wallet Section */}
-                  <div className="mb-4">
-                    <h4 className="text-sm font-medium text-gray-300 mb-2">E-Wallet</h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      <button
-                        onClick={() => setSelectedPayment('gopay')}
-                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
-                          selectedPayment === 'gopay'
-                            ? 'border-primary bg-primary/10'
-                            : 'border-gray-600 hover:border-gray-500'
-                        }`}
-                      >
-                        <div className="flex flex-col items-center space-y-1">
-                          <span className="w-6 h-6 bg-blue-500 rounded flex items-center justify-center text-xs font-bold text-white">G</span>
-                          <span className="text-xs text-white truncate">GoPay</span>
-                        </div>
-                      </button>
-                      <button
-                        onClick={() => setSelectedPayment('dana')}
-                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
-                          selectedPayment === 'dana'
-                            ? 'border-primary bg-primary/10'
-                            : 'border-gray-600 hover:border-gray-500'
-                        }`}
-                      >
-                        <div className="flex flex-col items-center space-y-1">
-                          <span className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center text-xs font-bold text-white">D</span>
-                          <span className="text-xs text-white truncate">DANA</span>
-                        </div>
-                      </button>
-                      <button
-                        onClick={() => setSelectedPayment('ovo')}
-                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
-                          selectedPayment === 'ovo'
-                            ? 'border-primary bg-primary/10'
-                            : 'border-gray-600 hover:border-gray-500'
-                        }`}
-                      >
-                        <div className="flex flex-col items-center space-y-1">
-                          <span className="w-6 h-6 bg-purple-500 rounded flex items-center justify-center text-xs font-bold text-white">O</span>
-                          <span className="text-xs text-white truncate">OVO</span>
-                        </div>
-                      </button>
-                      <button
-                        onClick={() => setSelectedPayment('shopeepay')}
-                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
-                          selectedPayment === 'shopeepay'
-                            ? 'border-primary bg-primary/10'
-                            : 'border-gray-600 hover:border-gray-500'
-                        }`}
-                      >
-                        <div className="flex flex-col items-center space-y-1">
-                          <span className="w-6 h-6 bg-orange-500 rounded flex items-center justify-center text-xs font-bold text-white">S</span>
-                          <span className="text-xs text-white truncate">ShopeePay</span>
-                        </div>
-                      </button>
+                  {/* E-Wallet */}
+                  <div className="mb-6">
+                    <h4 className="text-sm font-medium text-gray-300 mb-3">E-Wallet</h4>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      {[
+                        { id: 'gopay', name: 'GoPay', color: 'bg-blue-500', icon: 'G' },
+                        { id: 'dana', name: 'DANA', color: 'bg-blue-600', icon: 'D' },
+                        { id: 'ovo', name: 'OVO', color: 'bg-purple-500', icon: 'O' },
+                        { id: 'shopeepay', name: 'ShopeePay', color: 'bg-orange-500', icon: 'S' }
+                      ].map((method) => (
+                        <motion.button
+                          key={method.id}
+                          onClick={() => setSelectedPayment(method.id)}
+                          className={`p-3 rounded-lg border-2 text-center transition-all duration-200 ${
+                            selectedPayment === method.id
+                              ? 'border-primary bg-primary/10 shadow-glow'
+                              : 'border-gray-600 hover:border-gray-500 glass-effect'
+                          }`}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          <div className="flex flex-col items-center space-y-2">
+                            <div className={`w-8 h-8 ${method.color} rounded-lg flex items-center justify-center text-white font-bold text-sm`}>
+                              {method.icon}
+                            </div>
+                            <span className="text-xs text-white font-medium">{method.name}</span>
+                          </div>
+                        </motion.button>
+                      ))}
                     </div>
                   </div>
 
-                  {/* Bank Transfer Section */}
-                  <div className="mb-4">
-                    <h4 className="text-sm font-medium text-gray-300 mb-2">Bank Transfer</h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      <button
-                        onClick={() => setSelectedPayment('bank_transfer')}
-                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
-                          selectedPayment === 'bank_transfer'
-                            ? 'border-primary bg-primary/10'
-                            : 'border-gray-600 hover:border-gray-500'
-                        }`}
-                      >
-                        <div className="flex flex-col items-center space-y-1">
-                          <span className="w-6 h-6 bg-green-600 rounded flex items-center justify-center text-xs font-bold text-white">B</span>
-                          <span className="text-xs text-white truncate">Bank Transfer</span>
-                        </div>
-                      </button>
-                      <button
-                        onClick={() => setSelectedPayment('qris')}
-                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
-                          selectedPayment === 'qris'
-                            ? 'border-primary bg-primary/10'
-                            : 'border-gray-600 hover:border-gray-500'
-                        }`}
-                      >
-                        <div className="flex flex-col items-center space-y-1">
-                          <span className="w-6 h-6 bg-red-500 rounded flex items-center justify-center text-xs font-bold text-white">Q</span>
-                          <span className="text-xs text-white truncate">QRIS</span>
-                        </div>
-                      </button>
+                  {/* Bank & QRIS */}
+                  <div className="mb-6">
+                    <h4 className="text-sm font-medium text-gray-300 mb-3">Bank Transfer & QRIS</h4>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      {[
+                        { id: 'bank_transfer', name: 'Bank Transfer', color: 'bg-green-600', icon: 'B' },
+                        { id: 'qris', name: 'QRIS', color: 'bg-red-500', icon: 'Q' },
+                        { id: 'bca', name: 'BCA', color: 'bg-blue-800', icon: 'BC' }
+                      ].map((method) => (
+                        <motion.button
+                          key={method.id}
+                          onClick={() => setSelectedPayment(method.id)}
+                          className={`p-3 rounded-lg border-2 text-center transition-all duration-200 ${
+                            selectedPayment === method.id
+                              ? 'border-primary bg-primary/10 shadow-glow'
+                              : 'border-gray-600 hover:border-gray-500 glass-effect'
+                          }`}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          <div className="flex flex-col items-center space-y-2">
+                            <div className={`w-8 h-8 ${method.color} rounded-lg flex items-center justify-center text-white font-bold text-xs`}>
+                              {method.icon}
+                            </div>
+                            <span className="text-xs text-white font-medium">{method.name}</span>
+                          </div>
+                        </motion.button>
+                      ))}
                     </div>
                   </div>
 
-                  {/* Minimarket Section */}
-                  <div className="mb-4">
-                    <h4 className="text-sm font-medium text-gray-300 mb-2">Minimarket</h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      <button
-                        onClick={() => setSelectedPayment('indomaret')}
-                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
-                          selectedPayment === 'indomaret'
-                            ? 'border-primary bg-primary/10'
-                            : 'border-gray-600 hover:border-gray-500'
-                        }`}
-                      >
-                        <div className="flex flex-col items-center space-y-1">
-                          <span className="w-6 h-6 bg-yellow-500 rounded flex items-center justify-center text-xs font-bold text-white">I</span>
-                          <span className="text-xs text-white truncate">Indomaret</span>
-                        </div>
-                      </button>
-                      <button
-                        onClick={() => setSelectedPayment('alfamart')}
-                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
-                          selectedPayment === 'alfamart'
-                            ? 'border-primary bg-primary/10'
-                            : 'border-gray-600 hover:border-gray-500'
-                        }`}
-                      >
-                        <div className="flex flex-col items-center space-y-1">
-                          <span className="w-6 h-6 bg-red-600 rounded flex items-center justify-center text-xs font-bold text-white">A</span>
-                          <span className="text-xs text-white truncate">Alfamart</span>
-                        </div>
-                      </button>
+                  {/* Minimarket */}
+                  <div className="mb-6">
+                    <h4 className="text-sm font-medium text-gray-300 mb-3">Minimarket</h4>
+                    <div className="grid grid-cols-2 gap-3">
+                      {[
+                        { id: 'indomaret', name: 'Indomaret', color: 'bg-yellow-500', icon: 'I' },
+                        { id: 'alfamart', name: 'Alfamart', color: 'bg-red-600', icon: 'A' }
+                      ].map((method) => (
+                        <motion.button
+                          key={method.id}
+                          onClick={() => setSelectedPayment(method.id)}
+                          className={`p-3 rounded-lg border-2 text-center transition-all duration-200 ${
+                            selectedPayment === method.id
+                              ? 'border-primary bg-primary/10 shadow-glow'
+                              : 'border-gray-600 hover:border-gray-500 glass-effect'
+                          }`}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          <div className="flex flex-col items-center space-y-2">
+                            <div className={`w-8 h-8 ${method.color} rounded-lg flex items-center justify-center text-white font-bold text-sm`}>
+                              {method.icon}
+                            </div>
+                            <span className="text-xs text-white font-medium">{method.name}</span>
+                          </div>
+                        </motion.button>
+                      ))}
                     </div>
                   </div>
 
-                  {/* Pulsa Section */}
+                  {/* Pulsa */}
                   <div>
-                    <h4 className="text-sm font-medium text-gray-300 mb-2">Pulsa</h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      <button
-                        onClick={() => setSelectedPayment('telkomsel')}
-                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
-                          selectedPayment === 'telkomsel'
-                            ? 'border-primary bg-primary/10'
-                            : 'border-gray-600 hover:border-gray-500'
-                        }`}
-                      >
-                        <div className="flex flex-col items-center space-y-1">
-                          <span className="w-6 h-6 bg-red-500 rounded flex items-center justify-center text-xs font-bold text-white">T</span>
-                          <span className="text-xs text-white truncate">Telkomsel</span>
-                        </div>
-                      </button>
-                      <button
-                        onClick={() => setSelectedPayment('indosat')}
-                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
-                          selectedPayment === 'indosat'
-                            ? 'border-primary bg-primary/10'
-                            : 'border-gray-600 hover:border-gray-500'
-                        }`}
-                      >
-                        <div className="flex flex-col items-center space-y-1">
-                          <span className="w-6 h-6 bg-yellow-600 rounded flex items-center justify-center text-xs font-bold text-white">I</span>
-                          <span className="text-xs text-white truncate">Indosat</span>
-                        </div>
-                      </button>
-                      <button
-                        onClick={() => setSelectedPayment('xl')}
-                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
-                          selectedPayment === 'xl'
-                            ? 'border-primary bg-primary/10'
-                            : 'border-gray-600 hover:border-gray-500'
-                        }`}
-                      >
-                        <div className="flex flex-col items-center space-y-1">
-                          <span className="w-6 h-6 bg-blue-700 rounded flex items-center justify-center text-xs font-bold text-white">X</span>
-                          <span className="text-xs text-white truncate">XL Axiata</span>
-                        </div>
-                      </button>
-                      <button
-                        onClick={() => setSelectedPayment('tri')}
-                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
-                          selectedPayment === 'tri'
-                            ? 'border-primary bg-primary/10'
-                            : 'border-gray-600 hover:border-gray-500'
-                        }`}
-                      >
-                        <div className="flex flex-col items-center space-y-1">
-                          <span className="w-6 h-6 bg-pink-500 rounded flex items-center justify-center text-xs font-bold text-white">T</span>
-                          <span className="text-xs text-white truncate">Tri</span>
-                        </div>
-                      </button>
+                    <h4 className="text-sm font-medium text-gray-300 mb-3">Pulsa</h4>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      {[
+                        { id: 'telkomsel', name: 'Telkomsel', color: 'bg-red-500', icon: 'T' },
+                        { id: 'indosat', name: 'Indosat', color: 'bg-yellow-600', icon: 'I' },
+                        { id: 'xl', name: 'XL Axiata', color: 'bg-blue-700', icon: 'XL' },
+                        { id: 'tri', name: 'Tri', color: 'bg-pink-500', icon: '3' }
+                      ].map((method) => (
+                        <motion.button
+                          key={method.id}
+                          onClick={() => setSelectedPayment(method.id)}
+                          className={`p-3 rounded-lg border-2 text-center transition-all duration-200 ${
+                            selectedPayment === method.id
+                              ? 'border-primary bg-primary/10 shadow-glow'
+                              : 'border-gray-600 hover:border-gray-500 glass-effect'
+                          }`}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          <div className="flex flex-col items-center space-y-2">
+                            <div className={`w-8 h-8 ${method.color} rounded-lg flex items-center justify-center text-white font-bold text-xs`}>
+                              {method.icon}
+                            </div>
+                            <span className="text-xs text-white font-medium">{method.name}</span>
+                          </div>
+                        </motion.button>
+                      ))}
                     </div>
                   </div>
                 </div>
               </div>
-              </div>
+            </div>
 
               {/* Right side - Game Detail Info (1 column) */}
               <div className="lg:col-span-1">
@@ -617,32 +558,46 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
               Pilih Nominal Top Up
             </h3>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {topupPackages.map((pkg) => (
-                <button
+                <motion.div
                   key={pkg.id}
                   onClick={() => setSelectedPackage(pkg.id)}
-                  className={`relative p-4 rounded-xl border-2 text-left transition-all duration-200 ${
+                  className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-300 ${
                     selectedPackage === pkg.id
                       ? 'border-primary bg-primary/10 shadow-glow'
-                      : 'border-gray-600 hover:border-gray-500 glass-effect'
+                      : 'border-gray-700 bg-dark-light hover:border-gray-600 hover:bg-gray-800/50'
                   }`}
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   {pkg.popular && (
-                    <div className="absolute -top-2 -right-2 bg-yellow-500 text-black px-2 py-1 rounded-full text-xs font-bold">
+                    <div className="absolute -top-2 left-4 px-3 py-1 bg-gradient-to-r 
+                                  from-yellow-400 to-orange-500 rounded-full text-xs font-bold text-black">
                       POPULER
                     </div>
                   )}
                   
-                  <div className="space-y-2">
-                    <h4 className="font-semibold text-white text-sm md:text-base">
-                      {pkg.amount}
-                    </h4>
-                    <p className="text-primary font-bold text-sm md:text-lg">
-                      {pkg.price}
-                    </p>
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <h4 className="font-semibold text-white mb-1">{pkg.amount}</h4>
+                      <p className="text-2xl font-bold text-primary">{pkg.price}</p>
+                    </div>
+                    <div className={`w-6 h-6 rounded-full border-2 transition-colors ${
+                      selectedPackage === pkg.id
+                        ? 'border-primary bg-primary'
+                        : 'border-gray-500'
+                    }`}>
+                      {selectedPackage === pkg.id && (
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          className="w-full h-full rounded-full bg-white/20"
+                        />
+                      )}
+                    </div>
                   </div>
-                </button>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -686,6 +641,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                        selectedPayment === 'shopeepay' ? 'ShopeePay' :
                        selectedPayment === 'bank_transfer' ? 'Bank Transfer' :
                        selectedPayment === 'qris' ? 'QRIS' :
+                       selectedPayment === 'bca' ? 'BCA' :
                        selectedPayment === 'indomaret' ? 'Indomaret' :
                        selectedPayment === 'alfamart' ? 'Alfamart' :
                        selectedPayment === 'telkomsel' ? 'Telkomsel' :
