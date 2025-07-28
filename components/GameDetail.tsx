@@ -391,32 +391,58 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
         <div className="mb-4">
         <h4 className="text-sm font-medium text-gray-300 mb-2">E-Wallet</h4>
         <div className="grid grid-cols-2 gap-2">
-          {paymentMethodsData.ewallet.map((payment) => (
-            <button
-              key={payment.id}
-              onClick={() => setSelectedPayment(payment.id)}
-              className={`p-2 rounded-lg border text-center transition-all duration-200 ${
-                selectedPayment === payment.id
-                  ? 'border-primary bg-primary/10'
-                  : 'border-gray-600 hover:border-gray-500'
-              }`}
-            >
-              <div className="flex flex-col items-center space-y-1">
-                <div className="w-6 h-6 relative">
-                  <img
-                    src={payment.image}
-                    alt={payment.name}
-                    className="w-full h-full object-contain"
-                    onError={(e) => {
-                      const img = e.target as HTMLImageElement;
-                      img.src = '/images/payment/default.png';
-                    }}
-                  />
-                </div>
-                <span className="text-xs text-white truncate">{payment.name}</span>
-              </div>
-            </button>
-          ))}
+          <button
+            onClick={() => setSelectedPayment('gopay')}
+            className={`p-2 rounded-lg border text-center transition-all duration-200 ${
+              selectedPayment === 'gopay'
+                ? 'border-primary bg-primary/10'
+                : 'border-gray-600 hover:border-gray-500'
+            }`}
+          >
+            <div className="flex flex-col items-center space-y-1">
+              <span className="w-6 h-6 bg-blue-500 rounded flex items-center justify-center text-xs font-bold text-white">G</span>
+              <span className="text-xs text-white truncate">GoPay</span>
+            </div>
+          </button>
+          <button
+            onClick={() => setSelectedPayment('dana')}
+            className={`p-2 rounded-lg border text-center transition-all duration-200 ${
+              selectedPayment === 'dana'
+                ? 'border-primary bg-primary/10'
+                : 'border-gray-600 hover:border-gray-500'
+            }`}
+          >
+            <div className="flex flex-col items-center space-y-1">
+              <span className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center text-xs font-bold text-white">D</span>
+              <span className="text-xs text-white truncate">DANA</span>
+            </div>
+          </button>
+          <button
+            onClick={() => setSelectedPayment('ovo')}
+            className={`p-2 rounded-lg border text-center transition-all duration-200 ${
+              selectedPayment === 'ovo'
+                ? 'border-primary bg-primary/10'
+                : 'border-gray-600 hover:border-gray-500'
+            }`}
+          >
+            <div className="flex flex-col items-center space-y-1">
+              <span className="w-6 h-6 bg-purple-500 rounded flex items-center justify-center text-xs font-bold text-white">O</span>
+              <span className="text-xs text-white truncate">OVO</span>
+            </div>
+          </button>
+          <button
+            onClick={() => setSelectedPayment('shopeepay')}
+            className={`p-2 rounded-lg border text-center transition-all duration-200 ${
+              selectedPayment === 'shopeepay'
+                ? 'border-primary bg-primary/10'
+                : 'border-gray-600 hover:border-gray-500'
+            }`}
+          >
+            <div className="flex flex-col items-center space-y-1">
+              <span className="w-6 h-6 bg-orange-500 rounded flex items-center justify-center text-xs font-bold text-white">S</span>
+              <span className="text-xs text-white truncate">ShopeePay</span>
+            </div>
+          </button>
         </div>
         </div>
 
@@ -424,32 +450,32 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
         <div className="mb-4">
         <h4 className="text-sm font-medium text-gray-300 mb-2">Bank Transfer</h4>
         <div className="grid grid-cols-2 gap-2">
-          {paymentMethodsData.bank.map((payment) => (
-            <button
-              key={payment.id}
-              onClick={() => setSelectedPayment(payment.id)}
-              className={`p-2 rounded-lg border text-center transition-all duration-200 ${
-                selectedPayment === payment.id
-                  ? 'border-primary bg-primary/10'
-                  : 'border-gray-600 hover:border-gray-500'
-              }`}
-            >
-              <div className="flex flex-col items-center space-y-1">
-                <div className="w-6 h-6 relative">
-                  <img
-                    src={payment.image}
-                    alt={payment.name}
-                    className="w-full h-full object-contain"
-                    onError={(e) => {
-                      const img = e.target as HTMLImageElement;
-                      img.src = '/images/payment/default.png';
-                    }}
-                  />
-                </div>
-                <span className="text-xs text-white truncate">{payment.name}</span>
-              </div>
-            </button>
-          ))}
+          <button
+            onClick={() => setSelectedPayment('bank_transfer')}
+            className={`p-2 rounded-lg border text-center transition-all duration-200 ${
+              selectedPayment === 'bank_transfer'
+                ? 'border-primary bg-primary/10'
+                : 'border-gray-600 hover:border-gray-500'
+            }`}
+          >
+            <div className="flex flex-col items-center space-y-1">
+              <span className="w-6 h-6 bg-green-600 rounded flex items-center justify-center text-xs font-bold text-white">B</span>
+              <span className="text-xs text-white truncate">Bank Transfer</span>
+            </div>
+          </button>
+          <button
+            onClick={() => setSelectedPayment('qris')}
+            className={`p-2 rounded-lg border text-center transition-all duration-200 ${
+              selectedPayment === 'qris'
+                ? 'border-primary bg-primary/10'
+                : 'border-gray-600 hover:border-gray-500'
+            }`}
+          >
+            <div className="flex flex-col items-center space-y-1">
+              <span className="w-6 h-6 bg-red-500 rounded flex items-center justify-center text-xs font-bold text-white">Q</span>
+              <span className="text-xs text-white truncate">QRIS</span>
+            </div>
+          </button>
         </div>
         </div>
 
@@ -457,32 +483,32 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                   <div className="mb-4">
                     <h4 className="text-sm font-medium text-gray-300 mb-2">Minimarket</h4>
                     <div className="grid grid-cols-2 gap-2">
-                      {paymentMethodsData.convenience.map((payment) => (
-                        <button
-                          key={payment.id}
-                          onClick={() => setSelectedPayment(payment.id)}
-                          className={`p-2 rounded-lg border text-center transition-all duration-200 ${
-                            selectedPayment === payment.id
-                              ? 'border-primary bg-primary/10'
-                              : 'border-gray-600 hover:border-gray-500'
-                          }`}
-                        >
-                          <div className="flex flex-col items-center space-y-1">
-                            <div className="w-6 h-6 relative">
-                              <img
-                                src={payment.image}
-                                alt={payment.name}
-                                className="w-full h-full object-contain"
-                                onError={(e) => {
-                                  const img = e.target as HTMLImageElement;
-                                  img.src = '/images/payment/default.png';
-                                }}
-                              />
-                            </div>
-                            <span className="text-xs text-white truncate">{payment.name}</span>
-                          </div>
-                        </button>
-                      ))}
+                      <button
+                        onClick={() => setSelectedPayment('indomaret')}
+                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
+                          selectedPayment === 'indomaret'
+                            ? 'border-primary bg-primary/10'
+                            : 'border-gray-600 hover:border-gray-500'
+                        }`}
+                      >
+                        <div className="flex flex-col items-center space-y-1">
+                          <span className="w-6 h-6 bg-yellow-500 rounded flex items-center justify-center text-xs font-bold text-white">I</span>
+                          <span className="text-xs text-white truncate">Indomaret</span>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => setSelectedPayment('alfamart')}
+                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
+                          selectedPayment === 'alfamart'
+                            ? 'border-primary bg-primary/10'
+                            : 'border-gray-600 hover:border-gray-500'
+                        }`}
+                      >
+                        <div className="flex flex-col items-center space-y-1">
+                          <span className="w-6 h-6 bg-red-600 rounded flex items-center justify-center text-xs font-bold text-white">A</span>
+                          <span className="text-xs text-white truncate">Alfamart</span>
+                        </div>
+                      </button>
                     </div>
                   </div>
 
@@ -490,32 +516,58 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                   <div>
                     <h4 className="text-sm font-medium text-gray-300 mb-2">Pulsa</h4>
                     <div className="grid grid-cols-2 gap-2">
-                      {paymentMethodsData.mobile.map((payment) => (
-                        <button
-                          key={payment.id}
-                          onClick={() => setSelectedPayment(payment.id)}
-                          className={`p-2 rounded-lg border text-center transition-all duration-200 ${
-                            selectedPayment === payment.id
-                              ? 'border-primary bg-primary/10'
-                              : 'border-gray-600 hover:border-gray-500'
-                          }`}
-                        >
-                          <div className="flex flex-col items-center space-y-1">
-                            <div className="w-6 h-6 relative">
-                              <img
-                                src={payment.image}
-                                alt={payment.name}
-                                className="w-full h-full object-contain"
-                                onError={(e) => {
-                                  const img = e.target as HTMLImageElement;
-                                  img.src = '/images/payment/default.png';
-                                }}
-                              />
-                            </div>
-                            <span className="text-xs text-white truncate">{payment.name}</span>
-                          </div>
-                        </button>
-                      ))}
+                      <button
+                        onClick={() => setSelectedPayment('telkomsel')}
+                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
+                          selectedPayment === 'telkomsel'
+                            ? 'border-primary bg-primary/10'
+                            : 'border-gray-600 hover:border-gray-500'
+                        }`}
+                      >
+                        <div className="flex flex-col items-center space-y-1">
+                          <span className="w-6 h-6 bg-red-500 rounded flex items-center justify-center text-xs font-bold text-white">T</span>
+                          <span className="text-xs text-white truncate">Telkomsel</span>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => setSelectedPayment('indosat')}
+                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
+                          selectedPayment === 'indosat'
+                            ? 'border-primary bg-primary/10'
+                            : 'border-gray-600 hover:border-gray-500'
+                        }`}
+                      >
+                        <div className="flex flex-col items-center space-y-1">
+                          <span className="w-6 h-6 bg-yellow-600 rounded flex items-center justify-center text-xs font-bold text-white">I</span>
+                          <span className="text-xs text-white truncate">Indosat</span>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => setSelectedPayment('xl')}
+                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
+                          selectedPayment === 'xl'
+                            ? 'border-primary bg-primary/10'
+                            : 'border-gray-600 hover:border-gray-500'
+                        }`}
+                      >
+                        <div className="flex flex-col items-center space-y-1">
+                          <span className="w-6 h-6 bg-blue-700 rounded flex items-center justify-center text-xs font-bold text-white">X</span>
+                          <span className="text-xs text-white truncate">XL Axiata</span>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => setSelectedPayment('tri')}
+                        className={`p-2 rounded-lg border text-center transition-all duration-200 ${
+                          selectedPayment === 'tri'
+                            ? 'border-primary bg-primary/10'
+                            : 'border-gray-600 hover:border-gray-500'
+                        }`}
+                      >
+                        <div className="flex flex-col items-center space-y-1">
+                          <span className="w-6 h-6 bg-pink-500 rounded flex items-center justify-center text-xs font-bold text-white">T</span>
+                          <span className="text-xs text-white truncate">Tri</span>
+                        </div>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -626,7 +678,20 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-400">Pembayaran:</span>
-                    <span className="text-white font-medium">{selectedPayment || '-'}</span>
+                    <span className="text-white font-medium">
+                      {selectedPayment === 'gopay' ? 'GoPay' :
+                       selectedPayment === 'dana' ? 'DANA' :
+                       selectedPayment === 'ovo' ? 'OVO' :
+                       selectedPayment === 'shopeepay' ? 'ShopeePay' :
+                       selectedPayment === 'bank_transfer' ? 'Bank Transfer' :
+                       selectedPayment === 'qris' ? 'QRIS' :
+                       selectedPayment === 'indomaret' ? 'Indomaret' :
+                       selectedPayment === 'alfamart' ? 'Alfamart' :
+                       selectedPayment === 'telkomsel' ? 'Telkomsel' :
+                       selectedPayment === 'indosat' ? 'Indosat' :
+                       selectedPayment === 'xl' ? 'XL Axiata' :
+                       selectedPayment === 'tri' ? 'Tri' : '-'}
+                    </span>
                   </div>
                   <div className="border-t border-gray-600 pt-3 flex justify-between text-lg">
                     <span className="text-white font-semibold">Total:</span>
