@@ -560,12 +560,12 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
               Pilih Nominal Top Up
             </h3>
             
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
               {topupPackages.map((pkg) => (
                 <motion.div
                   key={pkg.id}
                   onClick={() => setSelectedPackage(pkg.id)}
-                  className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-300 ${
+                  className={`relative p-3 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
                     selectedPackage === pkg.id
                       ? 'border-primary bg-primary/10 shadow-glow'
                       : 'border-gray-700 bg-dark-light hover:border-gray-600 hover:bg-gray-800/50'
@@ -574,7 +574,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                   whileTap={{ scale: 0.98 }}
                 >
                   {pkg.popular && (
-                    <div className="absolute -top-2 left-4 px-3 py-1 bg-gradient-to-r 
+                    <div className="absolute -top-2 left-3 px-2 py-0.5 bg-gradient-to-r 
                                   from-yellow-400 to-orange-500 rounded-full text-xs font-bold text-black">
                       POPULER
                     </div>
@@ -582,13 +582,13 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                   
                   <div className="flex justify-between items-center">
                     <div>
-                      <h4 className="font-semibold text-white">{pkg.amount}</h4>
-                      <p className="text-2xl font-bold text-primary">{pkg.price}</p>
+                      <h4 className="font-medium text-white text-sm">{pkg.amount}</h4>
+                      <p className="text-lg font-semibold text-primary">{pkg.price}</p>
                     </div>
-                    <div className={`w-6 h-6 rounded-full border-2 transition-colors ${
+                    <div className={`w-5 h-5 rounded-full border-2 transition-colors ${
                       selectedPackage === pkg.id
                         ? 'border-primary bg-primary'
-                        : 'border-gray-500'
+                        : 'border-gray-400'
                     }`}>
                       {selectedPackage === pkg.id && (
                         <motion.div
