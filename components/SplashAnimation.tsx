@@ -18,6 +18,15 @@ export default function SplashAnimation({ game, onComplete }: SplashAnimationPro
   // 3: Banner fully visible, icon disappeared (No 11 end)
   // 4: Complete transition to game detail (No 12)
 
+  // Prevent body scroll when animation is active
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [])
+
   useEffect(() => {
     const timer1 = setTimeout(() => setAnimationPhase(1), 200)  // Show icon
     const timer2 = setTimeout(() => setAnimationPhase(2), 1800) // Start banner transition

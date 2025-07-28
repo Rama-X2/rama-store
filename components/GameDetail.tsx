@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { X, ShoppingCart, Star, Clock, Shield } from 'lucide-react'
 import { Game } from '../types/game'
@@ -36,6 +36,17 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
   const [isProcessing, setIsProcessing] = useState(false)
   const { showSuccess, showError } = useToastContext()
 
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    document.body.style.paddingRight = '0px' // Prevent layout shift
+    
+    return () => {
+      document.body.style.overflow = 'unset'
+      document.body.style.paddingRight = '0px'
+    }
+  }, [])
+
   const handlePurchase = () => {
     if (!selectedPackage || !userId || !serverId) {
       showError('Data Tidak Lengkap', 'Mohon lengkapi User ID dan Server ID terlebih dahulu.')
@@ -68,6 +79,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
       transition={{ duration: 0.3 }}
       className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
       onClick={onClose}
+      style={{ overflow: 'hidden', position: 'fixed' }}
     >
       <motion.div
         initial={{ scale: 0.8, opacity: 0, y: 50 }}
@@ -248,7 +260,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
         </div>
 
         {/* Content */}
-        <div className="custom-scrollbar max-h-[calc(90vh-12rem)] overflow-y-auto">
+        <div className="custom-scrollbar max-h-[calc(90vh-12rem)] overflow-y-auto overscroll-contain">
           {/* Game Info Section - No 12 */}
           <div className="p-6 border-b border-gray-700">
             <div className="grid lg:grid-cols-3 gap-8">
@@ -340,12 +352,12 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
               Pilih Nominal Top Up
             </h3>
             
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
               {topupPackages.map((pkg) => (
                 <motion.div
                   key={pkg.id}
                   onClick={() => setSelectedPackage(pkg.id)}
-                  className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-300 ${
+                  className={`relative p-3 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
                     selectedPackage === pkg.id
                       ? 'border-primary bg-primary/10 shadow-glow'
                       : 'border-gray-700 bg-dark-light hover:border-gray-600 hover:bg-gray-800/50'
@@ -354,7 +366,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                   whileTap={{ scale: 0.98 }}
                 >
                   {pkg.popular && (
-                    <div className="absolute -top-2 left-4 px-3 py-1 bg-gradient-to-r 
+                    <div className="absolute -top-2 left-2 px-2 py-1 bg-gradient-to-r 
                                   from-yellow-400 to-orange-500 rounded-full text-xs font-bold text-black">
                       POPULER
                     </div>
@@ -362,10 +374,10 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
                   
                   <div className="flex justify-between items-center">
                     <div>
-                      <h4 className="font-semibold text-white">{pkg.amount}</h4>
-                      <p className="text-2xl font-bold text-primary">{pkg.price}</p>
+                      <h4 className="text-sm font-medium text-white mb-1">{pkg.amount}</h4>
+                      <p className="text-lg font-bold text-primary">{pkg.price}</p>
                     </div>
-                    <div className={`w-6 h-6 rounded-full border-2 transition-colors ${
+                    <div className={`w-5 h-5 rounded-full border-2 transition-colors ${
                       selectedPackage === pkg.id
                         ? 'border-primary bg-primary'
                         : 'border-gray-500'

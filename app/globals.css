@@ -4,11 +4,14 @@
     @apply hover:scale-100;
     will-change: transform;
     transform: translateZ(0);
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
   }
   
   .game-card:active {
     @apply scale-95;
     transition: transform 0.1s ease;
+    outline: none;
   }
   
   .glass-effect {
@@ -20,11 +23,14 @@
     @apply hover:scale-100;
     will-change: transform;
     transform: translateZ(0);
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
   }
   
   .featured-game-card:active {
     @apply scale-95;
     transition: transform 0.1s ease;
+    outline: none;
   }
   
   /* Reduce motion for better mobile performance */
@@ -42,6 +48,8 @@
   button, .cursor-pointer {
     min-height: 44px;
     touch-action: manipulation;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
   }
   
   /* Prevent zoom on input focus */
@@ -98,6 +106,18 @@
   
   * {
     @apply border-gray-700/50;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Remove any red highlights or outlines */
+  *:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  *:active {
+    outline: none !important;
   }
   
   /* Default to dark mode variables */
@@ -140,6 +160,38 @@
   
   html {
     scroll-behavior: smooth;
+  }
+
+  /* Modal overlay styling */
+  .modal-open {
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  /* Fixed modal background */
+  .modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Modal content container */
+  .modal-content {
+    position: relative;
+    max-height: 90vh;
+    overflow: hidden;
+  }
+
+  /* Modal scrollable content */
+  .modal-scroll {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
