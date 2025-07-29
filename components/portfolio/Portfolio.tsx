@@ -645,30 +645,30 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                       initial={{ opacity: 0, x: 100 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -100 }}
-                      className="glass-effect p-8 rounded-xl text-center max-w-4xl mx-auto"
+                      className="glass-effect p-4 md:p-8 rounded-xl text-center max-w-4xl mx-auto"
                     >
-                      <div className="mb-6">
-                        <div className="flex justify-center space-x-1 mb-4">
+                      <div className="mb-4 md:mb-6">
+                        <div className="flex justify-center space-x-1 mb-3 md:mb-4">
                           {[...Array(portfolioData.testimonials[currentTestimonial].rating)].map((_, i) => (
-                            <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                            <Star key={i} className="w-4 h-4 md:w-5 md:h-5 text-yellow-400 fill-current" />
                           ))}
                         </div>
-                        <blockquote className="text-lg text-gray-300 leading-relaxed mb-6 italic">
+                        <blockquote className="text-sm md:text-lg text-gray-300 leading-relaxed mb-4 md:mb-6 italic px-2 md:px-0">
                           &ldquo;{portfolioData.testimonials[currentTestimonial].content}&rdquo;
                         </blockquote>
-                        <div className="flex items-center justify-center space-x-4">
-                          <div className="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center overflow-hidden">
+                        <div className="flex items-center justify-center space-x-3 md:space-x-4">
+                          <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center overflow-hidden">
                             <Image
                               src={portfolioData.testimonials[currentTestimonial].avatar}
                               alt={portfolioData.testimonials[currentTestimonial].name}
                               width={48}
                               height={48}
-                              className="w-12 h-12 object-cover rounded-full"
+                              className="w-10 h-10 md:w-12 md:h-12 object-cover rounded-full"
                             />
                           </div>
                           <div className="text-left">
-                            <p className="font-semibold text-white">{portfolioData.testimonials[currentTestimonial].name}</p>
-                            <p className="text-sm text-gray-400">{portfolioData.testimonials[currentTestimonial].position}</p>
+                            <p className="text-sm md:text-base font-semibold text-white">{portfolioData.testimonials[currentTestimonial].name}</p>
+                            <p className="text-xs md:text-sm text-gray-400">{portfolioData.testimonials[currentTestimonial].position}</p>
                           </div>
                         </div>
                       </div>
@@ -717,22 +717,22 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                 className="space-y-8"
               >
                 <div className="text-center">
-                  <h2 className="text-3xl font-bold glow-text mb-4">Get In Touch</h2>
-                  <p className="text-gray-400 max-w-2xl mx-auto">
+                  <h2 className="text-2xl md:text-3xl font-bold glow-text mb-4">Get In Touch</h2>
+                  <p className="text-sm md:text-base text-gray-400 max-w-2xl mx-auto px-4 md:px-0">
                     Ready to work together? Let&apos;s discuss your project and bring your ideas to life
                   </p>
                 </div>
-                <div className="grid md:grid-cols-2 gap-8">
+                <div className="grid md:grid-cols-2 gap-6 md:gap-8">
                   {/* Contact Info */}
                   <motion.div
                     initial={{ opacity: 0, x: -50 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="space-y-6"
+                    className="space-y-4 md:space-y-6"
                   >
                     <div>
-                      <h3 className="text-xl font-bold text-white mb-4">Contact Information</h3>
-                      <div className="space-y-4">
+                      <h3 className="text-lg md:text-xl font-bold text-white mb-3 md:mb-4">Contact Information</h3>
+                      <div className="space-y-3 md:space-y-4">
                         {[
                           { icon: Mail, label: 'Email', value: portfolioData.personal.email, href: `mailto:${portfolioData.personal.email}` },
                           { icon: Phone, label: 'Phone', value: portfolioData.personal.phone, href: `tel:${portfolioData.personal.phone}` },
@@ -743,14 +743,14 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.3 + index * 0.1 }}
-                            className="flex items-center space-x-4 p-4 glass-effect rounded-lg hover:shadow-glow transition-all duration-300"
+                            className="flex items-center space-x-3 md:space-x-4 p-3 md:p-4 glass-effect rounded-lg hover:shadow-glow transition-all duration-300"
                           >
-                            <div className="p-2 bg-primary/20 rounded-lg">
-                              <contact.icon className="w-5 h-5 text-primary" />
+                            <div className="p-1.5 md:p-2 bg-primary/20 rounded-lg flex-shrink-0">
+                              <contact.icon className="w-4 h-4 md:w-5 md:h-5 text-primary" />
                             </div>
-                            <div>
-                              <p className="text-sm text-gray-400">{contact.label}</p>
-                              <p className="text-white font-medium">{contact.value}</p>
+                            <div className="min-w-0">
+                              <p className="text-xs md:text-sm text-gray-400">{contact.label}</p>
+                              <p className="text-sm md:text-base text-white font-medium truncate">{contact.value}</p>
                             </div>
                           </motion.div>
                         ))}
@@ -758,8 +758,8 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                     </div>
                     {/* Social Links */}
                     <div>
-                      <h3 className="text-xl font-bold text-white mb-4">Follow Me</h3>
-                      <div className="flex space-x-4">
+                      <h3 className="text-lg md:text-xl font-bold text-white mb-3 md:mb-4">Follow Me</h3>
+                      <div className="flex space-x-3 md:space-x-4">
                         {[
                           { icon: Github, href: portfolioData.personal.github, label: 'GitHub' },
                           { icon: Linkedin, href: portfolioData.personal.linkedin, label: 'LinkedIn' },
@@ -768,13 +768,13 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                         ].map((social, index) => (
                           <motion.div
                             key={social.label}
-                            className="p-3 glass-effect rounded-full text-gray-400 hover:text-white transition-all duration-300 cursor-pointer"
+                            className="p-2 md:p-3 glass-effect rounded-full text-gray-400 hover:text-white transition-all duration-300 cursor-pointer"
                             whileHover={{ scale: 1.1, y: -2 }}
                             whileTap={{ scale: 0.9 }}
                             title={social.label}
                             onClick={() => window.open(social.href, '_blank')}
                           >
-                            <social.icon className="w-5 h-5" />
+                            <social.icon className="w-4 h-4 md:w-5 md:h-5" />
                           </motion.div>
                         ))}
                       </div>
@@ -785,39 +785,39 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                     initial={{ opacity: 0, x: 50 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.4 }}
-                    className="glass-effect p-6 rounded-xl"
+                    className="glass-effect p-4 md:p-6 rounded-xl"
                   >
-                    <h3 className="text-xl font-bold text-white mb-6">Send Message</h3>
-                    <form className="space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <h3 className="text-lg md:text-xl font-bold text-white mb-4 md:mb-6">Send Message</h3>
+                    <form className="space-y-3 md:space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                         <input
                           type="text"
                           placeholder="Your Name"
-                          className="px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                          className="px-3 py-2 md:px-4 md:py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-sm md:text-base"
                         />
                         <input
                           type="email"
                           placeholder="Your Email"
-                          className="px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                          className="px-3 py-2 md:px-4 md:py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-sm md:text-base"
                         />
                       </div>
                       <input
                         type="text"
                         placeholder="Subject"
-                        className="w-full px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                        className="w-full px-3 py-2 md:px-4 md:py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-sm md:text-base"
                       />
                       <textarea
-                        rows={5}
+                        rows={4}
                         placeholder="Your Message"
-                        className="w-full px-4 py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-none"
+                        className="w-full px-3 py-2 md:px-4 md:py-3 bg-dark-light/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-none text-sm md:text-base"
                       />
                       <motion.button
                         type="submit"
-                        className="w-full px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-medium text-white shadow-glow hover:shadow-glow-lg transition-all duration-300 flex items-center justify-center space-x-2"
+                        className="w-full px-4 py-2 md:px-6 md:py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-medium text-white shadow-glow hover:shadow-glow-lg transition-all duration-300 flex items-center justify-center space-x-2 text-sm md:text-base"
                         whileHover={{ scale: 1.02, y: -2 }}
                         whileTap={{ scale: 0.98 }}
                       >
-                        <Send className="w-4 h-4" />
+                        <Send className="w-3 h-3 md:w-4 md:h-4" />
                         <span>Send Message</span>
                       </motion.button>
                     </form>
@@ -842,23 +842,23 @@ export default function Portfolio({ onClose }: PortfolioProps) {
             initial={{ scale: 0.8, y: 50 }}
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.8, y: 50 }}
-            className="portfolio-modal-content"
+            className="portfolio-modal-content max-h-[90vh] overflow-y-auto"
           >
-              <div className="flex justify-between items-start mb-6">
-                <div>
-                  <h2 className="text-3xl font-bold glow-text mb-2">{selectedProject.title}</h2>
-                  <p className="text-gray-400">{selectedProject.category}</p>
+              <div className="flex justify-between items-start mb-4 md:mb-6">
+                <div className="flex-1 pr-4">
+                  <h2 className="text-xl md:text-3xl font-bold glow-text mb-2">{selectedProject.title}</h2>
+                  <p className="text-sm md:text-base text-gray-400">{selectedProject.category}</p>
                 </div>
                 <motion.button
                   onClick={() => setSelectedProject(null)}
-                  className="p-2 text-gray-400 hover:text-white transition-colors"
+                  className="p-2 text-gray-400 hover:text-white transition-colors flex-shrink-0"
                   whileHover={{ scale: 1.1, rotate: 90 }}
                   whileTap={{ scale: 0.9 }}
                 >
-                  <X className="w-6 h-6" />
+                  <X className="w-5 h-5 md:w-6 md:h-6" />
                 </motion.button>
               </div>
-              <div className="relative h-64 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl mb-6 overflow-hidden">
+              <div className="relative h-48 md:h-64 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl mb-4 md:mb-6 overflow-hidden">
                 <Image
                   src={selectedProject.image}
                   alt={selectedProject.title}
@@ -873,15 +873,15 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                   </div>
                 )}
               </div>
-              <div className="space-y-6">
-                <p className="text-gray-300 leading-relaxed text-lg">{selectedProject.description}</p>
+              <div className="space-y-4 md:space-y-6">
+                <p className="text-sm md:text-lg text-gray-300 leading-relaxed">{selectedProject.description}</p>
                 <div>
-                  <h3 className="text-xl font-bold text-white mb-3">Technologies Used</h3>
-                  <div className="flex flex-wrap gap-3">
+                  <h3 className="text-lg md:text-xl font-bold text-white mb-2 md:mb-3">Technologies Used</h3>
+                  <div className="flex flex-wrap gap-2 md:gap-3">
                     {selectedProject.technologies.map((tech: string, index: number) => (
                       <span
                         key={index}
-                        className="px-4 py-2 bg-primary/20 text-primary rounded-full text-sm font-medium"
+                        className="px-2 py-1 md:px-4 md:py-2 bg-primary/20 text-primary rounded-full text-xs md:text-sm font-medium"
                       >
                         {tech}
                       </span>
@@ -889,33 +889,33 @@ export default function Portfolio({ onClose }: PortfolioProps) {
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white mb-3">Project Statistics</h3>
-                  <div className="grid grid-cols-3 gap-4">
+                  <h3 className="text-lg md:text-xl font-bold text-white mb-2 md:mb-3">Project Statistics</h3>
+                  <div className="grid grid-cols-3 gap-2 md:gap-4">
                     {Object.entries(selectedProject.stats).map(([key, value]) => (
-                      <div key={key} className="glass-effect p-4 rounded-lg text-center">
-                        <div className="text-2xl font-bold text-primary mb-1">{String(value)}</div>
-                        <div className="text-sm text-gray-400 capitalize">{key}</div>
+                      <div key={key} className="glass-effect p-2 md:p-4 rounded-lg text-center">
+                        <div className="text-lg md:text-2xl font-bold text-primary mb-1">{String(value)}</div>
+                        <div className="text-xs md:text-sm text-gray-400 capitalize">{key}</div>
                       </div>
                     ))}
                   </div>
                 </div>
-                <div className="flex space-x-4 pt-6">
+                <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-4 pt-4 md:pt-6">
                   <motion.div
-                    className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-medium text-white shadow-glow hover:shadow-glow-lg transition-all duration-300 cursor-pointer"
+                    className="flex-1 flex items-center justify-center space-x-2 px-4 py-2 md:px-6 md:py-3 bg-gradient-to-r from-primary to-secondary rounded-lg font-medium text-white shadow-glow hover:shadow-glow-lg transition-all duration-300 cursor-pointer text-sm md:text-base"
                     whileHover={{ scale: 1.02, y: -2 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => window.open(selectedProject.liveUrl, '_blank')}
                   >
-                    <ExternalLink className="w-5 h-5" />
+                    <ExternalLink className="w-4 h-4 md:w-5 md:h-5" />
                     <span>View Live</span>
                   </motion.div>
                   <motion.div
-                    className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 glass-effect rounded-lg font-medium text-white hover:bg-white/10 transition-all duration-300 cursor-pointer"
+                    className="flex-1 flex items-center justify-center space-x-2 px-4 py-2 md:px-6 md:py-3 glass-effect rounded-lg font-medium text-white hover:bg-white/10 transition-all duration-300 cursor-pointer text-sm md:text-base"
                     whileHover={{ scale: 1.02, y: -2 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => window.open(selectedProject.githubUrl, '_blank')}
                   >
-                    <Github className="w-5 h-5" />
+                    <Github className="w-4 h-4 md:w-5 md:h-5" />
                     <span>View Code</span>
                   </motion.div>
                 </div>
