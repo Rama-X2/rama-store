@@ -84,17 +84,6 @@ npm run lint         # Linting kode
 npm run type-check   # Type checking TypeScript
 ```
 
-## 🌐 Deploy ke Production
-
-### 🚀 Deploy ke Vercel (Direkomendasikan)
-
-#### 🎯 Metode 1: Vercel Dashboard (Termudah)
-1. Push kode ke GitHub repository
-2. Buka [Vercel Dashboard](https://vercel.com/dashboard)
-3. Klik "New Project" dan import dari GitHub
-4. Vercel akan otomatis detect Next.js dan deploy
-5. Website langsung online dalam hitungan menit!
-
 #### 💻 Metode 2: Vercel CLI
 ```bash
 # Install Vercel CLI
@@ -275,39 +264,27 @@ Sudah include meta tags optimal di `app/layout.tsx`:
 
 ## 📄 License
 
-**MIT License** - Bebas digunakan untuk project komersial dan personal ✅
-
-### ✅ Yang Boleh:
-- ✅ Menggunakan untuk project komersial
-- ✅ Memodifikasi kode sesuai kebutuhan
-- ✅ Mendistribusikan ulang
-- ✅ Menggunakan untuk pembelajaran
-- ✅ Menjual sebagai produk (dengan modifikasi)
-
-### ❌ Yang Tidak Boleh:
-- ❌ Claim sebagai karya sendiri tanpa attribution
-- ❌ Menjual source code mentah tanpa modifikasi
-- ❌ Menggunakan untuk hal yang melanggar hukum
+**MIT License**
 
 ## 📞 Support & Bantuan
 
 Jika ada pertanyaan, bug, atau butuh bantuan:
 
 ### 📧 Kontak Support
-- **📧 Email:** support@topupgame.com
+- **📧 Email:** aderama4a@gmail.com
 - **📱 WhatsApp:** +62 xxx-xxxx-xxxx
-- **💬 Telegram:** @topupgamesupport
+- **💬 Telegram:** rama_xd
 - **🐛 Issues:** GitHub Issues
 
 ### 🏆 Credits
 
 ### 👨‍💻 Development Team
-- **Frontend Developer:** Claude AI Assistant
-- **UI/UX Designer:** Berdasarkan mockup yang disediakan (No 0 - No 14)
+- **Frontend Developer:** Rama-X2
+- **UI/UX Designer:** Berdasarkan mockup (Client Provided)
 - **Animation Specialist:** Framer Motion Implementation
 
 ### 🎨 Design & Assets
-- **Design Reference:** Gambar No 0 - No 14 (Client Provided)
+- **Design Reference:** (Client Provided)
 - **Icons:** Lucide React
 - **Fonts:** Inter (Google Fonts)
 - **Color Palette:** Custom gradient scheme
