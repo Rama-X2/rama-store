@@ -146,7 +146,7 @@ export default function Credit() {
                 transition: { duration: 0.2 }
               }}
               whileTap={{ scale: 0.95 }}
-              className={`relative cursor-pointer p-6 rounded-xl border-2 transition-all duration-300 ${
+              className={`relative cursor-pointer p-4 md:p-6 rounded-xl border-2 transition-all duration-300 ${
                 selectedProvider?.id === provider.id
                   ? 'border-primary bg-primary/10 shadow-glow'
                   : 'border-gray-700 bg-gradient-to-br from-dark-light to-dark hover:border-gray-600'
@@ -154,13 +154,12 @@ export default function Credit() {
               onClick={() => setSelectedProvider(provider)}
             >
               {/* Provider icon */}
-              <div className={`w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br ${provider.gradient} 
-                            flex items-center justify-center text-3xl relative overflow-hidden group`}>
+              <div className={`w-12 h-12 md:w-16 md:h-16 mx-auto mb-2 md:mb-4 rounded-xl bg-gradient-to-br ${provider.gradient} 
+                            flex items-center justify-center text-lg md:text-3xl relative overflow-hidden group`}>
                 {/* Fallback text */}
-                <span className="relative z-10 text-2xl font-bold text-white">
+                <span className="relative z-10 text-lg md:text-2xl font-bold text-white">
                   {provider.name.charAt(0)}
                 </span>
-                {/* Provider icon image */}
                 <Image 
                   src={provider.icon} 
                   alt={provider.name}

@@ -1,5 +1,13 @@
 /* Mobile-specific optimizations */
 @media (max-width: 768px) {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
   .game-card {
     @apply hover:scale-100;
     will-change: transform;

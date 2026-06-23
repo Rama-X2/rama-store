@@ -75,6 +75,7 @@ declare module 'framer-motion' {
     img: ComponentType<MotionProps & React.ImgHTMLAttributes<HTMLImageElement>>;
     ul: ComponentType<MotionProps & React.HTMLAttributes<HTMLUListElement>>;
     li: ComponentType<MotionProps & React.LiHTMLAttributes<HTMLLIElement>>;
+    a: ComponentType<MotionProps & React.AnchorHTMLAttributes<HTMLAnchorElement>>;
   };
   
   export interface AnimatePresenceProps {

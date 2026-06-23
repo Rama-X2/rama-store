@@ -389,33 +389,33 @@ export default function Leaderboard() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 1 + index * 0.05 }}
-              className={`leaderboard-card p-4 bg-gradient-to-r ${getRankColor(user.rank)} border`}
+              className={`leaderboard-card p-3 md:p-4 bg-gradient-to-r ${getRankColor(user.rank)} border`}
               onClick={() => setSelectedUser(user)}
               whileHover={{ y: -2 }}
             >
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2.5 md:space-x-4">
                 {/* Rank */}
                 <div className="flex-shrink-0">
                   {getRankIcon(user.rank)}
                 </div>
 
                 {/* Avatar */}
-                <div className="text-3xl">{user.avatar}</div>
+                <div className="text-2xl md:text-3xl">{user.avatar}</div>
 
                 {/* User Info */}
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center space-x-3 mb-1">
-                    <h4 className="font-semibold text-lg text-white truncate">{user.username}</h4>
-                    <div className={`px-2 py-1 rounded text-xs font-medium ${getLevelColor(user.level)}`}>
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mb-1">
+                    <h4 className="font-semibold text-sm md:text-lg text-white truncate max-w-[120px] sm:max-w-none">{user.username}</h4>
+                    <div className={`px-1.5 py-0.5 rounded text-[10px] md:text-xs font-medium ${getLevelColor(user.level)}`}>
                       {user.level}
                     </div>
                   </div>
-                  <div className="flex items-center space-x-4 text-sm text-gray-400">
+                  <div className="flex flex-wrap gap-x-2 gap-y-0.5 text-xs md:text-sm text-gray-400">
                     <span>{user.favoriteGame}</span>
-                    <span>•</span>
-                    <span>{user.transactions} transactions</span>
-                    <span>•</span>
-                    <span className="text-green-400 flex items-center space-x-1">
+                    <span className="hidden sm:inline">•</span>
+                    <span>{user.transactions} trx</span>
+                    <span className="hidden sm:inline">•</span>
+                    <span className="text-green-400 flex items-center space-x-0.5">
                       <TrendingUp className="w-3 h-3" />
                       <span>+{user.growth}%</span>
                     </span>
@@ -423,11 +423,11 @@ export default function Leaderboard() {
                 </div>
 
                 {/* Amount */}
-                <div className="text-right">
-                  <div className="text-xl font-bold text-primary">
+                <div className="text-right flex-shrink-0">
+                  <div className="text-sm sm:text-base md:text-xl font-bold text-primary">
                     Rp {user.totalSpent.toLocaleString()}
                   </div>
-                  <div className="text-xs text-gray-400">{user.badge}</div>
+                  <div className="text-[10px] md:text-xs text-gray-400">{user.badge}</div>
                 </div>
               </div>
               

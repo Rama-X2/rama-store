@@ -700,26 +700,30 @@ export default function Home() {
                 Rama Store
               </motion.h1>
               
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-1.5">
                 {/* Mobile Search Toggle */}
                 <motion.button
                   onClick={() => setShowSearch(!showSearch)}
-                  className="p-2 text-gray-400 hover:text-white transition-colors"
+                  className="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 rounded-full transition-colors"
+                  style={{ minHeight: 'auto' }}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                 >
-                  {showSearch ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
+                  {showSearch ? <X className="w-4 h-4" /> : <Search className="w-4 h-4" />}
                 </motion.button>
                 
                 {/* Portfolio Button - Mobile */}
-                <motion.button
-                  onClick={() => setShowPortfolio(true)}
-                  className="p-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-white shadow-glow hover:shadow-glow-lg transition-all duration-300"
+                <motion.a
+                  href="https://rama-x2.my.id"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 flex items-center justify-center bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-white shadow-glow hover:shadow-glow-lg transition-all duration-300"
+                  style={{ minHeight: 'auto' }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   <User className="w-4 h-4" />
-                </motion.button>
+                </motion.a>
                 
                 <ThemeToggle />
               </div>
@@ -740,7 +744,7 @@ export default function Home() {
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder="Cari game favorit..."
-                      className="w-full px-4 py-3 pl-10 bg-dark-light/80 rounded-full border border-gray-600 
+                      className="w-full px-4 py-2.5 pl-10 bg-dark-light/80 rounded-full border border-gray-600 
                                text-white placeholder-gray-400 focus:border-primary 
                                focus:ring-2 focus:ring-primary/20 transition-all backdrop-blur-sm"
                       autoFocus
@@ -752,7 +756,7 @@ export default function Home() {
             </AnimatePresence>
             
             {/* Mobile Navigation */}
-            <div className="flex space-x-1 bg-dark-light/50 rounded-full p-1 backdrop-blur-sm overflow-x-auto">
+            <div className="flex space-x-1 bg-dark-light/50 rounded-full p-1 backdrop-blur-sm overflow-x-auto no-scrollbar">
               {[
                 { id: 'topup', name: 'Top Up' },
                 { id: 'transaction', name: 'Check' },
@@ -767,11 +771,12 @@ export default function Home() {
                     setSearchQuery('')
                     setShowSearch(false)
                   }}
-                  className={`px-3 py-2 rounded-full text-xs font-medium transition-all duration-300 whitespace-nowrap flex-shrink-0 ${
+                  className={`px-3.5 h-8 rounded-full text-xs font-medium transition-all duration-300 whitespace-nowrap flex-shrink-0 flex items-center justify-center ${
                     activeTab === tab.id
                       ? 'bg-primary text-white shadow-glow'
                       : 'text-gray-300 hover:text-white hover:bg-white/10'
                   }`}
+                  style={{ minHeight: 'auto' }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -836,15 +841,17 @@ export default function Home() {
             </div>
             
             {/* Portfolio Button */}
-            <motion.button
-              onClick={() => setShowPortfolio(true)}
-              className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-white font-medium shadow-glow hover:shadow-glow-lg transition-all duration-300"
+            <motion.a
+              href="https://rama-x2.my.id"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-white font-medium shadow-glow hover:shadow-glow-lg transition-all duration-300"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
             >
               <User className="w-4 h-4" />
               <span>Portfolio</span>
-            </motion.button>
+            </motion.a>
             
             {/* Theme Toggle */}
             <ThemeToggle />
