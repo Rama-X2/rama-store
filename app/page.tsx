@@ -12,7 +12,6 @@ import Statistics from '../components/Statistics'
 import CheckTransaction from '../components/pages/CheckTransaction'
 import Leaderboard from '../components/pages/Leaderboard'
 import Credit from '../components/pages/Credit'
-import Portfolio from '../components/portfolio/Portfolio'
 import { Game } from '../types/game'
 
 // Data game dengan kategori lengkap sesuai requirement
@@ -629,7 +628,18 @@ export default function Home() {
   const [visibleItems, setVisibleItems] = useState(8)
   const [searchQuery, setSearchQuery] = useState('')
   const [showSearch, setShowSearch] = useState(false)
-  const [showPortfolio, setShowPortfolio] = useState(false)
+
+  // Centralized scroll lock for selected game modal
+  useEffect(() => {
+    if (selectedGame !== null) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [selectedGame])
 
   const handleGameClick = (game: Game) => {
     setSelectedGame(game)
@@ -713,15 +723,17 @@ export default function Home() {
                 </motion.button>
                 
                 {/* Portfolio Button - Mobile */}
-                <motion.button
-                  onClick={() => setShowPortfolio(true)}
+                <motion.a
+                  href="https://rama-x2.my.id"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-9 h-9 flex items-center justify-center bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-white shadow-glow hover:shadow-glow-lg transition-all duration-300"
                   style={{ minHeight: 'auto' }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   <User className="w-4 h-4" />
-                </motion.button>
+                </motion.a>
                 
                 <ThemeToggle />
               </div>
@@ -761,7 +773,7 @@ export default function Home() {
                 { id: 'leaderboard', name: 'Leaderboard' },
                 { id: 'credit', name: 'Credit' },
               ].map((tab) => (
-                <motion.button
+                <button
                   key={tab.id}
                   onClick={() => {
                     setActiveTab(tab.id)
@@ -769,17 +781,15 @@ export default function Home() {
                     setSearchQuery('')
                     setShowSearch(false)
                   }}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-300 whitespace-nowrap flex-shrink-0 flex items-center justify-center ${
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-colors duration-200 whitespace-nowrap flex-shrink-0 flex items-center justify-center ${
                     activeTab === tab.id
                       ? 'bg-primary text-white shadow-glow'
-                      : 'text-gray-300 hover:text-white hover:bg-white/10'
+                      : 'text-gray-300 active:text-white active:bg-white/10'
                   }`}
                   style={{ minHeight: 'auto' }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
                 >
                   {tab.name}
-                </motion.button>
+                </button>
               ))}
             </div>
           </div>
@@ -839,15 +849,17 @@ export default function Home() {
             </div>
             
             {/* Portfolio Button */}
-            <motion.button
-              onClick={() => setShowPortfolio(true)}
+            <motion.a
+              href="https://rama-x2.my.id"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-white font-medium shadow-glow hover:shadow-glow-lg transition-all duration-300"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
             >
               <User className="w-4 h-4" />
               <span>Portfolio</span>
-            </motion.button>
+            </motion.a>
             
             {/* Theme Toggle */}
             <ThemeToggle />
@@ -859,7 +871,7 @@ export default function Home() {
                 { id: 'leaderboard', name: 'Leaderboard' },
                 { id: 'credit', name: 'Credit' },
               ].map((tab) => (
-                <motion.button
+                <button
                   key={tab.id}
                   onClick={() => {
                     setActiveTab(tab.id)
@@ -867,16 +879,14 @@ export default function Home() {
                     setSearchQuery('')
                     setShowSearch(false)
                   }}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
                     activeTab === tab.id
                       ? 'bg-primary text-white shadow-glow'
                       : 'text-gray-300 hover:text-white hover:bg-white/10'
                   }`}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
                 >
                   {tab.name}
-                </motion.button>
+                </button>
               ))}
             </nav>
           </div>
@@ -903,23 +913,21 @@ export default function Home() {
             {/* Category Tabs */}
             <div className="flex space-x-2 mb-6 md:mb-8 overflow-x-auto custom-scrollbar pb-2">
               {categories.map((category) => (
-                <motion.button
+                <button
                   key={category.id}
                   onClick={() => {
                     setActiveCategory(category.id)
                     setVisibleItems(8)
                     setSearchQuery('')
                   }}
-                  className={`px-4 md:px-6 py-2 md:py-3 rounded-lg text-xs md:text-sm font-medium whitespace-nowrap transition-all duration-300 flex-shrink-0 ${
+                  className={`px-4 md:px-6 py-2 md:py-3 rounded-lg text-xs md:text-sm font-medium whitespace-nowrap transition-colors duration-200 flex-shrink-0 ${
                     activeCategory === category.id
                       ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-glow'
                       : 'bg-dark-light text-gray-300 hover:text-white hover:bg-gray-700'
                   }`}
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
                 >
                   {category.name}
-                </motion.button>
+                </button>
               ))}
             </div>
 
@@ -1020,12 +1028,7 @@ export default function Home() {
       {/* Statistics Section */}
       <Statistics />
 
-      {/* Portfolio Modal */}
-      <AnimatePresence>
-        {showPortfolio && (
-          <Portfolio onClose={() => setShowPortfolio(false)} />
-        )}
-      </AnimatePresence>
+
 
       {/* Footer */}
       <motion.footer 

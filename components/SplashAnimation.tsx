@@ -15,14 +15,9 @@ export default function SplashAnimation({ game, onComplete }: SplashAnimationPro
   const [isMobile, setIsMobile] = useState(false)
   const [particles, setParticles] = useState<{ id: number; startX: number; scale: number; endX: number; delay: number }[]>([])
 
-  // Prevent body scroll when animation is active
+  // Detect if mobile on mount
   useEffect(() => {
-    document.body.style.overflow = 'hidden'
     setIsMobile(window.innerWidth < 768)
-    
-    return () => {
-      document.body.style.overflow = 'unset'
-    }
   }, [])
 
   // Generate stable particle properties once on mount to avoid layout thrashing

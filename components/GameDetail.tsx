@@ -38,25 +38,7 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
     { id: 'qr-code', name: 'QRIS', methods: getPaymentMethodsByCategory('qr-code') },
   ]
 
-  // Prevent body scroll when modal is open
-  useEffect(() => {
-    const originalStyle = window.getComputedStyle(document.body).overflow
-    document.body.style.overflow = 'hidden'
-    document.body.style.position = 'fixed'
-    document.body.style.top = '0'
-    document.body.style.left = '0'
-    document.body.style.right = '0'
-    document.body.style.bottom = '0'
-    
-    return () => {
-      document.body.style.overflow = originalStyle
-      document.body.style.position = ''
-      document.body.style.top = ''
-      document.body.style.left = ''
-      document.body.style.right = ''
-      document.body.style.bottom = ''
-    }
-  }, [])
+
 
   const handlePurchase = () => {
     if (!selectedPackage || !userId || !serverId) {
