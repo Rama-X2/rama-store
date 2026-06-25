@@ -421,63 +421,65 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
               {/* Right Column (1/3 width) - Info & Summary */}
               <div className="lg:col-span-1 space-y-6">
                 
-                {/* Ringkasan Pesanan */}
-                <div className="glass-effect rounded-xl p-4 md:p-6 lg:sticky lg:top-6">
-                  <h3 className="text-lg font-semibold mb-4 text-white flex items-center">
-                    Ringkasan Pesanan
-                  </h3>
-                  
-                  {selectedPackage ? (
-                    <div className="space-y-4">
-                      <div className="space-y-3 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-gray-400">Game:</span>
-                          <span className="text-white font-medium">{game.name}</span>
+                {/* Ringkasan Pesanan Container */}
+                <div className="lg:sticky lg:top-6 z-10">
+                  <div className="glass-effect rounded-xl p-4 md:p-6">
+                    <h3 className="text-lg font-semibold mb-4 text-white flex items-center">
+                      Ringkasan Pesanan
+                    </h3>
+                    
+                    {selectedPackage ? (
+                      <div className="space-y-4">
+                        <div className="space-y-3 text-sm">
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Game:</span>
+                            <span className="text-white font-medium">{game.name}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Nominal:</span>
+                            <span className="text-white font-semibold text-primary">
+                              {topupPackages.find(p => p.id === selectedPackage)?.amount}
+                            </span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">User ID:</span>
+                            <span className="text-white font-medium">{userId || '-'}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Server:</span>
+                            <span className="text-white font-medium">{serverId || '-'}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Metode:</span>
+                            <span className="text-white font-medium">
+                              {selectedPayment ? paymentMethods.find(p => p.id === selectedPayment)?.name : '-'}
+                            </span>
+                          </div>
+                          <div className="border-t border-gray-700/80 pt-3 flex justify-between text-base">
+                            <span className="text-white font-semibold">Total Bayar:</span>
+                            <span className="text-primary font-bold text-lg">
+                              {topupPackages.find(p => p.id === selectedPackage)?.price}
+                            </span>
+                          </div>
                         </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-400">Nominal:</span>
-                          <span className="text-white font-semibold text-primary">
-                            {topupPackages.find(p => p.id === selectedPackage)?.amount}
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-400">User ID:</span>
-                          <span className="text-white font-medium">{userId || '-'}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-400">Server:</span>
-                          <span className="text-white font-medium">{serverId || '-'}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-400">Metode:</span>
-                          <span className="text-white font-medium">
-                            {selectedPayment ? paymentMethods.find(p => p.id === selectedPayment)?.name : '-'}
-                          </span>
-                        </div>
-                        <div className="border-t border-gray-700/80 pt-3 flex justify-between text-base">
-                          <span className="text-white font-semibold">Total Bayar:</span>
-                          <span className="text-primary font-bold text-lg">
-                            {topupPackages.find(p => p.id === selectedPackage)?.price}
-                          </span>
-                        </div>
-                      </div>
 
-                      <Button
-                        onClick={handlePurchase}
-                        disabled={!selectedPackage || !userId || !serverId || !selectedPayment}
-                        size="lg"
-                        glow
-                        icon={<ShoppingCart size={18} />}
-                        className="w-full py-3 mt-2"
-                      >
-                        Beli Sekarang
-                      </Button>
-                    </div>
-                  ) : (
-                    <div className="text-center py-6 text-sm text-gray-400">
-                      <p>Silakan pilih nominal & lengkapi data akun untuk melihat ringkasan pesanan.</p>
-                    </div>
-                  )}
+                        <Button
+                          onClick={handlePurchase}
+                          disabled={!selectedPackage || !userId || !serverId || !selectedPayment}
+                          size="lg"
+                          glow
+                          icon={<ShoppingCart size={18} />}
+                          className="w-full py-3 mt-2"
+                        >
+                          Beli Sekarang
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="text-center py-6 text-sm text-gray-400">
+                        <p>Silakan pilih nominal & lengkapi data akun untuk melihat ringkasan pesanan.</p>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* Informasi Game */}
