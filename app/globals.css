@@ -67,7 +67,6 @@
     -webkit-overflow-scrolling: touch;
     overflow-scrolling: touch;
     scroll-behavior: smooth;
-    contain: layout style paint;
   }
   
   /* Portfolio modal mobile adjustments */
@@ -289,9 +288,7 @@
   -webkit-overflow-scrolling: touch;
   overflow-scrolling: touch;
   transform: translateZ(0);
-  will-change: scroll-position;
   scroll-behavior: smooth;
-  contain: layout style paint;
   /* Throttle scroll events for better performance */
   overscroll-behavior: contain;
 }
@@ -726,7 +723,6 @@ hover:bg-primary/20 transition-all duration-300;
     
     /* Better layer management */
     .glass-effect, .game-detail-popup {
-      contain: layout style paint;
       transform: translateZ(0);
     }
     

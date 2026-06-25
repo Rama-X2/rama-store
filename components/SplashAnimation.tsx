@@ -12,27 +12,40 @@ interface SplashAnimationProps {
 
 export default function SplashAnimation({ game, onComplete }: SplashAnimationProps) {
   const [animationPhase, setAnimationPhase] = useState(0)
-  // 0: Initial black screen fade in
-  // 1: Game icon appears in center with pulsing (No 10)
-  // 2: Icon fades, banner background appears from blur (No 11)
-  // 3: Banner fully visible, icon disappeared (No 11 end)
-  // 4: Complete transition to game detail (No 12)
+  const [isMobile, setIsMobile] = useState(false)
+  const [particles, setParticles] = useState<{ id: number; startX: number; scale: number; endX: number; delay: number }[]>([])
 
   // Prevent body scroll when animation is active
   useEffect(() => {
     document.body.style.overflow = 'hidden'
+    setIsMobile(window.innerWidth < 768)
     
     return () => {
       document.body.style.overflow = 'unset'
     }
   }, [])
 
+  // Generate stable particle properties once on mount to avoid layout thrashing
   useEffect(() => {
-    const timer1 = setTimeout(() => setAnimationPhase(1), 200)  // Show icon
-    const timer2 = setTimeout(() => setAnimationPhase(2), 1800) // Start banner transition
-    const timer3 = setTimeout(() => setAnimationPhase(3), 2600) // Banner visible, icon gone
-    const timer4 = setTimeout(() => setAnimationPhase(4), 3200) // Prepare for game detail
-    const timer5 = setTimeout(() => onComplete(), 3600) // Complete
+    const width = window.innerWidth || 1000
+    const count = window.innerWidth < 768 ? 10 : 30
+    const generated = Array.from({ length: count }).map((_, i) => ({
+      id: i,
+      startX: Math.random() * width,
+      scale: Math.random() * 0.8 + 0.5,
+      endX: Math.random() * width,
+      delay: Math.random() * 2
+    }))
+    setParticles(generated)
+  }, [])
+
+  // Timers representing phases: accelerated total to 1.8s for snappy feel
+  useEffect(() => {
+    const timer1 = setTimeout(() => setAnimationPhase(1), 100)  // Show icon
+    const timer2 = setTimeout(() => setAnimationPhase(2), 800)  // Start banner transition
+    const timer3 = setTimeout(() => setAnimationPhase(3), 1300) // Banner visible, icon gone
+    const timer4 = setTimeout(() => setAnimationPhase(4), 1600) // Prepare for game detail
+    const timer5 = setTimeout(() => onComplete(), 1800)        // Complete
 
     return () => {
       clearTimeout(timer1)
@@ -57,23 +70,23 @@ export default function SplashAnimation({ game, onComplete }: SplashAnimationPro
             initial={{ 
               scale: 3, 
               opacity: 0,
-              filter: 'blur(50px)',
+              filter: isMobile ? 'none' : 'blur(50px)',
               rotate: 5
             }}
             animate={{ 
               scale: animationPhase >= 4 ? 1 : 1.2,
               opacity: animationPhase >= 3 ? 0.9 : 0.3,
-              filter: animationPhase >= 3 ? 'blur(0px)' : 'blur(20px)',
+              filter: isMobile ? 'none' : (animationPhase >= 3 ? 'blur(0px)' : 'blur(20px)'),
               rotate: 0
             }}
             exit={{
               scale: 0.7,
               opacity: 0,
-              filter: 'blur(15px)',
+              filter: isMobile ? 'none' : 'blur(15px)',
               rotate: -5
             }}
             transition={{ 
-              duration: animationPhase >= 4 ? 0.7 : 0.8,
+              duration: animationPhase >= 4 ? 0.4 : 0.5,
               ease: "easeOut"
             }}
             className="absolute inset-0"
@@ -85,7 +98,7 @@ export default function SplashAnimation({ game, onComplete }: SplashAnimationPro
                 alt={`${game.name} banner`}
                 width={800}
                 height={600}
-                className="w-full h-full object-cover transition-all duration-1000"
+                className="w-full h-full object-cover transition-all duration-700"
                 onError={(e) => {
                   const img = e.target as HTMLImageElement;
                   img.style.display = 'none';
@@ -146,15 +159,15 @@ export default function SplashAnimation({ game, onComplete }: SplashAnimationPro
               y: -100
             }}
             transition={{ 
-              duration: 0.6,
+              duration: 0.4,
               ease: "easeOut"
             }}
             className="relative z-20 flex flex-col items-center"
           >
             {/* Icon container */}
             <div className="relative">
-              <div className="w-40 h-40 bg-gradient-to-br from-primary to-secondary rounded-3xl 
-                            flex items-center justify-center text-7xl font-bold text-white
+              <div className="w-32 h-32 md:w-40 md:h-40 bg-gradient-to-br from-primary to-secondary rounded-3xl 
+                            flex items-center justify-center text-6xl md:text-7xl font-bold text-white
                             shadow-2xl shadow-primary/50 relative overflow-hidden">
                 {/* Game icon fallback */}
                 <div className="absolute inset-0 flex items-center justify-center z-10">
@@ -208,29 +221,16 @@ export default function SplashAnimation({ game, onComplete }: SplashAnimationPro
                 }}
                 className="absolute inset-0 rounded-3xl border-2 border-white/30"
               />
-              <motion.div
-                animate={{ 
-                  scale: [1, 1.8, 1],
-                  opacity: [0.2, 0, 0.2]
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  delay: 0.6,
-                  ease: "easeInOut"
-                }}
-                className="absolute inset-0 rounded-3xl border border-white/20"
-              />
             </div>
             
             {/* Game name */}
             <motion.h2 
-              className="text-3xl font-bold text-white mt-6 text-center"
+              className="text-2xl md:text-3xl font-bold text-white mt-6 text-center"
               animate={{
                 opacity: animationPhase >= 2 ? 0 : 1,
                 y: animationPhase >= 2 ? -20 : 0
               }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.3 }}
             >
               {game.name}
             </motion.h2>
@@ -252,9 +252,9 @@ export default function SplashAnimation({ game, onComplete }: SplashAnimationPro
                 {[0, 1, 2].map((i) => (
                   <motion.div
                     key={i}
-                    className="w-3 h-3 bg-white rounded-full"
+                    className="w-2.5 h-2.5 bg-white rounded-full"
                     animate={{
-                      scale: [1, 1.5, 1],
+                      scale: [1, 1.4, 1],
                       opacity: [0.4, 1, 0.4]
                     }}
                     transition={{
@@ -266,7 +266,7 @@ export default function SplashAnimation({ game, onComplete }: SplashAnimationPro
                   />
                 ))}
               </div>
-              <span className="text-white/80 text-lg font-medium">
+              <span className="text-white/80 text-base md:text-lg font-medium">
                 {animationPhase === 1 ? 'Loading...' : 
                  animationPhase === 2 ? 'Preparing...' : 
                  'Almost Ready...'}
@@ -279,11 +279,11 @@ export default function SplashAnimation({ game, onComplete }: SplashAnimationPro
       {/* Floating particles */}
       {animationPhase >= 1 && animationPhase < 4 && (
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {[...Array(30)].map((_, i) => (
+          {particles.map((p) => (
             <motion.div
-              key={i}
+              key={p.id}
               initial={{ 
-                x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1920), 
+                x: p.startX, 
                 y: (typeof window !== 'undefined' ? window.innerHeight : 1080) + 50,
                 opacity: 0,
                 scale: 0
@@ -291,18 +291,18 @@ export default function SplashAnimation({ game, onComplete }: SplashAnimationPro
               animate={{ 
                 y: -100,
                 opacity: [0, 1, 0],
-                scale: [0, Math.random() * 0.8 + 0.5, 0],
-                x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1920)
+                scale: [0, p.scale, 0],
+                x: p.endX
               }}
               transition={{
-                duration: Math.random() * 4 + 3,
+                duration: 4,
                 repeat: Infinity,
-                delay: Math.random() * 2,
+                delay: p.delay,
                 ease: "easeOut"
               }}
-              className={`absolute w-2 h-2 rounded-full ${
-                Math.random() > 0.5 ? 'bg-white' : 
-                Math.random() > 0.5 ? 'bg-primary' : 'bg-secondary'
+              className={`absolute w-1.5 h-1.5 rounded-full ${
+                p.id % 3 === 0 ? 'bg-white' : 
+                p.id % 3 === 1 ? 'bg-primary' : 'bg-secondary'
               }`}
             />
           ))}
@@ -312,7 +312,7 @@ export default function SplashAnimation({ game, onComplete }: SplashAnimationPro
       {/* Energy waves */}
       {animationPhase >= 1 && animationPhase < 3 && (
         <div className="absolute inset-0 pointer-events-none">
-          {[...Array(3)].map((_, i) => (
+          {[...Array(2)].map((_, i) => (
             <motion.div
               key={i}
               className="absolute inset-0 border-2 border-white/10 rounded-full"
@@ -328,7 +328,7 @@ export default function SplashAnimation({ game, onComplete }: SplashAnimationPro
               transition={{
                 duration: 2,
                 repeat: Infinity,
-                delay: i * 0.7,
+                delay: i * 1.0,
                 ease: "easeOut"
               }}
             />

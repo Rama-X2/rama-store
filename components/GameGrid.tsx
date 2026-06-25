@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { Game } from '../types/game'
@@ -10,19 +11,25 @@ interface GameGridProps {
 }
 
 export default function GameGrid({ games, onGameClick }: GameGridProps) {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768)
+  }, [])
+
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6">
       {games.map((game, index) => (
         <motion.div
           key={game.id}
-          initial={{ opacity: 0, scale: 0.8, y: 20 }}
+          initial={isMobile ? { opacity: 0 } : { opacity: 0, scale: 0.8, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ 
-            delay: index * 0.1,
-            duration: 0.6,
+          transition={isMobile ? { duration: 0.15 } : { 
+            delay: index * 0.05,
+            duration: 0.4,
             ease: "easeOut"
           }}
-          whileHover={{ 
+          whileHover={isMobile ? {} : { 
             scale: 1.05, 
             y: -10,
             transition: { duration: 0.2 }

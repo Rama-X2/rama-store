@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { Game } from '../types/game'
@@ -11,6 +12,12 @@ interface FeaturedGamesProps {
 }
 
 export default function FeaturedGames({ games, onGameClick }: FeaturedGamesProps) {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768)
+  }, [])
+
   // Get only popular games for featured section, prioritize from new-release category
   const featuredGames = games
     .filter(game => game.isPopular)
@@ -24,9 +31,9 @@ export default function FeaturedGames({ games, onGameClick }: FeaturedGamesProps
 
   return (
     <motion.section 
-      initial={{ opacity: 0, y: 30 }}
+      initial={isMobile ? { opacity: 0 } : { opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
+      transition={{ duration: 0.5 }}
       className="mb-12"
     >
       <div className="flex items-center justify-between mb-8">
@@ -43,7 +50,7 @@ export default function FeaturedGames({ games, onGameClick }: FeaturedGamesProps
         <motion.div 
           className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-primary/20 to-secondary/20 
                    rounded-full border border-primary/30"
-          animate={{ 
+          animate={isMobile ? {} : { 
             boxShadow: [
               '0 0 20px rgba(99, 102, 241, 0.3)',
               '0 0 40px rgba(99, 102, 241, 0.5)',
@@ -65,14 +72,14 @@ export default function FeaturedGames({ games, onGameClick }: FeaturedGamesProps
         {featuredGames.map((game, index) => (
           <motion.div
             key={game.id}
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            initial={isMobile ? { opacity: 0 } : { opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ 
-              delay: index * 0.1,
-              duration: 0.6,
+            transition={isMobile ? { duration: 0.15 } : { 
+              delay: index * 0.05,
+              duration: 0.4,
               ease: "easeOut"
             }}
-            whileHover={{ 
+            whileHover={isMobile ? {} : { 
               scale: 1.08, 
               y: -8,
               transition: { duration: 0.2 }
