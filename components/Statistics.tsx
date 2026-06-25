@@ -90,7 +90,7 @@ function AnimatedCounter({ targetValue, suffix = '', duration = 2000 }: {
   }
 
   return (
-    <span className="font-bold text-2xl">
+    <span className="font-bold text-xl md:text-2xl">
       {formatValue(currentValue)}{suffix}
     </span>
   )
@@ -146,7 +146,7 @@ export default function Statistics() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
           {statsData.map((stat, index) => (
             <motion.div
               key={index}
@@ -164,7 +164,7 @@ export default function Statistics() {
               }}
               className="relative group"
             >
-              <div className="glass-effect rounded-2xl p-6 text-center relative overflow-hidden
+              <div className="glass-effect rounded-2xl p-4 md:p-6 text-center relative overflow-hidden
                             hover:shadow-glow transition-all duration-300">
                 
                 {/* Background gradient */}
@@ -196,11 +196,11 @@ export default function Statistics() {
 
                 {/* Icon */}
                 <motion.div
-                  className={`w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br ${stat.color} 
+                  className={`w-12 h-12 md:w-16 md:h-16 mx-auto mb-2 md:mb-4 rounded-xl bg-gradient-to-br ${stat.color} 
                             flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}
                   whileHover={{ rotate: 5 }}
                 >
-                  <stat.icon className="w-8 h-8 text-white" />
+                  <stat.icon className="w-6 h-6 md:w-8 md:h-8 text-white" />
                 </motion.div>
 
                 {/* Value */}
@@ -217,7 +217,7 @@ export default function Statistics() {
                 </div>
 
                 {/* Label */}
-                <p className="text-gray-400 text-sm font-medium group-hover:text-gray-300 
+                <p className="text-gray-400 text-xs md:text-sm font-medium group-hover:text-gray-300 
                              transition-colors duration-300">
                   {stat.label}
                 </p>
@@ -236,7 +236,7 @@ export default function Statistics() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1, duration: 0.6 }}
-          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8"
+          className="mt-10 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8"
         >
           {[
             { icon: '🔒', text: 'Secure Payment', desc: 'SSL Protected' },

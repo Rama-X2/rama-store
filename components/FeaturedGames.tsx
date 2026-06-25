@@ -61,7 +61,7 @@ export default function FeaturedGames({ games, onGameClick }: FeaturedGamesProps
         </motion.div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div className="flex md:grid md:grid-cols-3 lg:grid-cols-6 gap-4 overflow-x-auto no-scrollbar pb-4 -mx-4 px-4 md:mx-0 md:px-0">
         {featuredGames.map((game, index) => (
           <motion.div
             key={game.id}
@@ -78,7 +78,7 @@ export default function FeaturedGames({ games, onGameClick }: FeaturedGamesProps
               transition: { duration: 0.2 }
             }}
             whileTap={{ scale: 0.95 }}
-            className="featured-game-card group cursor-pointer relative"
+            className="featured-game-card group cursor-pointer relative w-[130px] md:w-auto flex-shrink-0"
             onClick={() => onGameClick(game)}
           >
             <div className="relative overflow-hidden rounded-xl aspect-square bg-gradient-to-br from-primary/10 to-secondary/10">

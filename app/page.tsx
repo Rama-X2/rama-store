@@ -713,17 +713,15 @@ export default function Home() {
                 </motion.button>
                 
                 {/* Portfolio Button - Mobile */}
-                <motion.a
-                  href="https://rama-x2.my.id"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <motion.button
+                  onClick={() => setShowPortfolio(true)}
                   className="w-9 h-9 flex items-center justify-center bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-white shadow-glow hover:shadow-glow-lg transition-all duration-300"
                   style={{ minHeight: 'auto' }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   <User className="w-4 h-4" />
-                </motion.a>
+                </motion.button>
                 
                 <ThemeToggle />
               </div>
@@ -756,7 +754,7 @@ export default function Home() {
             </AnimatePresence>
             
             {/* Mobile Navigation */}
-            <div className="flex space-x-1 bg-dark-light/50 rounded-full p-1 backdrop-blur-sm overflow-x-auto no-scrollbar">
+            <div className="flex space-x-1 bg-dark-light/50 rounded-full p-1 backdrop-blur-sm overflow-x-auto overflow-y-hidden no-scrollbar">
               {[
                 { id: 'topup', name: 'Top Up' },
                 { id: 'transaction', name: 'Check' },
@@ -771,7 +769,7 @@ export default function Home() {
                     setSearchQuery('')
                     setShowSearch(false)
                   }}
-                  className={`px-3.5 h-8 rounded-full text-xs font-medium transition-all duration-300 whitespace-nowrap flex-shrink-0 flex items-center justify-center ${
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-300 whitespace-nowrap flex-shrink-0 flex items-center justify-center ${
                     activeTab === tab.id
                       ? 'bg-primary text-white shadow-glow'
                       : 'text-gray-300 hover:text-white hover:bg-white/10'
@@ -841,17 +839,15 @@ export default function Home() {
             </div>
             
             {/* Portfolio Button */}
-            <motion.a
-              href="https://rama-x2.my.id"
-              target="_blank"
-              rel="noopener noreferrer"
+            <motion.button
+              onClick={() => setShowPortfolio(true)}
               className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-white font-medium shadow-glow hover:shadow-glow-lg transition-all duration-300"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
             >
               <User className="w-4 h-4" />
               <span>Portfolio</span>
-            </motion.a>
+            </motion.button>
             
             {/* Theme Toggle */}
             <ThemeToggle />

@@ -278,8 +278,14 @@ export default function Portfolio({ onClose }: PortfolioProps) {
     >
       {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-secondary/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div 
+          className="absolute -top-40 -right-40 w-80 h-80 rounded-full animate-pulse" 
+          style={{ background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(99, 102, 241, 0) 70%)' }}
+        />
+        <div 
+          className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full animate-pulse" 
+          style={{ background: 'radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(139, 92, 246, 0) 70%)', animationDelay: '1s' }} 
+        />
       </div>
 
       {/* Header */}
