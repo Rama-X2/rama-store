@@ -34,13 +34,14 @@ export default function SplashAnimation({ game, onComplete }: SplashAnimationPro
     setParticles(generated)
   }, [])
 
-  // Timers representing phases: accelerated total to 1.8s for snappy feel
+  // Timers representing phases: accelerated total to 1.8s for snappy feel, even faster on mobile (1.2s)
   useEffect(() => {
-    const timer1 = setTimeout(() => setAnimationPhase(1), 100)  // Show icon
-    const timer2 = setTimeout(() => setAnimationPhase(2), 800)  // Start banner transition
-    const timer3 = setTimeout(() => setAnimationPhase(3), 1300) // Banner visible, icon gone
-    const timer4 = setTimeout(() => setAnimationPhase(4), 1600) // Prepare for game detail
-    const timer5 = setTimeout(() => onComplete(), 1800)        // Complete
+    const durationMultiplier = isMobile ? 0.65 : 1.0
+    const timer1 = setTimeout(() => setAnimationPhase(1), 100 * durationMultiplier)  // Show icon
+    const timer2 = setTimeout(() => setAnimationPhase(2), 800 * durationMultiplier)  // Start banner transition
+    const timer3 = setTimeout(() => setAnimationPhase(3), 1300 * durationMultiplier) // Banner visible, icon gone
+    const timer4 = setTimeout(() => setAnimationPhase(4), 1600 * durationMultiplier) // Prepare for game detail
+    const timer5 = setTimeout(() => onComplete(), 1800 * durationMultiplier)        // Complete
 
     return () => {
       clearTimeout(timer1)
@@ -49,7 +50,7 @@ export default function SplashAnimation({ game, onComplete }: SplashAnimationPro
       clearTimeout(timer4)
       clearTimeout(timer5)
     }
-  }, [onComplete])
+  }, [onComplete, isMobile])
 
   return (
     <motion.div
@@ -63,25 +64,25 @@ export default function SplashAnimation({ game, onComplete }: SplashAnimationPro
         {animationPhase >= 2 && (
           <motion.div
             initial={{ 
-              scale: 3, 
+              scale: isMobile ? 1.05 : 3, 
               opacity: 0,
               filter: isMobile ? 'none' : 'blur(50px)',
-              rotate: 5
+              rotate: isMobile ? 0 : 5
             }}
             animate={{ 
-              scale: animationPhase >= 4 ? 1 : 1.2,
+              scale: isMobile ? 1 : (animationPhase >= 4 ? 1 : 1.2),
               opacity: animationPhase >= 3 ? 0.9 : 0.3,
               filter: isMobile ? 'none' : (animationPhase >= 3 ? 'blur(0px)' : 'blur(20px)'),
               rotate: 0
             }}
             exit={{
-              scale: 0.7,
+              scale: isMobile ? 0.95 : 0.7,
               opacity: 0,
               filter: isMobile ? 'none' : 'blur(15px)',
-              rotate: -5
+              rotate: isMobile ? 0 : -5
             }}
             transition={{ 
-              duration: animationPhase >= 4 ? 0.4 : 0.5,
+              duration: animationPhase >= 4 ? 0.3 : 0.4,
               ease: "easeOut"
             }}
             className="absolute inset-0"
@@ -186,32 +187,34 @@ export default function SplashAnimation({ game, onComplete }: SplashAnimationPro
                 />
               </div>
               
-              {/* Multiple pulsing rings */}
+              {/* Pulsing rings - only one simplified ring on mobile */}
               <motion.div
                 animate={{ 
-                  scale: [1, 1.4, 1],
-                  opacity: [0.6, 0, 0.6]
+                  scale: [1, 1.3, 1],
+                  opacity: [0.3, 0.6, 0.3]
                 }}
                 transition={{
-                  duration: 2,
+                  duration: 2.5,
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
-                className="absolute inset-0 rounded-3xl border-4 border-white/40"
+                className="absolute inset-0 rounded-3xl border-4 border-white/20"
               />
-              <motion.div
-                animate={{ 
-                  scale: [1, 1.6, 1],
-                  opacity: [0.4, 0, 0.4]
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  delay: 0.3,
-                  ease: "easeInOut"
-                }}
-                className="absolute inset-0 rounded-3xl border-2 border-white/30"
-              />
+              {!isMobile && (
+                <motion.div
+                  animate={{ 
+                    scale: [1, 1.6, 1],
+                    opacity: [0.4, 0, 0.4]
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    delay: 0.3,
+                    ease: "easeInOut"
+                  }}
+                  className="absolute inset-0 rounded-3xl border-2 border-white/30"
+                />
+              )}
             </div>
             
             {/* Game name */}
@@ -267,8 +270,8 @@ export default function SplashAnimation({ game, onComplete }: SplashAnimationPro
         )}
       </AnimatePresence>
 
-      {/* Floating particles */}
-      {animationPhase >= 1 && animationPhase < 4 && (
+      {/* Floating particles - only on desktop for best performance */}
+      {!isMobile && animationPhase >= 1 && animationPhase < 4 && (
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {particles.map((p) => (
             <motion.div
@@ -300,8 +303,8 @@ export default function SplashAnimation({ game, onComplete }: SplashAnimationPro
         </div>
       )}
 
-      {/* Energy waves */}
-      {animationPhase >= 1 && animationPhase < 3 && (
+      {/* Energy waves - only on desktop */}
+      {!isMobile && animationPhase >= 1 && animationPhase < 3 && (
         <div className="absolute inset-0 pointer-events-none">
           {[...Array(2)].map((_, i) => (
             <motion.div
