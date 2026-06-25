@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Search, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react'
 
 interface Transaction {
@@ -49,6 +49,11 @@ export default function CheckTransaction() {
   const [searchResult, setSearchResult] = useState<Transaction | null>(null)
   const [isSearching, setIsSearching] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768)
+  }, [])
 
   const handleSearch = async () => {
     if (!invoiceId.trim()) return
@@ -104,9 +109,9 @@ export default function CheckTransaction() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: isMobile ? 0 : 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: isMobile ? 0.25 : 0.6 }}
       className="max-w-4xl mx-auto space-y-8"
     >
       {/* Header */}

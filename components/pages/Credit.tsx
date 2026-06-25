@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { Smartphone, Wifi, CreditCard, Zap } from 'lucide-react'
 
@@ -69,6 +69,11 @@ export default function Credit() {
   const [selectedProvider, setSelectedProvider] = useState<Provider | null>(null)
   const [phoneNumber, setPhoneNumber] = useState('')
   const [selectedNominal, setSelectedNominal] = useState<number | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768)
+  }, [])
 
   const nominalPulsa = [
     { id: 1, amount: 5000, price: 6000 },
@@ -90,9 +95,9 @@ export default function Credit() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: isMobile ? 0 : 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: isMobile ? 0.25 : 0.6 }}
       className="space-y-8"
     >
       {/* Header */}
@@ -131,16 +136,16 @@ export default function Credit() {
         
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
           {providerData.map((provider, index) => (
-            <motion.div
+             <motion.div
               key={provider.id}
-              initial={{ opacity: 0, scale: 0.8, y: 20 }}
+              initial={{ opacity: 0, scale: isMobile ? 1 : 0.8, y: isMobile ? 0 : 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ 
-                delay: index * 0.1,
-                duration: 0.6,
+                delay: isMobile ? 0 : (index * 0.05),
+                duration: isMobile ? 0.2 : 0.6,
                 ease: "easeOut"
               }}
-              whileHover={{ 
+              whileHover={isMobile ? {} : { 
                 scale: 1.05, 
                 y: -5,
                 transition: { duration: 0.2 }

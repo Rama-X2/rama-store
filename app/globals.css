@@ -739,15 +739,30 @@ hover:bg-primary/20 transition-all duration-300;
       box-shadow: none !important;
     }
     
-    /* Reduce backdrop blur intensity */
-    .backdrop-blur-sm {
-      backdrop-filter: blur(4px) !important;
-      -webkit-backdrop-filter: blur(4px) !important;
+    /* Disable backdrop-filter completely on mobile to prevent GPU pipeline thrashing */
+    .backdrop-blur-sm,
+    .backdrop-blur-md,
+    .backdrop-blur-lg,
+    .backdrop-blur-xl,
+    .glass-effect,
+    .portfolio-glass,
+    .stats-card,
+    .leaderboard-card {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
     }
     
-    .backdrop-blur-md {
-      backdrop-filter: blur(6px) !important;
-      -webkit-backdrop-filter: blur(6px) !important;
+    /* Fallback background styles for readability */
+    .glass-effect {
+      background: rgba(22, 16, 45, 0.95) !important;
+    }
+    
+    .light .glass-effect {
+      background: rgba(241, 245, 249, 0.95) !important;
+    }
+    
+    .leaderboard-card {
+      background: rgba(30, 21, 58, 0.9) !important;
     }
   }
 

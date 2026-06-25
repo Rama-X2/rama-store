@@ -38,6 +38,12 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
     { id: 'qr-code', name: 'QRIS', methods: getPaymentMethodsByCategory('qr-code') },
   ]
 
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768)
+  }, [])
+
 
 
   const handlePurchase = () => {
@@ -117,32 +123,34 @@ export default function GameDetail({ game, onClose }: GameDetailProps) {
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
           
-          {/* Floating particles effect */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {[...Array(10)].map((_, i) => (
-              <motion.div
-                key={i}
-                initial={{ 
-                  x: Math.random() * 100 + '%', 
-                  y: '110%',
-                  opacity: 0,
-                  scale: 0
-                }}
-                animate={{ 
-                  y: '-10%',
-                  opacity: [0, 1, 0],
-                  scale: [0, Math.random() * 0.8 + 0.5, 0]
-                }}
-                transition={{
-                  duration: Math.random() * 3 + 2,
-                  repeat: Infinity,
-                  delay: Math.random() * 2,
-                  ease: "easeOut"
-                }}
-                className="absolute w-1 h-1 bg-white/30 rounded-full"
-              />
-            ))}
-          </div>
+          {/* Floating particles effect - only on desktop */}
+          {!isMobile && (
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              {[...Array(10)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ 
+                    x: Math.random() * 100 + '%', 
+                    y: '110%',
+                    opacity: 0,
+                    scale: 0
+                  }}
+                  animate={{ 
+                    y: '-10%',
+                    opacity: [0, 1, 0],
+                    scale: [0, Math.random() * 0.8 + 0.5, 0]
+                  }}
+                  transition={{
+                    duration: Math.random() * 3 + 2,
+                    repeat: Infinity,
+                    delay: Math.random() * 2,
+                    ease: "easeOut"
+                  }}
+                  className="absolute w-1 h-1 bg-white/30 rounded-full"
+                />
+              ))}
+            </div>
+          )}
           
           {/* Close button */}
           <motion.button

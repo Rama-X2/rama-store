@@ -103,21 +103,17 @@ export default function SplashAnimation({ game, onComplete }: SplashAnimationPro
                   }
                 }}
               />
-              {/* Animated gradient overlay */}
+              {/* Hardware-accelerated gradient overlay */}
+              <div className="absolute inset-0 bg-black/60" />
               <motion.div 
-                className="absolute inset-0"
-                animate={{
-                  background: [
-                    'linear-gradient(45deg, rgba(0,0,0,0.6) 0%, rgba(99,102,241,0.3) 50%, rgba(0,0,0,0.6) 100%)',
-                    'linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(139,92,246,0.4) 50%, rgba(0,0,0,0.4) 100%)',
-                    'linear-gradient(225deg, rgba(0,0,0,0.6) 0%, rgba(6,182,212,0.3) 50%, rgba(0,0,0,0.6) 100%)'
-                  ]
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: 'easeInOut'
-                }}
+                className="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 via-transparent to-indigo-500/20"
+                animate={{ opacity: [0.3, 0.7, 0.3] }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+              />
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-bl from-purple-500/20 via-transparent to-purple-500/20"
+                animate={{ opacity: [0.7, 0.3, 0.7] }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
               />
             </div>
             

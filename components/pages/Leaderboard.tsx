@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Trophy, Medal, Crown, Star, TrendingUp, Award, Users, Target } from 'lucide-react'
 
 interface LeaderboardUser {
@@ -149,6 +149,11 @@ const tabs = [
 export default function Leaderboard() {
   const [activeTab, setActiveTab] = useState('all-time')
   const [selectedUser, setSelectedUser] = useState<LeaderboardUser | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768)
+  }, [])
 
   const getRankIcon = (rank: number) => {
     switch (rank) {
@@ -195,9 +200,9 @@ export default function Leaderboard() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: isMobile ? 0 : 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: isMobile ? 0.25 : 0.6 }}
       className="space-y-8"
     >
       {/* Header */}
@@ -386,12 +391,12 @@ export default function Leaderboard() {
           {leaderboardData.map((user, index) => (
             <motion.div
               key={user.id}
-              initial={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, x: isMobile ? 0 : -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1 + index * 0.05 }}
+              transition={{ delay: isMobile ? 0 : (1 + index * 0.05) }}
               className={`leaderboard-card p-3 md:p-4 bg-gradient-to-r ${getRankColor(user.rank)} border`}
               onClick={() => setSelectedUser(user)}
-              whileHover={{ y: -2 }}
+              whileHover={isMobile ? {} : { y: -2 }}
             >
               <div className="flex items-center space-x-2.5 md:space-x-4">
                 {/* Rank */}

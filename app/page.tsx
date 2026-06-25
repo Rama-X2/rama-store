@@ -628,6 +628,11 @@ export default function Home() {
   const [visibleItems, setVisibleItems] = useState(8)
   const [searchQuery, setSearchQuery] = useState('')
   const [showSearch, setShowSearch] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768)
+  }, [])
 
   // Centralized scroll lock for selected game modal
   useEffect(() => {
@@ -898,9 +903,9 @@ export default function Home() {
         {/* Top Up Tab */}
         {activeTab === 'topup' && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: isMobile ? 0 : 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: isMobile ? 0.25 : 0.6 }}
           >
             {/* Featured Games - only show on new-release tab */}
             {activeCategory === 'new-release' && (
